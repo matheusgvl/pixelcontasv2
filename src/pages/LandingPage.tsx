@@ -101,21 +101,21 @@ export const LandingPage: React.FC = () => {
   const logoSrc = "/logo-horizontal.jpeg";
 
   return (
-    <div className="flex flex-col w-full bg-surface">
+    <div className="flex flex-col w-full bg-black text-white">
       {/* Cabeçalho */}
-      <header className="fixed top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-md z-50 border-b border-border flex items-center justify-between px-6 md:px-12">
+      <header className="fixed top-0 left-0 right-0 h-20 bg-black/80 backdrop-blur-md z-50 border-b border-white/10 flex items-center justify-between px-6 md:px-12">
         <Link to="/" className="flex items-center gap-3 select-none">
           <img src={logoSrc} alt="Logo PixelConta" className="h-8 w-auto object-contain" />
 
         </Link>
 
         {/* Menu Items */}
-        <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold text-text-primary">
-          <a href="#funcionalidades" className="hover:text-text-primary transition-colors">Funcionalidades</a>
-          <a href="#integracoes" className="hover:text-text-primary transition-colors">Integrações</a>
-          <a href="#contabilidade" className="hover:text-text-primary transition-colors">Contabilidade</a>
-          <a href="#planos" className="hover:text-text-primary transition-colors">Planos</a>
-          <a href="#faq" className="hover:text-text-primary transition-colors">Ajuda</a>
+        <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold text-white">
+          <a href="#funcionalidades" className="hover:text-white transition-colors">Funcionalidades</a>
+          <a href="#integracoes" className="hover:text-white transition-colors">Integrações</a>
+          <a href="#contabilidade" className="hover:text-white transition-colors">Contabilidade</a>
+          <a href="#planos" className="hover:text-white transition-colors">Planos</a>
+          <a href="#faq" className="hover:text-white transition-colors">Ajuda</a>
         </nav>
 
         {/* Header Action Buttons */}
@@ -137,10 +137,10 @@ export const LandingPage: React.FC = () => {
       <section className="pt-36 pb-20 px-6 md:px-12 lg:px-24 flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto w-full">
         {/* Left text */}
         <div className="flex-1 flex flex-col gap-6 text-center lg:text-left">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-text-primary font-title leading-tight">
-            Venda mais. A <span className="text-text-primary">PixelContas</span> cuida das suas notas fiscais.
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white font-title leading-tight">
+            Venda mais. A <span className="text-white">PixelContas</span> cuida das suas notas fiscais.
           </h1>
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto lg:mx-0">
+          <p className="text-base md:text-lg text-white/70 leading-relaxed max-w-xl mx-auto lg:mx-0">
             Emita e automatize notas fiscais, organize sua empresa e acompanhe sua contabilidade em um único lugar.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -156,7 +156,7 @@ export const LandingPage: React.FC = () => {
             </a>
           </div>
           {/* Explanatory Line */}
-          <div className="pt-4 text-xs font-semibold text-text-primary flex items-center justify-center lg:justify-start gap-2">
+          <div className="pt-4 text-xs font-semibold text-white flex items-center justify-center lg:justify-start gap-2">
             <span>Conecte sua loja</span>
             <ArrowRight className="h-3 w-3" />
             <span>Receba seus pedidos</span>
@@ -168,9 +168,9 @@ export const LandingPage: React.FC = () => {
         {/* Right illustration / Mockup */}
         <div className="flex-1 w-full flex flex-col items-center relative select-none">
           {/* Laptop mock */}
-          <div className="bg-white border-8 border-black rounded-premium shadow-premium p-4 w-full max-w-lg aspect-video flex flex-col gap-3 relative z-10">
+          <div className="bg-black border-8 border-white/10 rounded-premium shadow-premium p-4 w-full max-w-lg aspect-video flex flex-col gap-3 relative z-10">
             {/* Window bar */}
-            <div className="flex gap-1.5 pb-2 border-b border-border">
+            <div className="flex gap-1.5 pb-2 border-b border-white/10">
               <span className="h-3 w-3 rounded-full bg-functional-error/80" />
               <span className="h-3 w-3 rounded-full bg-functional-warning/80" />
               <span className="h-3 w-3 rounded-full bg-functional-success/80" />
@@ -179,20 +179,20 @@ export const LandingPage: React.FC = () => {
             <div className="flex-1 flex flex-col gap-3">
               <div className="h-6 bg-brand-lightBlue/30 rounded w-1/3"></div>
               <div className="grid grid-cols-3 gap-2.5">
-                <div className="h-14 bg-surface rounded p-2 flex flex-col justify-between">
-                  <span className="text-[7px] text-text-secondary uppercase font-bold">Faturamento</span>
+                <div className="h-14 bg-black rounded p-2 flex flex-col justify-between">
+                  <span className="text-[7px] text-white/70 uppercase font-bold">Faturamento</span>
                   <span className="h-4 bg-brand-navy/10 rounded w-2/3"></span>
                 </div>
-                <div className="h-14 bg-surface rounded p-2 flex flex-col justify-between">
-                  <span className="text-[7px] text-text-secondary uppercase font-bold">Notas Emitidas</span>
+                <div className="h-14 bg-black rounded p-2 flex flex-col justify-between">
+                  <span className="text-[7px] text-white/70 uppercase font-bold">Notas Emitidas</span>
                   <span className="h-4 bg-primary/10 rounded w-2/3"></span>
                 </div>
-                <div className="h-14 bg-surface rounded p-2 flex flex-col justify-between">
-                  <span className="text-[7px] text-text-secondary uppercase font-bold">Impostos</span>
+                <div className="h-14 bg-black rounded p-2 flex flex-col justify-between">
+                  <span className="text-[7px] text-white/70 uppercase font-bold">Impostos</span>
                   <span className="h-4 bg-primary/10 rounded w-2/3"></span>
                 </div>
               </div>
-              <div className="flex-1 bg-neutral-bgSecondary/60 border border-border rounded p-2.5 flex flex-col gap-2">
+              <div className="flex-1 bg-neutral-bgSecondary/60 border border-white/10 rounded p-2.5 flex flex-col gap-2">
                 <div className="h-3 bg-brand-navy/15 rounded w-1/4"></div>
                 <div className="h-2.5 bg-border rounded w-full"></div>
                 <div className="h-2.5 bg-border rounded w-5/6"></div>
@@ -206,7 +206,7 @@ export const LandingPage: React.FC = () => {
               <FileText className="h-5 w-5" />
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-[9px] uppercase font-bold text-text-primary tracking-wider">Nota Fiscal Emitida</span>
+              <span className="text-[9px] uppercase font-bold text-white tracking-wider">Nota Fiscal Emitida</span>
               <p className="text-xs font-bold font-title">Sua nota fiscal foi emitida com sucesso</p>
             </div>
           </div>
@@ -217,30 +217,30 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Benefícios */}
-      <section id="funcionalidades" className="py-20 bg-white border-y border-border">
+      <section id="funcionalidades" className="py-20 bg-black border-y border-white/10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-12 w-full">
           <div className="text-center max-w-xl mx-auto flex flex-col gap-2.5">
-            <span className="text-xs font-bold text-text-primary uppercase tracking-wider font-title">
+            <span className="text-xs font-bold text-white uppercase tracking-wider font-title">
               Nossas Vantagens
             </span>
-            <h2 className="text-3xl font-black text-text-primary font-title">
+            <h2 className="text-3xl font-black text-white font-title">
               Tudo que seu negócio precisa para crescer sem burocracia
             </h2>
-            <p className="text-sm text-text-secondary">
+            <p className="text-sm text-white/70">
               Simplifique sua gestão tributária com ferramentas completas de automação fiscal.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {benefits.map((b, idx) => (
-              <div key={idx} className="p-6 border border-border rounded-premium hover:shadow-premium transition-all duration-200 flex flex-col gap-3.5 group">
-                <div className="p-3 bg-surface text-text-primary rounded-soft w-fit group-hover:bg-black group-hover:text-white transition-colors duration-200">
+              <div key={idx} className="p-6 border border-white/10 rounded-premium hover:shadow-premium transition-all duration-200 flex flex-col gap-3.5 group">
+                <div className="p-3 bg-black text-white rounded-soft w-fit group-hover:bg-black group-hover:text-white transition-colors duration-200">
                   {b.icon}
                 </div>
-                <h3 className="text-base font-bold text-text-primary font-title">
+                <h3 className="text-base font-bold text-white font-title">
                   {b.title}
                 </h3>
-                <p className="text-xs text-text-secondary leading-relaxed">
+                <p className="text-xs text-white/70 leading-relaxed">
                   {b.desc}
                 </p>
               </div>
@@ -250,53 +250,53 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Como funciona */}
-      <section className="py-20 bg-neutral-bgSecondary/20">
+      <section className="py-20 bg-white/5">
         <div className="max-w-5xl mx-auto px-6 md:px-12 flex flex-col gap-12 w-full text-center items-center">
           <div className="max-w-xl flex flex-col gap-2.5">
-            <span className="text-xs font-bold text-text-primary uppercase tracking-wider font-title">Fluxo de automação</span>
-            <h2 className="text-3xl font-black text-text-primary font-title">Como funciona a emissão automática?</h2>
+            <span className="text-xs font-bold text-white uppercase tracking-wider font-title">Fluxo de automação</span>
+            <h2 className="text-3xl font-black text-white font-title">Como funciona a emissão automática?</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full relative">
             {/* Step 1 */}
             <div className="flex flex-col items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-black text-white flex items-center justify-center font-bold font-title">1</div>
-              <h3 className="text-sm font-bold text-text-primary font-title">Conecte sua Plataforma</h3>
-              <p className="text-xs text-text-secondary">Integre sua loja ou gateway de pagamentos com poucos cliques.</p>
+              <div className="h-12 w-12 rounded-full bg-white/10 text-white flex items-center justify-center font-bold font-title">1</div>
+              <h3 className="text-sm font-bold text-white font-title">Conecte sua Plataforma</h3>
+              <p className="text-xs text-white/70">Integre sua loja ou gateway de pagamentos com poucos cliques.</p>
             </div>
             {/* Step 2 */}
             <div className="flex flex-col items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-black text-white flex items-center justify-center font-bold font-title">2</div>
-              <h3 className="text-sm font-bold text-text-primary font-title">Receba seus Pedidos</h3>
-              <p className="text-xs text-text-secondary">Suas vendas são importadas automaticamente pelo nosso sistema em tempo real.</p>
+              <div className="h-12 w-12 rounded-full bg-white/10 text-white flex items-center justify-center font-bold font-title">2</div>
+              <h3 className="text-sm font-bold text-white font-title">Receba seus Pedidos</h3>
+              <p className="text-xs text-white/70">Suas vendas são importadas automaticamente pelo nosso sistema em tempo real.</p>
             </div>
             {/* Step 3 */}
             <div className="flex flex-col items-center gap-4">
               <div className="h-12 w-12 rounded-full bg-primary text-white flex items-center justify-center font-bold font-title">3</div>
-              <h3 className="text-sm font-bold text-text-primary font-title">Emissão Automática</h3>
-              <p className="text-xs text-text-secondary">A nota é gerada, autorizada na prefeitura/SEFAZ e entregue ao seu cliente.</p>
+              <h3 className="text-sm font-bold text-white font-title">Emissão Automática</h3>
+              <p className="text-xs text-white/70">A nota é gerada, autorizada na prefeitura/SEFAZ e entregue ao seu cliente.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Integrações */}
-      <section id="integracoes" className="py-20 bg-white border-y border-border">
+      <section id="integracoes" className="py-20 bg-black border-y border-white/10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-12 w-full">
           <div className="text-center max-w-xl mx-auto flex flex-col gap-2.5">
-            <span className="text-xs font-bold text-text-primary uppercase tracking-wider font-title">Ecosistema Conectado</span>
-            <h2 className="text-3xl font-black text-text-primary font-title">Compatível com as plataformas que você já usa</h2>
-            <p className="text-sm text-text-secondary">Conecte facilmente seu canal de vendas e automatize seus fluxos.</p>
+            <span className="text-xs font-bold text-white uppercase tracking-wider font-title">Ecosistema Conectado</span>
+            <h2 className="text-3xl font-black text-white font-title">Compatível com as plataformas que você já usa</h2>
+            <p className="text-sm text-white/70">Conecte facilmente seu canal de vendas e automatize seus fluxos.</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {integrationsList.map((int, idx) => (
-              <div key={idx} className="p-5 border border-border rounded-premium hover:border-primary/20 text-center flex flex-col items-center justify-center gap-2 hover:shadow-premium transition-all duration-200">
-                <span className="h-10 w-10 rounded-full bg-surface flex items-center justify-center text-text-primary font-black text-sm select-none">
+              <div key={idx} className="p-5 border border-white/10 rounded-premium hover:border-primary/20 text-center flex flex-col items-center justify-center gap-2 hover:shadow-premium transition-all duration-200">
+                <span className="h-10 w-10 rounded-full bg-black flex items-center justify-center text-white font-black text-sm select-none">
                   {int.name.charAt(0)}
                 </span>
-                <span className="text-sm font-bold text-text-primary font-title">{int.name}</span>
-                <span className="text-[9px] uppercase font-bold text-text-secondary tracking-wider">{int.cat}</span>
+                <span className="text-sm font-bold text-white font-title">{int.name}</span>
+                <span className="text-[9px] uppercase font-bold text-white/70 tracking-wider">{int.cat}</span>
               </div>
             ))}
           </div>
@@ -306,20 +306,20 @@ export const LandingPage: React.FC = () => {
       <BusinessSegmentsSection />
 
       {/* Planos */}
-      <section id="planos" className="py-20 bg-neutral-bgSecondary/20">
+      <section id="planos" className="py-20 bg-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-12 w-full">
           <div className="text-center max-w-xl mx-auto flex flex-col gap-2.5">
-            <span className="text-xs font-bold text-text-primary uppercase tracking-wider font-title">Preços Claros</span>
-            <h2 className="text-3xl font-black text-text-primary font-title uppercase">Planos que se adaptam ao tamanho do seu negócio!</h2>
-            <p className="text-sm text-text-secondary">Escolha o plano ideal e leve sua gestão para o próximo nível.</p>
+            <span className="text-xs font-bold text-white uppercase tracking-wider font-title">Preços Claros</span>
+            <h2 className="text-3xl font-black text-white font-title uppercase">Planos que se adaptam ao tamanho do seu negócio!</h2>
+            <p className="text-sm text-white/70">Escolha o plano ideal e leve sua gestão para o próximo nível.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {plans.map((p, idx) => (
               <div 
                 key={idx} 
-                className={`p-6 border rounded-premium bg-white shadow-premium flex flex-col justify-between gap-6 transition-all duration-200 hover:shadow-premium-hover relative
-                  ${p.highlight ? 'border-primary ring-2 ring-primary/30 xl:scale-105 z-10' : 'border-border'}`}
+                className={`p-6 border rounded-premium bg-black shadow-premium flex flex-col justify-between gap-6 transition-all duration-200 hover:shadow-premium-hover relative
+                  ${p.highlight ? 'border-primary ring-2 ring-primary/30 xl:scale-105 z-10' : 'border-white/10'}`}
               >
                 {p.highlight && (
                   <span className="absolute top-[-14px] right-4 bg-black text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
@@ -329,23 +329,23 @@ export const LandingPage: React.FC = () => {
 
                 <div className="flex flex-col gap-4 text-center">
                   <div className="flex items-center justify-center">
-                    <span className="p-3 bg-surface rounded-full mb-2">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-400' : 'text-text-primary'}><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
+                    <span className="p-3 bg-black rounded-full mb-2">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-400' : 'text-white'}><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
                     </span>
                   </div>
-                  <h3 className={`text-xl font-black font-title uppercase tracking-wide ${p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-500' : 'text-text-primary'}`}>{p.name}</h3>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-text-secondary mt-2">
+                  <h3 className={`text-xl font-black font-title uppercase tracking-wide ${p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-500' : 'text-white'}`}>{p.name}</h3>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-white/70 mt-2">
                     A partir de
                   </div>
                   <div className="flex items-center justify-center gap-1 -mt-3">
-                    <span className={`text-3xl md:text-4xl font-black font-title ${p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-600' : 'text-text-primary'}`}>{p.price}</span>
+                    <span className={`text-3xl md:text-4xl font-black font-title ${p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-400' : 'text-white'}`}>{p.price}</span>
                   </div>
-                  <span className="text-xs text-text-secondary -mt-2 font-bold uppercase tracking-wider">/Mês</span>
+                  <span className="text-xs text-white/70 -mt-2 font-bold uppercase tracking-wider">/Mês</span>
                   <div className="h-px bg-border my-2"></div>
                   <ul className="flex flex-col gap-3 text-xs text-left">
                     {p.features.map((feat, fidx) => (
-                      <li key={fidx} className="flex items-start gap-2 text-text-primary font-semibold leading-snug">
-                        <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-500' : 'text-text-primary'}`} />
+                      <li key={fidx} className="flex items-start gap-2 text-white font-semibold leading-snug">
+                        <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${p.highlight ? 'text-primary' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-500' : 'text-white'}`} />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -355,7 +355,7 @@ export const LandingPage: React.FC = () => {
                 <Link to="/cadastro" className="mt-4">
                   <Button 
                     variant={p.highlight ? 'primary' : 'outline'} 
-                    className={`w-full ${p.highlight ? 'bg-primary text-white border-none hover:bg-primary' : p.name === 'BRONZE' ? 'border-[#cd7f32] text-[#cd7f32] hover:bg-orange-50' : p.name === 'PRATA' ? 'border-gray-500 text-gray-600 hover:bg-gray-50' : 'border-black text-text-primary hover:bg-brand-navy/5'}`}
+                    className={`w-full ${p.highlight ? 'bg-primary text-white border-none hover:bg-primary' : p.name === 'BRONZE' ? 'border-[#cd7f32] text-[#cd7f32] hover:bg-orange-50' : p.name === 'PRATA' ? 'border-gray-500 text-gray-400 hover:bg-gray-50' : 'border-white/10 text-white hover:bg-brand-navy/5'}`}
                   >
                     {p.btn}
                   </Button>
@@ -367,11 +367,11 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-20 bg-white border-t border-border">
+      <section id="faq" className="py-20 bg-black border-t border-white/10">
         <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col gap-12 w-full">
           <div className="text-center max-w-xl mx-auto flex flex-col gap-2.5">
-            <span className="text-xs font-bold text-text-primary uppercase tracking-wider font-title">FAQ</span>
-            <h2 className="text-3xl font-black text-text-primary font-title">Dúvidas Frequentes</h2>
+            <span className="text-xs font-bold text-white uppercase tracking-wider font-title">FAQ</span>
+            <h2 className="text-3xl font-black text-white font-title">Dúvidas Frequentes</h2>
           </div>
 
           <div className="flex flex-col gap-4">
@@ -380,17 +380,17 @@ export const LandingPage: React.FC = () => {
               return (
                 <div 
                   key={idx} 
-                  className="border border-border rounded-premium overflow-hidden transition-all duration-200"
+                  className="border border-white/10 rounded-premium overflow-hidden transition-all duration-200"
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full text-left p-5 flex items-center justify-between gap-4 font-bold text-text-primary font-title text-sm bg-neutral-bg/20 hover:bg-neutral-bgSecondary/20 transition-colors"
+                    className="w-full text-left p-5 flex items-center justify-between gap-4 font-bold text-white font-title text-sm bg-white/5 hover:bg-white/10 transition-colors"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`h-4.5 w-4.5 text-text-secondary transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
+                    <ChevronDown className={`h-4.5 w-4.5 text-white/70 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
                   </button>
                   {isOpen && (
-                    <div className="p-5 border-t border-border text-xs text-text-secondary leading-relaxed bg-white animate-fade-in">
+                    <div className="p-5 border-t border-white/10 text-xs text-white/70 leading-relaxed bg-black animate-fade-in">
                       {faq.a}
                     </div>
                   )}
@@ -418,7 +418,7 @@ export const LandingPage: React.FC = () => {
               </Button>
             </Link>
             <a href="#planos" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full text-white border-white/20 hover:bg-white/10">
+              <Button variant="outline" size="lg" className="w-full text-white border-white/20 hover:bg-black/10">
                 Ver tabela de planos
               </Button>
             </a>
@@ -427,13 +427,12 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Rodapé */}
-      <footer className="bg-black py-12 px-6 md:px-12 lg:px-24 border-t border-brand-navy/30 text-xs text-white/50 w-full shrink-0">
+      <footer className="bg-black py-12 px-6 md:px-12 lg:px-24 border-t border-white/10 text-xs text-white/50 w-full shrink-0">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Logo & description */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <img src={logoSrc} alt="Logo PixelConta" className="h-8 w-auto object-contain" />
-
             </div>
             <p className="leading-relaxed">
               Plataforma de contabilidade digital e automação de documentos fiscais eletrônicos para negócios modernos.
@@ -443,29 +442,29 @@ export const LandingPage: React.FC = () => {
           {/* Links col 1 */}
           <div className="flex flex-col gap-3">
             <h4 className="font-bold text-white font-title text-xs tracking-wider uppercase">Plataforma</h4>
-            <a href="#funcionalidades" className="hover:text-text-primary transition-colors">Funcionalidades</a>
-            <a href="#integracoes" className="hover:text-text-primary transition-colors">Integrações</a>
-            <a href="#planos" className="hover:text-text-primary transition-colors">Planos e Preços</a>
+            <a href="#funcionalidades" className="hover:text-white transition-colors">Funcionalidades</a>
+            <a href="#integracoes" className="hover:text-white transition-colors">Integrações</a>
+            <a href="#planos" className="hover:text-white transition-colors">Planos e Preços</a>
           </div>
 
           {/* Links col 2 */}
           <div className="flex flex-col gap-3">
             <h4 className="font-bold text-white font-title text-xs tracking-wider uppercase">Contabilidade</h4>
-            <Link to="/login" className="hover:text-text-primary transition-colors">Digitalização de Guias</Link>
-            <Link to="/login" className="hover:text-text-primary transition-colors">Atendimento Exclusivo</Link>
-            <Link to="/login" className="hover:text-text-primary transition-colors">Calendário de Obrigações</Link>
+            <Link to="/login" className="hover:text-white transition-colors">Digitalização de Guias</Link>
+            <Link to="/login" className="hover:text-white transition-colors">Atendimento Exclusivo</Link>
+            <Link to="/login" className="hover:text-white transition-colors">Calendário de Obrigações</Link>
           </div>
 
           {/* Links col 3 */}
           <div className="flex flex-col gap-3">
             <h4 className="font-bold text-white font-title text-xs tracking-wider uppercase">Legal</h4>
-            <a href="#" className="hover:text-text-primary transition-colors">Termos de Uso</a>
-            <a href="#" className="hover:text-text-primary transition-colors">Política de Privacidade</a>
-            <a href="#" className="hover:text-text-primary transition-colors">Termos de Emissão Reguladora</a>
+            <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
+            <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
+            <a href="#" className="hover:text-white transition-colors">Termos de Emissão Reguladora</a>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto border-t border-brand-navy/30 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span>© 2026 PixelContas Contabilidade Digital LTDA. Todos os direitos reservados. CNPJ: 12.345.678/0001-90</span>
           <span>Recife - PE</span>
         </div>
