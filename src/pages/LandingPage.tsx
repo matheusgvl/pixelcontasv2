@@ -41,9 +41,72 @@ export const LandingPage: React.FC = () => {
   ];
 
   const plans = [
-    { name: 'Plano Start', price: 'R$ 89', desc: 'Ideal para prestadores de serviços iniciantes e freelancers.', limit: 'Até 30 notas/mês', btn: 'Começar agora', highlight: false },
-    { name: 'Plano Pro', price: 'R$ 189', desc: 'A melhor escolha para e-commerces, infoprodutores e agências.', limit: 'Até 500 notas/mês', btn: 'Testar gratuitamente', highlight: true },
-    { name: 'Plano Advanced', price: 'R$ 349', desc: 'Para empresas consolidadas com alto volume de faturamento.', limit: 'Notas ilimitadas', btn: 'Falar com especialista', highlight: false }
+    { 
+      name: 'BRONZE', 
+      price: 'R$ 49,90', 
+      features: [
+        '15 NFS-e por mês',
+        '1 Usuário',
+        'Suporte técnico - Chat, remoto e telefone'
+      ], 
+      btn: 'Começar agora', 
+      highlight: false 
+    },
+    { 
+      name: 'PRATA', 
+      price: 'R$ 109,90', 
+      features: [
+        '15 NF-e por mês',
+        '20 NFS-e por mês',
+        '20 NFC-e por mês',
+        '5 MDF-e por mês',
+        '1 Usuário',
+        'Suporte técnico - Chat, remoto e telefone'
+      ], 
+      btn: 'Assinar Prata', 
+      highlight: false 
+    },
+    { 
+      name: 'OURO', 
+      price: 'R$ 134,90', 
+      features: [
+        '40 NF-e por mês',
+        '40 NFS-e por mês',
+        '40 NFC-e por mês',
+        '20 MDF-e por mês',
+        '20 CT-e por mês',
+        'Até 3 usuários',
+        'Controle de compras',
+        'Controle de estoque',
+        'Controle financeiro',
+        'Controle O.S',
+        'Relatórios gerenciais',
+        'Suporte técnico - Chat, remoto e telefone'
+      ], 
+      btn: 'Assinar Ouro', 
+      highlight: true 
+    },
+    { 
+      name: 'DIAMANTE', 
+      price: 'R$ 169,90', 
+      features: [
+        'NF-e / NFC-e / NFS-e / MDF-e e CT-e ilimitado',
+        'Até 7 usuários',
+        'Controle de compras',
+        'Controle de estoque',
+        'Controle financeiro',
+        'Controle de locação',
+        'Controle de O.S',
+        'Integrações e commerce com Nuvem Shop',
+        'Integração com iFood',
+        'Integração com Mercado Livre',
+        'Emissão de boletos bancários',
+        '+ de 50 relatórios de gestão',
+        'Suporte técnico - Chat, remoto e telefone'
+      ], 
+      btn: 'Assinar Diamante', 
+      highlight: false 
+    }
   ];
 
   const logoSrc = "/logo-horizontal.jpeg";
@@ -260,59 +323,52 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-12 w-full">
           <div className="text-center max-w-xl mx-auto flex flex-col gap-2.5">
             <span className="text-xs font-bold text-pixel-navy-900 uppercase tracking-wider font-title">Preços Claros</span>
-            <h2 className="text-3xl font-black text-pixel-navy-900 font-title">Escolha o plano ideal para a sua jornada</h2>
-            <p className="text-sm text-pixel-neutral-500">Planos simples e transparentes. Mude de plano a qualquer momento.</p>
+            <h2 className="text-3xl font-black text-pixel-navy-900 font-title uppercase">Planos que se adaptam ao tamanho do seu negócio!</h2>
+            <p className="text-sm text-pixel-neutral-500">Escolha o plano ideal e leve sua gestão para o próximo nível.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
             {plans.map((p, idx) => (
               <div 
                 key={idx} 
-                className={`p-8 border rounded-premium bg-white shadow-premium flex flex-col justify-between gap-6 transition-all duration-200 hover:shadow-premium-hover relative
-                  ${p.highlight ? 'border-pixel-navy-900 ring-2 ring-brand-teal/30 scale-105 z-10' : 'border-pixel-neutral-200'}`}
+                className={`p-6 border rounded-premium bg-white shadow-premium flex flex-col justify-between gap-6 transition-all duration-200 hover:shadow-premium-hover relative
+                  ${p.highlight ? 'border-pixel-gold-500 ring-2 ring-pixel-gold-500/30 xl:scale-105 z-10' : 'border-pixel-neutral-200'}`}
               >
                 {p.highlight && (
-                  <span className="absolute top-[-14px] left-1/2 transform -translate-x-1/2 bg-pixel-gold-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                    Mais Escolhido
+                  <span className="absolute top-[-14px] right-4 bg-pixel-navy-900 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
+                    Mais Vendido <span className="text-pixel-gold-500 text-xs">★</span>
                   </span>
                 )}
 
-                <div className="flex flex-col gap-4">
-                  <h3 className="text-lg font-bold text-pixel-navy-900 font-title">{p.name}</h3>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-black text-pixel-navy-900 font-title">{p.price}</span>
-                    <span className="text-xs text-pixel-neutral-500">/mês</span>
+                <div className="flex flex-col gap-4 text-center">
+                  <div className="flex items-center justify-center">
+                    <span className="p-3 bg-pixel-neutral-100 rounded-full mb-2">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={p.highlight ? 'text-pixel-gold-500' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-400' : 'text-pixel-navy-900'}><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>
+                    </span>
                   </div>
-                  <p className="text-xs text-pixel-neutral-500 leading-relaxed">{p.desc}</p>
+                  <h3 className={`text-xl font-black font-title uppercase tracking-wide ${p.highlight ? 'text-pixel-gold-500' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-500' : 'text-pixel-navy-900'}`}>{p.name}</h3>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-pixel-neutral-500 mt-2">
+                    A partir de
+                  </div>
+                  <div className="flex items-center justify-center gap-1 -mt-3">
+                    <span className={`text-3xl md:text-4xl font-black font-title ${p.highlight ? 'text-pixel-gold-500' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-600' : 'text-pixel-navy-900'}`}>{p.price}</span>
+                  </div>
+                  <span className="text-xs text-pixel-neutral-500 -mt-2 font-bold uppercase tracking-wider">/Mês</span>
                   <div className="h-px bg-pixel-neutral-200 my-2"></div>
-                  <ul className="flex flex-col gap-3 text-xs">
-                    <li className="flex items-center gap-2 text-pixel-neutral-900 font-semibold">
-                      <CheckCircle2 className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
-                      <span>{p.limit}</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
-                      <span>NFS-e, NF-e e NFC-e inclusas</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
-                      <span>Integração de pedidos em lote</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
-                      <span>Download de XML e PDF</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
-                      <span>Suporte técnico prioritário</span>
-                    </li>
+                  <ul className="flex flex-col gap-3 text-xs text-left">
+                    {p.features.map((feat, fidx) => (
+                      <li key={fidx} className="flex items-start gap-2 text-pixel-neutral-700 font-semibold leading-snug">
+                        <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${p.highlight ? 'text-pixel-gold-500' : p.name === 'BRONZE' ? 'text-[#cd7f32]' : p.name === 'PRATA' ? 'text-gray-500' : 'text-pixel-navy-900'}`} />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
 
                 <Link to="/cadastro" className="mt-4">
                   <Button 
                     variant={p.highlight ? 'primary' : 'outline'} 
-                    className="w-full"
+                    className={`w-full ${p.highlight ? 'bg-pixel-gold-500 text-white border-none hover:bg-pixel-gold-600' : p.name === 'BRONZE' ? 'border-[#cd7f32] text-[#cd7f32] hover:bg-orange-50' : p.name === 'PRATA' ? 'border-gray-500 text-gray-600 hover:bg-gray-50' : 'border-pixel-navy-900 text-pixel-navy-900 hover:bg-brand-navy/5'}`}
                   >
                     {p.btn}
                   </Button>
