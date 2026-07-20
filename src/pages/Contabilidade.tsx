@@ -77,22 +77,22 @@ export const Contabilidade: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 items-stretch">
         
         {/* Chat Component Column (Left 2 cols) */}
-        <div className="lg:col-span-2 border border-pixel-neutral-200 rounded-premium bg-white shadow-premium flex flex-col h-[520px] overflow-hidden">
+        <div className="lg:col-span-2 border border-border rounded-premium bg-white shadow-premium flex flex-col h-[520px] overflow-hidden">
           
           {/* Accountant Header */}
-          <div className="p-4 border-b border-pixel-neutral-200 flex justify-between items-center bg-neutral-bgSecondary/30 shrink-0">
+          <div className="p-4 border-b border-border flex justify-between items-center bg-neutral-bgSecondary/30 shrink-0">
             <div className="flex items-center gap-3">
               <div className="relative shrink-0">
                 <img 
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100" 
                   alt="Helena Moreira" 
-                  className="h-10 w-10 rounded-full border border-brand-teal/20 object-cover"
+                  className="h-10 w-10 rounded-full border border-primary/20 object-cover"
                 />
                 <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-600 border-2 border-white animate-pulse" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-bold text-pixel-navy-900 font-title">Helena Moreira</span>
-                <span className="text-[10px] text-pixel-navy-900 font-semibold">Sua Contadora Dedicada (Online)</span>
+                <span className="text-xs font-bold text-text-primary font-title">Helena Moreira</span>
+                <span className="text-[10px] text-text-primary font-semibold">Sua Contadora Dedicada (Online)</span>
               </div>
             </div>
 
@@ -121,13 +121,13 @@ export const Contabilidade: React.FC = () => {
                       <img 
                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" 
                         alt="Ricardo" 
-                        className="h-7 w-7 rounded-full object-cover border border-pixel-neutral-200"
+                        className="h-7 w-7 rounded-full object-cover border border-border"
                       />
                     ) : (
                       <img 
                         src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100" 
                         alt="Helena" 
-                        className="h-7 w-7 rounded-full object-cover border border-brand-teal/10"
+                        className="h-7 w-7 rounded-full object-cover border border-primary/10"
                       />
                     )}
                   </div>
@@ -135,12 +135,12 @@ export const Contabilidade: React.FC = () => {
                   {/* Bubble */}
                   <div className={`p-3.5 rounded-premium text-xs leading-relaxed shadow-sm
                     ${isMe 
-                      ? 'bg-pixel-navy-900 text-white rounded-tr-none' 
-                      : 'bg-white text-pixel-neutral-900 rounded-tl-none border border-pixel-neutral-200'}`}
+                      ? 'bg-black text-white rounded-tr-none' 
+                      : 'bg-white text-text-primary rounded-tl-none border border-border'}`}
                   >
                     <p>{msg.text}</p>
                     <span className={`text-[9px] block mt-1.5 text-right
-                      ${isMe ? 'text-brand-lightBlue/60' : 'text-brand-grayBlue/60'}`}>
+                      ${isMe ? 'text-white/60' : 'text-white/60'}`}>
                       {new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
@@ -154,9 +154,9 @@ export const Contabilidade: React.FC = () => {
                 <img 
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100" 
                   alt="Helena" 
-                  className="h-7 w-7 rounded-full object-cover border border-brand-teal/10 shrink-0"
+                  className="h-7 w-7 rounded-full object-cover border border-primary/10 shrink-0"
                 />
-                <div className="bg-white border border-pixel-neutral-200 p-3.5 rounded-premium rounded-tl-none text-xs text-pixel-neutral-500 flex items-center gap-1">
+                <div className="bg-white border border-border p-3.5 rounded-premium rounded-tl-none text-xs text-text-secondary flex items-center gap-1">
                   <span>Helena está digitando</span>
                   <span className="animate-bounce font-bold">.</span>
                   <span className="animate-bounce delay-150 font-bold">.</span>
@@ -169,7 +169,7 @@ export const Contabilidade: React.FC = () => {
           </div>
 
           {/* Form input Entry bar */}
-          <form onSubmit={handleSendMessage} className="p-3 border-t border-pixel-neutral-200 flex gap-2 bg-white shrink-0">
+          <form onSubmit={handleSendMessage} className="p-3 border-t border-border flex gap-2 bg-white shrink-0">
             <Input
               value={inputMessage}
               onChange={e => setInputMessage(e.target.value)}
@@ -193,9 +193,9 @@ export const Contabilidade: React.FC = () => {
         <div className="flex flex-col gap-6">
           
           {/* Requested Documents & Pending obligations */}
-          <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs">
-            <h3 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-pixel-navy-900" />
+          <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs">
+            <h3 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+              <Calendar className="h-4 w-4 text-text-primary" />
               <span>Calendário Fiscal Mensal</span>
             </h3>
             
@@ -207,18 +207,18 @@ export const Contabilidade: React.FC = () => {
               ].map((item, idx) => (
                 <div key={idx} className={`p-3 rounded-soft border flex flex-col gap-1
                   ${item.isPast 
-                    ? 'bg-neutral-bgDisabled/50 border-pixel-neutral-200 opacity-60' 
-                    : 'bg-neutral-bgSecondary/60 border-pixel-neutral-200 hover:border-brand-teal/20 hover:bg-white transition-all'}`}>
+                    ? 'bg-neutral-bgDisabled/50 border-border opacity-60' 
+                    : 'bg-neutral-bgSecondary/60 border-border hover:border-primary/20 hover:bg-white transition-all'}`}>
                   <div className="flex justify-between items-center font-semibold">
-                    <span className={item.isPast ? 'text-pixel-neutral-500 line-through' : 'text-pixel-navy-900'}>
+                    <span className={item.isPast ? 'text-text-secondary line-through' : 'text-text-primary'}>
                       {item.title}
                     </span>
                     <span className={`text-[8px] font-bold px-1 py-0.5 rounded
-                      ${item.isPast ? 'bg-green-50 text-green-600' : 'bg-pixel-gold-300 text-pixel-gold-600'}`}>
+                      ${item.isPast ? 'bg-green-50 text-green-600' : 'bg-primary text-primary'}`}>
                       {item.isPast ? 'Ok' : 'Pendente'}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center text-[10px] text-brand-grayBlue/80">
+                  <div className="flex justify-between items-center text-[10px] text-white/80">
                     <span>{item.desc}</span>
                     <span className="font-bold">{item.date}</span>
                   </div>
@@ -228,9 +228,9 @@ export const Contabilidade: React.FC = () => {
           </div>
 
           {/* Tax Guides downloads available */}
-          <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs">
-            <h3 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-              <Download className="h-4 w-4 text-pixel-navy-900" />
+          <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs">
+            <h3 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+              <Download className="h-4 w-4 text-text-primary" />
               <span>Guias de Impostos Disponíveis</span>
             </h3>
             
@@ -242,13 +242,13 @@ export const Contabilidade: React.FC = () => {
                 <div 
                   key={idx} 
                   onClick={() => toast.success(`Download de ${guide.name} iniciado.`)}
-                  className="p-3 border border-pixel-neutral-200 rounded-soft hover:border-brand-teal/20 hover:bg-pixel-navy-900-soft/10 cursor-pointer transition-all flex items-center justify-between gap-3 text-[11px]"
+                  className="p-3 border border-border rounded-soft hover:border-primary/20 hover:bg-black-soft/10 cursor-pointer transition-all flex items-center justify-between gap-3 text-[11px]"
                 >
                   <div className="flex items-center gap-2 max-w-[170px] truncate">
-                    <FileText className="h-4 w-4 text-pixel-navy-900 shrink-0" />
-                    <span className="font-semibold text-pixel-neutral-900" title={guide.name}>{guide.name}</span>
+                    <FileText className="h-4 w-4 text-text-primary shrink-0" />
+                    <span className="font-semibold text-text-primary" title={guide.name}>{guide.name}</span>
                   </div>
-                  <span className="text-[10px] text-pixel-neutral-500 shrink-0">{guide.size}</span>
+                  <span className="text-[10px] text-text-secondary shrink-0">{guide.size}</span>
                 </div>
               ))}
             </div>

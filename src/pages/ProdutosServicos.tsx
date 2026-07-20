@@ -179,10 +179,10 @@ export const ProdutosServicos: React.FC = () => {
       {/* Catalog Render Grids */}
       {activeTab === 'produtos' ? (
         /* 1. PRODUCTS TABLE */
-        <div className="w-full overflow-x-auto border border-pixel-neutral-200 rounded-premium bg-white shadow-premium">
+        <div className="w-full overflow-x-auto border border-border rounded-premium bg-white shadow-premium">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900 font-bold">
+              <tr className="bg-surface border-b border-border text-text-primary font-bold">
                 <th className="p-4">Código / SKU</th>
                 <th className="p-4">Nome do Produto</th>
                 <th className="p-4">NCM</th>
@@ -197,24 +197,24 @@ export const ProdutosServicos: React.FC = () => {
             <tbody className="divide-y divide-pixel-neutral-200">
               {filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-6 text-center text-pixel-neutral-500 text-xs">
+                  <td colSpan={9} className="p-6 text-center text-text-secondary text-xs">
                     Nenhum produto cadastrado no catálogo.
                   </td>
                 </tr>
               ) : (
                 filteredProducts.map((prod) => (
                   <tr key={prod.id} className="hover:bg-neutral-bgSecondary/20">
-                    <td className="p-4 font-mono font-semibold text-pixel-navy-900">
+                    <td className="p-4 font-mono font-semibold text-text-primary">
                       <div className="flex flex-col gap-0.5">
                         <span>{prod.code}</span>
-                        <span className="text-[9px] text-pixel-neutral-500">{prod.sku}</span>
+                        <span className="text-[9px] text-text-secondary">{prod.sku}</span>
                       </div>
                     </td>
-                    <td className="p-4 font-medium text-pixel-neutral-900">{prod.name}</td>
-                    <td className="p-4 font-mono text-pixel-neutral-500">{prod.ncm}</td>
-                    <td className="p-4 font-mono text-pixel-neutral-500">{prod.cfopDefault}</td>
+                    <td className="p-4 font-medium text-text-primary">{prod.name}</td>
+                    <td className="p-4 font-mono text-text-secondary">{prod.ncm}</td>
+                    <td className="p-4 font-mono text-text-secondary">{prod.cfopDefault}</td>
                     <td className="p-4 text-center">{prod.unit}</td>
-                    <td className="p-4 text-right font-bold text-pixel-navy-900">
+                    <td className="p-4 text-right font-bold text-text-primary">
                       {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(prod.value)}
                     </td>
                     <td className="p-4 text-center font-semibold">{prod.stock}</td>
@@ -225,7 +225,7 @@ export const ProdutosServicos: React.FC = () => {
                       <div className="flex gap-2.5 justify-end">
                         <button
                           onClick={() => handleArchiveProduct(prod.id, prod.name)}
-                          className="text-pixel-neutral-500 hover:text-red-600 hover:bg-red-600-bg/60 p-1.5 rounded transition-all"
+                          className="text-text-secondary hover:text-red-600 hover:bg-red-600-bg/60 p-1.5 rounded transition-all"
                           title="Arquivar produto"
                         >
                           <Archive className="h-4 w-4" />
@@ -240,10 +240,10 @@ export const ProdutosServicos: React.FC = () => {
         </div>
       ) : (
         /* 2. SERVICES TABLE */
-        <div className="w-full overflow-x-auto border border-pixel-neutral-200 rounded-premium bg-white shadow-premium">
+        <div className="w-full overflow-x-auto border border-border rounded-premium bg-white shadow-premium">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900 font-bold">
+              <tr className="bg-surface border-b border-border text-text-primary font-bold">
                 <th className="p-4">Cód. Interno</th>
                 <th className="p-4">Nome do Serviço</th>
                 <th className="p-4">Cód. Municipal / CNAE</th>
@@ -257,26 +257,26 @@ export const ProdutosServicos: React.FC = () => {
             <tbody className="divide-y divide-pixel-neutral-200">
               {filteredServices.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="p-6 text-center text-pixel-neutral-500 text-xs">
+                  <td colSpan={8} className="p-6 text-center text-text-secondary text-xs">
                     Nenhum serviço cadastrado no catálogo.
                   </td>
                 </tr>
               ) : (
                 filteredServices.map((srv) => (
                   <tr key={srv.id} className="hover:bg-neutral-bgSecondary/20">
-                    <td className="p-4 font-mono font-semibold text-pixel-navy-900">{srv.internalCode}</td>
-                    <td className="p-4 font-medium text-pixel-neutral-900">{srv.name}</td>
-                    <td className="p-4 font-mono text-pixel-neutral-500">
+                    <td className="p-4 font-mono font-semibold text-text-primary">{srv.internalCode}</td>
+                    <td className="p-4 font-medium text-text-primary">{srv.name}</td>
+                    <td className="p-4 font-mono text-text-secondary">
                       <div className="flex flex-col gap-0.5">
                         <span>Mun: {srv.municipalCode || 'Isento'}</span>
-                        <span className="text-[9px] text-pixel-neutral-500">CNAE: {srv.cnae}</span>
+                        <span className="text-[9px] text-text-secondary">CNAE: {srv.cnae}</span>
                       </div>
                     </td>
-                    <td className="p-4 text-center font-bold text-pixel-navy-900">{srv.issRate}%</td>
-                    <td className="p-4 text-right font-bold text-pixel-navy-900">
+                    <td className="p-4 text-center font-bold text-text-primary">{srv.issRate}%</td>
+                    <td className="p-4 text-right font-bold text-text-primary">
                       {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(srv.defaultValue)}
                     </td>
-                    <td className="p-4 text-pixel-neutral-500">{srv.city}</td>
+                    <td className="p-4 text-text-secondary">{srv.city}</td>
                     <td className="p-4">
                       <StatusBadge status={srv.status} />
                     </td>
@@ -284,7 +284,7 @@ export const ProdutosServicos: React.FC = () => {
                       <div className="flex gap-2.5 justify-end">
                         <button
                           onClick={() => handleArchiveService(srv.id, srv.name)}
-                          className="text-pixel-neutral-500 hover:text-red-600 hover:bg-red-600-bg/60 p-1.5 rounded transition-all"
+                          className="text-text-secondary hover:text-red-600 hover:bg-red-600-bg/60 p-1.5 rounded transition-all"
                           title="Arquivar serviço"
                         >
                           <Archive className="h-4 w-4" />
@@ -302,8 +302,8 @@ export const ProdutosServicos: React.FC = () => {
       {/* Modal: New Product Form */}
       {showProductModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <form onSubmit={handleSaveProduct} className="relative w-full max-w-lg bg-white border border-pixel-neutral-200 rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
-            <h3 className="text-base font-bold text-pixel-navy-900 font-title">Cadastrar Novo Produto</h3>
+          <form onSubmit={handleSaveProduct} className="relative w-full max-w-lg bg-white border border-border rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
+            <h3 className="text-base font-bold text-text-primary font-title">Cadastrar Novo Produto</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label="Nome do Produto *"
@@ -359,7 +359,7 @@ export const ProdutosServicos: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-pixel-neutral-200 text-xs">
+            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-border text-xs">
               <Button
                 variant="outline"
                 size="sm"
@@ -384,8 +384,8 @@ export const ProdutosServicos: React.FC = () => {
       {/* Modal: New Service Form */}
       {showServiceModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <form onSubmit={handleSaveService} className="relative w-full max-w-lg bg-white border border-pixel-neutral-200 rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
-            <h3 className="text-base font-bold text-pixel-navy-900 font-title">Cadastrar Novo Serviço</h3>
+          <form onSubmit={handleSaveService} className="relative w-full max-w-lg bg-white border border-border rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
+            <h3 className="text-base font-bold text-text-primary font-title">Cadastrar Novo Serviço</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label="Nome do Serviço *"
@@ -435,7 +435,7 @@ export const ProdutosServicos: React.FC = () => {
               />
             </div>
 
-            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-pixel-neutral-200 text-xs">
+            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-border text-xs">
               <Button
                 variant="outline"
                 size="sm"

@@ -191,7 +191,7 @@ export const Automacoes: React.FC = () => {
             <div className="lg:col-span-2 flex flex-col gap-6">
               
               {/* Rule Name Card */}
-              <div className="border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4">
+              <div className="border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4">
                 <Input
                   label="Nome da Regra de Automação *"
                   value={newRuleName}
@@ -201,8 +201,8 @@ export const Automacoes: React.FC = () => {
               </div>
 
               {/* Gatilho (Trigger Block) */}
-              <div className="border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4 relative">
-                <span className="absolute top-[-10px] left-6 bg-pixel-navy-900 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+              <div className="border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4 relative">
+                <span className="absolute top-[-10px] left-6 bg-black text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                   Passo 1: Gatilho (Trigger)
                 </span>
                 
@@ -224,8 +224,8 @@ export const Automacoes: React.FC = () => {
               </div>
 
               {/* Condições (Conditions Block) */}
-              <div className="border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4 relative">
-                <span className="absolute top-[-10px] left-6 bg-pixel-gold-500 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+              <div className="border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4 relative">
+                <span className="absolute top-[-10px] left-6 bg-primary text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                   Passo 2: Condições Filtro (Se...)
                 </span>
 
@@ -253,8 +253,8 @@ export const Automacoes: React.FC = () => {
               </div>
 
               {/* Ações (Action Block) */}
-              <div className="border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4 relative">
-                <span className="absolute top-[-10px] left-6 bg-pixel-navy-900 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+              <div className="border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4 relative">
+                <span className="absolute top-[-10px] left-6 bg-black text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                   Passo 3: Ação (Execute...)
                 </span>
 
@@ -279,17 +279,17 @@ export const Automacoes: React.FC = () => {
             <div className="flex flex-col gap-6">
               
               {/* Guidelines card */}
-              <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-3 text-xs">
-                <h3 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-                  <Cpu className="h-4 w-4 text-pixel-navy-900" />
+              <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-3 text-xs">
+                <h3 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+                  <Cpu className="h-4 w-4 text-text-primary" />
                   <span>Dicas de Fluxo</span>
                 </h3>
-                <p className="text-pixel-neutral-500 leading-relaxed text-[11px]">
+                <p className="text-text-secondary leading-relaxed text-[11px]">
                   Automações ajudam a reduzir faturamentos manuais e otimizam a rotina fiscal. O sistema realiza tentativas automáticas em caso de instabilidade dos servidores da prefeitura ou SEFAZ.
                 </p>
-                <div className="bg-pixel-neutral-100 p-3 rounded-soft border border-pixel-neutral-200 flex gap-2.5 items-start mt-1">
-                  <Sparkles className="h-4 w-4 text-pixel-navy-900 shrink-0" />
-                  <span className="text-[10px] text-pixel-neutral-500">
+                <div className="bg-surface p-3 rounded-soft border border-border flex gap-2.5 items-start mt-1">
+                  <Sparkles className="h-4 w-4 text-text-primary shrink-0" />
+                  <span className="text-[10px] text-text-secondary">
                     As notas fiscais geradas por automações contêm a tag do canal correspondente (ex: Shopify, Hotmart) para facilitar sua conciliação fiscal posterior.
                   </span>
                 </div>

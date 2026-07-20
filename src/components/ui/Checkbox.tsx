@@ -21,10 +21,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
           ref={ref}
           id={checkboxId}
           type="checkbox"
-          className="mt-0.5 h-4 w-4 rounded text-pixel-navy-900 focus:ring-brand-teal/40 border-pixel-neutral-200 transition duration-150 cursor-pointer accent-pixel-navy-900"
+          className="mt-0.5 h-4 w-4 rounded text-text-primary focus:ring-primary/40 border-border transition duration-150 cursor-pointer accent-pixel-navy-900"
           {...props}
         />
-        <span className="text-sm text-pixel-neutral-900 leading-normal font-sans">
+        <span className="text-sm text-text-primary leading-normal font-sans">
           {label}
         </span>
       </label>

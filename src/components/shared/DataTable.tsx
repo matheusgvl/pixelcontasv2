@@ -136,8 +136,8 @@ export function DataTable<T extends { id: string }>({
 
         {/* Selected Counter & Bulk Action Buttons */}
         {selectedIds.size > 0 && bulkActions && (
-          <div className="flex items-center gap-3 w-full sm:w-auto bg-pixel-navy-900-soft/80 border border-brand-teal/20 px-4 py-2 rounded-soft justify-between sm:justify-start">
-            <span className="text-xs font-semibold text-pixel-navy-950 font-title">
+          <div className="flex items-center gap-3 w-full sm:w-auto bg-black-soft/80 border border-primary/20 px-4 py-2 rounded-soft justify-between sm:justify-start">
+            <span className="text-xs font-semibold text-text-primary font-title">
               {selectedIds.size} selecionado(s)
             </span>
             <div className="flex gap-2">
@@ -162,17 +162,17 @@ export function DataTable<T extends { id: string }>({
       </div>
 
       {/* Main Table Wrapper */}
-      <div className="w-full overflow-x-auto border border-pixel-neutral-200 rounded-premium bg-white shadow-premium">
+      <div className="w-full overflow-x-auto border border-border rounded-premium bg-white shadow-premium">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900">
+            <tr className="bg-black text-white">
               {bulkActions && (
                 <th className="p-4 w-10">
                   <input
                     type="checkbox"
                     checked={paginatedData.length > 0 && paginatedData.every(row => selectedIds.has(row.id))}
                     onChange={e => handleSelectAll(e.target.checked)}
-                    className="h-4 w-4 rounded text-pixel-navy-900 focus:ring-brand-teal/40 border-pixel-neutral-200 accent-pixel-navy-900"
+                    className="h-4 w-4 rounded text-black focus:ring-primary/40 border-border accent-black"
                   />
                 </th>
               )}
@@ -180,7 +180,7 @@ export function DataTable<T extends { id: string }>({
                 <th
                   key={idx}
                   onClick={() => col.sortable && col.sortKey && handleSort(col.sortKey)}
-                  className={`p-4 text-xs font-bold font-title tracking-wider ${col.sortable ? 'cursor-pointer select-none hover:bg-pixel-neutral-200' : ''} ${col.className || ''}`}
+                  className={`p-4 text-xs font-bold font-title tracking-wider ${col.sortable ? 'cursor-pointer select-none hover:bg-black/90' : ''} ${col.className || ''}`}
                 >
                   <div className="flex items-center gap-1.5">
                     {col.header}
@@ -192,10 +192,10 @@ export function DataTable<T extends { id: string }>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-pixel-neutral-200">
+          <tbody className="divide-y divide-border">
             {paginatedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length + (bulkActions ? 1 : 0)} className="p-8 text-center text-sm text-pixel-neutral-500">
+                <td colSpan={columns.length + (bulkActions ? 1 : 0)} className="p-8 text-center text-sm text-text-secondary">
                   Nenhum registro encontrado.
                 </td>
               </tr>
@@ -204,7 +204,7 @@ export function DataTable<T extends { id: string }>({
                 <tr
                   key={row.id}
                   onClick={() => onRowClick && onRowClick(row)}
-                  className={`hover:bg-pixel-navy-900-soft/30 transition-colors duration-150 ${onRowClick ? 'cursor-pointer' : ''}`}
+                  className={`hover:bg-[#F8F3EE] transition-colors duration-150 ${onRowClick ? 'cursor-pointer' : ''}`}
                 >
                   {bulkActions && (
                     <td className="p-4" onClick={e => e.stopPropagation()}>
@@ -212,7 +212,7 @@ export function DataTable<T extends { id: string }>({
                         type="checkbox"
                         checked={selectedIds.has(row.id)}
                         onChange={e => handleSelectRow(row.id, e.target.checked)}
-                        className="h-4 w-4 rounded text-pixel-navy-900 focus:ring-brand-teal/40 border-pixel-neutral-200 accent-pixel-navy-900"
+                        className="h-4 w-4 rounded text-black focus:ring-primary/40 border-border accent-black"
                       />
                     </td>
                   )}
@@ -222,7 +222,7 @@ export function DataTable<T extends { id: string }>({
                       : (row[col.accessor] as React.ReactNode);
                     
                     return (
-                      <td key={idx} className={`p-4 text-sm text-pixel-neutral-900 ${col.className || ''}`}>
+                      <td key={idx} className={`p-4 text-sm text-text-primary ${col.className || ''}`}>
                         {content}
                       </td>
                     );
@@ -237,7 +237,7 @@ export function DataTable<T extends { id: string }>({
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between py-2 px-1">
-          <div className="flex items-center gap-2 text-xs text-pixel-neutral-500">
+          <div className="flex items-center gap-2 text-xs text-text-secondary">
             <span>Linhas por página:</span>
             <select
               value={pageSize}
@@ -245,7 +245,7 @@ export function DataTable<T extends { id: string }>({
                 setPageSize(Number(e.target.value));
                 setCurrentPage(1);
               }}
-              className="bg-white border border-pixel-neutral-200 rounded px-2 py-1 focus:border-pixel-navy-900 focus:outline-none"
+              className="bg-white border border-border rounded px-2 py-1 focus:border-black focus:outline-none"
             >
               {[5, 10, 20, 50].map(size => (
                 <option key={size} value={size}>{size}</option>
@@ -276,7 +276,7 @@ export function DataTable<T extends { id: string }>({
                   variant={isCurrent ? 'secondary' : 'outline'}
                   size="sm"
                   onClick={() => setCurrentPage(pageNum)}
-                  className={`!py-1.5 !px-3 text-xs ${isCurrent ? '!bg-pixel-navy-900 !text-white' : ''}`}
+                  className={`!py-1.5 !px-3 text-xs ${isCurrent ? '!bg-black !text-white' : ''}`}
                 >
                   {pageNum}
                 </Button>

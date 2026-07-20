@@ -144,15 +144,15 @@ export const Integracoes: React.FC = () => {
           {/* Filters Area */}
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
             {/* Category selection */}
-            <div className="flex items-center gap-1.5 bg-pixel-neutral-100 p-1 rounded-soft border border-pixel-neutral-200 text-xs overflow-x-auto w-full sm:w-auto shrink-0 scrollbar-none">
+            <div className="flex items-center gap-1.5 bg-surface p-1 rounded-soft border border-border text-xs overflow-x-auto w-full sm:w-auto shrink-0 scrollbar-none">
               {categories.map(cat => (
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`px-3 py-1.5 rounded-soft font-semibold transition-all duration-150 whitespace-nowrap
                     ${selectedCategory === cat.id 
-                      ? 'bg-white text-pixel-navy-900 shadow-sm border border-neutral-borderLight/40' 
-                      : 'text-pixel-neutral-500 hover:text-pixel-neutral-900'}`}
+                      ? 'bg-white text-text-primary shadow-sm border border-neutral-borderLight/40' 
+                      : 'text-text-secondary hover:text-text-primary'}`}
                 >
                   {cat.label}
                 </button>
@@ -207,12 +207,12 @@ export const Integracoes: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             {/* Left Column: Config Forms */}
-            <div className="lg:col-span-2 border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-6">
+            <div className="lg:col-span-2 border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-6">
               
               {/* Credentials Section */}
               <div className="flex flex-col gap-4">
-                <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-1 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-                  <Key className="h-4 w-4 text-pixel-navy-900" />
+                <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-1 border-b border-border flex items-center gap-1.5">
+                  <Key className="h-4 w-4 text-text-primary" />
                   <span>Credenciais de Conexão</span>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -233,8 +233,8 @@ export const Integracoes: React.FC = () => {
 
               {/* Fiscal Rules Section */}
               <div className="flex flex-col gap-4 mt-2">
-                <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-1 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-                  <Server className="h-4 w-4 text-pixel-navy-900" />
+                <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-1 border-b border-border flex items-center gap-1.5">
+                  <Server className="h-4 w-4 text-text-primary" />
                   <span>Regras Fiscais Padrão</span>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -269,8 +269,8 @@ export const Integracoes: React.FC = () => {
 
               {/* Automation Toggles */}
               <div className="flex flex-col gap-4 mt-2">
-                <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-1 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-                  <ToggleLeft className="h-4 w-4 text-pixel-navy-900" />
+                <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-1 border-b border-border flex items-center gap-1.5">
+                  <ToggleLeft className="h-4 w-4 text-text-primary" />
                   <span>Fluxo e Automação</span>
                 </h3>
                 <div className="flex flex-col gap-4">
@@ -280,7 +280,7 @@ export const Integracoes: React.FC = () => {
                     checked={configForm.autoEmit}
                     onChange={() => setConfigForm(prev => ({ ...prev, autoEmit: !prev.autoEmit }))}
                   />
-                  <div className="h-px bg-pixel-neutral-200"></div>
+                  <div className="h-px bg-border"></div>
                   <Switch
                     label="Enviar e-mail para o cliente automaticamente"
                     description="Enviar o PDF e o XML da nota por e-mail logo após a autorização da prefeitura/SEFAZ."
@@ -296,23 +296,23 @@ export const Integracoes: React.FC = () => {
             <div className="flex flex-col gap-6">
               
               {/* Connection Status Card */}
-              <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs">
-                <h3 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+              <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs">
+                <h3 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                   Status de Conexão
                 </h3>
                 
-                <div className="flex items-center gap-2.5 bg-pixel-neutral-100 p-3 rounded-soft border border-pixel-neutral-200">
-                  <Link2 className="h-5 w-5 text-pixel-navy-900" />
+                <div className="flex items-center gap-2.5 bg-surface p-3 rounded-soft border border-border">
+                  <Link2 className="h-5 w-5 text-text-primary" />
                   <div className="flex flex-col">
-                    <span className="font-bold text-pixel-navy-900">Canal Vinculado</span>
-                    <span className="text-[10px] text-pixel-neutral-500">Credenciais ativas e testadas</span>
+                    <span className="font-bold text-text-primary">Canal Vinculado</span>
+                    <span className="text-[10px] text-text-secondary">Credenciais ativas e testadas</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2.5 text-pixel-neutral-500 mt-1">
+                <div className="flex flex-col gap-2.5 text-text-secondary mt-1">
                   <div className="flex justify-between">
                     <span>Última sincronização:</span>
-                    <span className="font-semibold text-pixel-neutral-900">
+                    <span className="font-semibold text-text-primary">
                       {integrationDetails.lastSync 
                         ? new Date(integrationDetails.lastSync).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })
                         : 'Nunca sincronizado'}
@@ -320,18 +320,18 @@ export const Integracoes: React.FC = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>Versão da API:</span>
-                    <span className="font-semibold text-pixel-neutral-900">v3.0.2-LTS</span>
+                    <span className="font-semibold text-text-primary">v3.0.2-LTS</span>
                   </div>
                 </div>
               </div>
 
               {/* Advanced Help */}
-              <div className="bg-pixel-navy-900-soft/30 border border-brand-teal/20 rounded-premium p-5 shadow-premium flex flex-col gap-3 text-xs">
-                <h4 className="font-bold text-pixel-navy-950 font-title flex items-center gap-1.5">
+              <div className="bg-black-soft/30 border border-primary/20 rounded-premium p-5 shadow-premium flex flex-col gap-3 text-xs">
+                <h4 className="font-bold text-text-primary font-title flex items-center gap-1.5">
                   <Sparkles className="h-4.5 w-4.5" />
                   <span>Dica Fiscal</span>
                 </h4>
-                <p className="text-pixel-neutral-500 leading-relaxed text-[11px]">
+                <p className="text-text-secondary leading-relaxed text-[11px]">
                   Configurar o envio automático de e-mails reduz chamados de suporte técnico dos seus clientes pedindo a nota. Caso o e-mail não seja enviado automaticamente, você sempre pode fazer o reenvio manual pela listagem de notas.
                 </p>
               </div>

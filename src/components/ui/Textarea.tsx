@@ -20,7 +20,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   return (
     <div className={`w-full flex flex-col gap-1.5 ${className}`}>
       {label && (
-        <label htmlFor={textareaId} className="text-xs font-semibold text-pixel-neutral-900 font-title">
+        <label htmlFor={textareaId} className="text-xs font-semibold text-text-primary font-title">
           {label}
         </label>
       )}
@@ -28,12 +28,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         ref={ref}
         id={textareaId}
         rows={rows}
-        className={`w-full py-2.5 px-3.5 text-sm text-pixel-neutral-900 bg-white border rounded-soft shadow-sm transition-all duration-200 resize-none
+        className={`w-full py-2.5 px-3.5 text-sm text-text-primary bg-white border rounded-soft shadow-sm transition-all duration-200 resize-none
           ${error 
             ? 'border-red-600 focus:border-red-600 focus:ring-4 focus:ring-functional-error/10' 
-            : 'border-pixel-neutral-200 focus:border-pixel-navy-900 focus:ring-4 focus:ring-brand-teal/10'
+            : 'border-border focus:border-black focus:ring-4 focus:ring-primary/10'
           }
-          placeholder:text-brand-grayBlue/50 disabled:bg-pixel-neutral-200 disabled:text-pixel-neutral-500 disabled:cursor-not-allowed`}
+          placeholder:text-white/50 disabled:bg-border disabled:text-text-secondary disabled:cursor-not-allowed`}
         {...props}
       />
       {error ? (
@@ -41,7 +41,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
           {error}
         </span>
       ) : helperText ? (
-        <span className="text-xs text-pixel-neutral-500">
+        <span className="text-xs text-text-secondary">
           {helperText}
         </span>
       ) : null}

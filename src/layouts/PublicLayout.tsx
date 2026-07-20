@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 export const PublicLayout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-pixel-neutral-50 flex flex-col w-full text-pixel-neutral-900 overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-surface flex flex-col w-full text-text-primary overflow-x-hidden font-sans">
       <Outlet />
     </div>
   );

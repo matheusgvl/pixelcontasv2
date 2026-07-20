@@ -20,12 +20,13 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyle = 'inline-flex items-center justify-center font-medium rounded-soft transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
   
   const variants = {
-    primary: 'bg-pixel-navy-900 text-white hover:bg-pixel-navy-950 focus:ring-brand-teal/40 border border-transparent shadow-sm',
-    secondary: 'bg-pixel-navy-900 text-white hover:bg-pixel-navy-950 focus:ring-brand-navy/40 border border-transparent shadow-sm',
-    outline: 'bg-transparent text-pixel-navy-900 border border-brand-navy/20 hover:bg-pixel-neutral-100 focus:ring-brand-navy/20',
-    danger: 'bg-red-600 text-white hover:bg-red-800 focus:ring-functional-error/40 border border-transparent shadow-sm',
-    ghost: 'bg-transparent text-pixel-neutral-500 hover:bg-pixel-neutral-50 hover:text-pixel-navy-950 focus:ring-brand-teal/20',
-    premium: 'bg-grad-premium text-white hover:shadow-premium-hover focus:ring-brand-copper/40 border border-transparent shadow-md'
+    primary: 'bg-primary text-white hover:opacity-90 focus:ring-primary/40 border border-transparent shadow-sm',
+    secondary: 'bg-black text-white hover:bg-black/90 focus:ring-black/40 border border-transparent shadow-sm',
+    outline: 'bg-transparent text-primary border border-primary hover:bg-primary hover:text-white focus:ring-primary/20',
+    danger: 'bg-functional-error text-white hover:opacity-90 focus:ring-functional-error/40 border border-transparent shadow-sm',
+    ghost: 'bg-transparent text-text-secondary hover:bg-surface hover:text-text-primary focus:ring-primary/20',
+    premium: 'bg-primary text-white hover:opacity-90 focus:ring-primary/40 border border-transparent shadow-md',
+    neutral: 'bg-white text-black border border-border hover:border-primary focus:ring-primary/20 shadow-sm'
   };
 
   const sizes = {

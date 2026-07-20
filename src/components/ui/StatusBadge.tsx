@@ -25,9 +25,9 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
       label: 'Autorizada'
     },
     processing: {
-      bg: 'bg-pixel-neutral-50',
-      text: 'text-pixel-navy-950',
-      dot: 'bg-pixel-navy-900',
+      bg: 'bg-surface',
+      text: 'text-text-primary',
+      dot: 'bg-black',
       label: 'Processando'
     },
     waiting: {
@@ -44,8 +44,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     },
     canceled: {
       bg: 'bg-gray-100',
-      text: 'text-pixel-neutral-900',
-      dot: 'bg-pixel-neutral-500',
+      text: 'text-text-primary',
+      dot: 'bg-surface0',
       label: 'Cancelada'
     },
     // Integration Statuses
@@ -57,8 +57,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     },
     disconnected: {
       bg: 'bg-gray-100',
-      text: 'text-pixel-neutral-500',
-      dot: 'bg-pixel-neutral-500',
+      text: 'text-text-secondary',
+      dot: 'bg-surface0',
       label: 'Desconectado'
     },
     attention: {
@@ -82,8 +82,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     },
     inactive: {
       bg: 'bg-gray-100',
-      text: 'text-pixel-neutral-500',
-      dot: 'bg-pixel-neutral-500',
+      text: 'text-text-secondary',
+      dot: 'bg-surface0',
       label: 'Inativo'
     },
     sent: {

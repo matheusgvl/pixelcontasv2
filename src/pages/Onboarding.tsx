@@ -172,11 +172,11 @@ export const Onboarding: React.FC = () => {
     <div className="flex flex-col gap-6">
       
       {/* Onboarding Header Title */}
-      <div className="flex flex-col gap-1 border-b border-pixel-neutral-200 pb-4">
-        <h1 className="text-xl md:text-2xl font-black text-pixel-navy-900 font-title">
+      <div className="flex flex-col gap-1 border-b border-border pb-4">
+        <h1 className="text-xl md:text-2xl font-black text-text-primary font-title">
           Configuração da sua empresa
         </h1>
-        <p className="text-xs text-pixel-neutral-500">
+        <p className="text-xs text-text-secondary">
           Siga as etapas abaixo para habilitar a emissão de notas no sistema.
         </p>
       </div>
@@ -190,10 +190,10 @@ export const Onboarding: React.FC = () => {
         {/* Step 1: Dados da Empresa */}
         {step === 1 && (
           <div className="flex flex-col gap-6 animate-fade-in">
-            <div className="bg-brand-lightBlue/20 p-4 border border-pixel-neutral-200 rounded-soft text-xs text-pixel-navy-900 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div className="bg-brand-lightBlue/20 p-4 border border-border rounded-soft text-xs text-text-primary flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <div>
                 <span className="font-bold block">Dica para demonstração:</span>
-                Digite o CNPJ <strong className="font-mono text-pixel-navy-900 select-all">12.345.678/0001-90</strong> e clique ao lado para preenchimento completo automático.
+                Digite o CNPJ <strong className="font-mono text-text-primary select-all">12.345.678/0001-90</strong> e clique ao lado para preenchimento completo automático.
               </div>
               <Button
                 variant="outline"
@@ -233,11 +233,11 @@ export const Onboarding: React.FC = () => {
                 placeholder="Pressione ENTER após digitar" 
                 onKeyDown={handleCEPAutofill}
                 suffix={loadingCEP ? (
-                  <svg className="animate-spin h-4 w-4 text-pixel-navy-900" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-4 w-4 text-text-primary" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                ) : <Search className="h-4 w-4 text-brand-grayBlue/60" />}
+                ) : <Search className="h-4 w-4 text-white/60" />}
               />
               
               <Input {...register('endereco')} label="Endereço" placeholder="Avenida, Rua, etc." className="md:col-span-2" />
@@ -254,10 +254,10 @@ export const Onboarding: React.FC = () => {
         {step === 2 && (
           <div className="flex flex-col gap-6 animate-fade-in text-center items-center py-4">
             <div className="max-w-md flex flex-col gap-1.5">
-              <h2 className="text-base font-bold text-pixel-navy-900 font-title">
+              <h2 className="text-base font-bold text-text-primary font-title">
                 Como você vende seus produtos ou serviços?
               </h2>
-              <p className="text-xs text-pixel-neutral-500 leading-relaxed">
+              <p className="text-xs text-text-secondary leading-relaxed">
                 Selecione as opções abaixo para que o PixelContas configure as regras corretas de faturamento.
               </p>
             </div>
@@ -279,16 +279,16 @@ export const Onboarding: React.FC = () => {
                     onClick={() => toggleOperationType(op.id)}
                     className={`p-5 border rounded-premium text-left flex flex-col gap-2 transition-all duration-200 hover:shadow-premium
                       ${selected 
-                        ? 'border-pixel-navy-900 bg-pixel-navy-900-soft/10 ring-2 ring-brand-teal/20' 
-                        : 'border-pixel-neutral-200 bg-white'}`}
+                        ? 'border-black bg-black-soft/10 ring-2 ring-primary/20' 
+                        : 'border-border bg-white'}`}
                   >
                     <span className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center shrink-0
-                      ${selected ? 'border-pixel-navy-900 bg-pixel-navy-900 text-white' : 'border-pixel-neutral-200 bg-white'}`}>
+                      ${selected ? 'border-black bg-black text-white' : 'border-border bg-white'}`}>
                       {selected && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
                     </span>
                     <div className="flex flex-col gap-0.5 mt-1">
-                      <span className="text-xs font-bold text-pixel-navy-900 font-title">{op.label}</span>
-                      <span className="text-[10px] text-pixel-neutral-500 leading-normal">{op.desc}</span>
+                      <span className="text-xs font-bold text-text-primary font-title">{op.label}</span>
+                      <span className="text-[10px] text-text-secondary leading-normal">{op.desc}</span>
                     </div>
                   </button>
                 );
@@ -301,10 +301,10 @@ export const Onboarding: React.FC = () => {
         {step === 3 && (
           <div className="flex flex-col gap-6 animate-fade-in">
             <div className="max-w-md flex flex-col gap-1">
-              <h2 className="text-base font-bold text-pixel-navy-900 font-title">
+              <h2 className="text-base font-bold text-text-primary font-title">
                 Definições Fiscais Padrão
               </h2>
-              <p className="text-xs text-pixel-neutral-500">
+              <p className="text-xs text-text-secondary">
                 Parâmetros básicos de comunicação com as prefeituras e secretarias de fazenda.
               </p>
             </div>
@@ -348,11 +348,11 @@ export const Onboarding: React.FC = () => {
         {step === 4 && (
           <div className="flex flex-col gap-6 animate-fade-in max-w-xl mx-auto py-2">
             <div className="flex flex-col gap-1 text-center items-center">
-              <Building2 className="h-10 w-10 text-pixel-navy-900 mb-2" />
-              <h2 className="text-base font-bold text-pixel-navy-900 font-title">
+              <Building2 className="h-10 w-10 text-text-primary mb-2" />
+              <h2 className="text-base font-bold text-text-primary font-title">
                 Cadastre seu Certificado Digital A1
               </h2>
-              <p className="text-xs text-pixel-neutral-500 leading-relaxed max-w-sm">
+              <p className="text-xs text-text-secondary leading-relaxed max-w-sm">
                 O certificado digital A1 (.pfx) é obrigatório para assinar eletronicamente as notas perante o governo.
               </p>
             </div>
@@ -374,8 +374,8 @@ export const Onboarding: React.FC = () => {
               disabled={!certificateUploaded}
             />
 
-            <div className="flex items-center justify-between mt-2 pt-2 border-t border-pixel-neutral-200 text-xs">
-              <span className="text-pixel-neutral-500 font-medium">Você pode pular esta etapa se preferir.</span>
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-border text-xs">
+              <span className="text-text-secondary font-medium">Você pode pular esta etapa se preferir.</span>
               <button
                 type="button"
                 onClick={() => {
@@ -383,7 +383,7 @@ export const Onboarding: React.FC = () => {
                   setValue('senhaCertificado', '');
                   nextStep();
                 }}
-                className="text-pixel-navy-900 hover:underline font-bold"
+                className="text-text-primary hover:underline font-bold"
               >
                 Configurar depois
               </button>
@@ -395,10 +395,10 @@ export const Onboarding: React.FC = () => {
         {step === 5 && (
           <div className="flex flex-col gap-6 animate-fade-in text-center items-center py-2">
             <div className="max-w-md flex flex-col gap-1">
-              <h2 className="text-base font-bold text-pixel-navy-900 font-title">
+              <h2 className="text-base font-bold text-text-primary font-title">
                 Conecte seus canais de vendas
               </h2>
-              <p className="text-xs text-pixel-neutral-500 leading-relaxed">
+              <p className="text-xs text-text-secondary leading-relaxed">
                 Selecione as plataformas que você utiliza para que possamos importar seus pedidos.
               </p>
             </div>
@@ -419,14 +419,14 @@ export const Onboarding: React.FC = () => {
                   <div
                     key={item.id}
                     className={`p-4 border rounded-premium bg-white flex flex-col items-center justify-center gap-3 transition-all duration-200 hover:shadow-premium
-                      ${isConnected ? 'border-pixel-navy-900 bg-pixel-navy-900-soft/10' : 'border-pixel-neutral-200'}`}
+                      ${isConnected ? 'border-black bg-black-soft/10' : 'border-border'}`}
                   >
-                    <span className="h-9 w-9 bg-pixel-neutral-100 rounded-full flex items-center justify-center font-black text-pixel-navy-900 text-xs select-none">
+                    <span className="h-9 w-9 bg-surface rounded-full flex items-center justify-center font-black text-text-primary text-xs select-none">
                       {item.id.charAt(0)}
                     </span>
                     <div className="flex flex-col gap-0.5 text-center">
-                      <span className="text-xs font-bold text-pixel-navy-900 font-title">{item.id}</span>
-                      <span className="text-[9px] text-pixel-neutral-500 uppercase font-semibold">{item.desc}</span>
+                      <span className="text-xs font-bold text-text-primary font-title">{item.id}</span>
+                      <span className="text-[9px] text-text-secondary uppercase font-semibold">{item.desc}</span>
                     </div>
                     <Button
                       type="button"
@@ -451,45 +451,45 @@ export const Onboarding: React.FC = () => {
               <div className="h-12 w-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center mb-1">
                 <CheckCircle className="h-8 w-8" />
               </div>
-              <h2 className="text-lg font-black text-pixel-navy-900 font-title">
+              <h2 className="text-lg font-black text-text-primary font-title">
                 Tudo pronto para começar!
               </h2>
-              <p className="text-xs text-pixel-neutral-500 leading-relaxed max-w-sm">
+              <p className="text-xs text-text-secondary leading-relaxed max-w-sm">
                 Sua conta foi criada e as configurações iniciais da empresa foram salvas com sucesso.
               </p>
             </div>
 
             {/* Config summary card */}
-            <div className="border border-pixel-neutral-200 rounded-premium p-5 bg-white flex flex-col gap-4 shadow-sm text-xs">
-              <h4 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+            <div className="border border-border rounded-premium p-5 bg-white flex flex-col gap-4 shadow-sm text-xs">
+              <h4 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Resumo da Configuração
               </h4>
-              <div className="flex flex-col gap-2.5 text-pixel-neutral-500">
+              <div className="flex flex-col gap-2.5 text-text-secondary">
                 <div className="flex justify-between">
                   <span>Razão Social:</span>
-                  <span className="font-semibold text-pixel-neutral-900">{watch('razaoSocial')}</span>
+                  <span className="font-semibold text-text-primary">{watch('razaoSocial')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>CNPJ da empresa:</span>
-                  <span className="font-semibold text-pixel-neutral-900 font-mono">{watch('cnpj')}</span>
+                  <span className="font-semibold text-text-primary font-mono">{watch('cnpj')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Ambiente de Emissão:</span>
-                  <span className="font-semibold text-pixel-neutral-900">{watch('ambiente')}</span>
+                  <span className="font-semibold text-text-primary">{watch('ambiente')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Tipo de Nota:</span>
-                  <span className="font-semibold text-pixel-neutral-900">{watch('tipoNota')}</span>
+                  <span className="font-semibold text-text-primary">{watch('tipoNota')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Certificado Digital:</span>
-                  <span className="font-semibold text-pixel-neutral-900">
+                  <span className="font-semibold text-text-primary">
                     {certificateUploaded ? 'Arquivo A1 Carregado' : 'Configurar Depois'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Integrações conectadas:</span>
-                  <span className="font-semibold text-pixel-neutral-900">
+                  <span className="font-semibold text-text-primary">
                     {connectedIntegrations.length > 0 ? connectedIntegrations.join(', ') : 'Nenhuma conectada'}
                   </span>
                 </div>
@@ -498,7 +498,7 @@ export const Onboarding: React.FC = () => {
 
             {/* Checklist */}
             <div className="flex flex-col gap-3">
-              <span className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px]">
+              <span className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px]">
                 Próximos Passos recomendados
               </span>
               <div className="flex flex-col gap-2">
@@ -507,12 +507,12 @@ export const Onboarding: React.FC = () => {
                   { label: 'Homologar emissão fiscal de teste', done: certificateUploaded },
                   { label: 'Convidar sua contabilidade ou financeiro', done: false }
                 ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2.5 text-xs text-pixel-neutral-500">
+                  <div key={idx} className="flex items-center gap-2.5 text-xs text-text-secondary">
                     <span className={`h-4.5 w-4.5 rounded-full flex items-center justify-center shrink-0 border
-                      ${item.done ? 'bg-functional-success/10 border-green-600 text-green-600' : 'border-pixel-neutral-200 bg-white'}`}>
+                      ${item.done ? 'bg-functional-success/10 border-green-600 text-green-600' : 'border-border bg-white'}`}>
                       {item.done && <CheckCircle className="h-3 w-3 stroke-[3px]" />}
                     </span>
-                    <span className={item.done ? 'line-through text-brand-grayBlue/60 font-medium' : 'text-pixel-neutral-900 font-semibold'}>
+                    <span className={item.done ? 'line-through text-white/60 font-medium' : 'text-text-primary font-semibold'}>
                       {item.label}
                     </span>
                   </div>
@@ -525,7 +525,7 @@ export const Onboarding: React.FC = () => {
       </div>
 
       {/* Onboarding Bottom Action buttons */}
-      <div className="flex justify-between items-center border-t border-pixel-neutral-200 pt-6 mt-4">
+      <div className="flex justify-between items-center border-t border-border pt-6 mt-4">
         {step > 1 ? (
           <Button
             variant="outline"

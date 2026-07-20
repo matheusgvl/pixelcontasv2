@@ -27,7 +27,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
   return (
     <div className={`w-full flex flex-col gap-1.5 ${className}`}>
       {label && (
-        <label htmlFor={selectId} className="text-xs font-semibold text-pixel-neutral-900 font-title">
+        <label htmlFor={selectId} className="text-xs font-semibold text-text-primary font-title">
           {label}
         </label>
       )}
@@ -35,12 +35,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
         <select
           ref={ref}
           id={selectId}
-          className={`w-full py-2.5 pl-3.5 pr-10 text-sm text-pixel-neutral-900 bg-white border rounded-soft shadow-sm appearance-none transition-all duration-200
+          className={`w-full py-2.5 pl-3.5 pr-10 text-sm text-text-primary bg-white border rounded-soft shadow-sm appearance-none transition-all duration-200
             ${error 
-              ? 'border-red-600 focus:border-red-600 focus:ring-4 focus:ring-functional-error/10' 
-              : 'border-pixel-neutral-200 focus:border-pixel-navy-900 focus:ring-4 focus:ring-brand-teal/10'
+              ? 'border-functional-error focus:border-functional-error focus:ring-4 focus:ring-functional-error/10' 
+              : 'border-border focus:border-primary focus:ring-4 focus:ring-primary/20'
             }
-            disabled:bg-pixel-neutral-200 disabled:text-pixel-neutral-500 disabled:cursor-not-allowed`}
+            disabled:bg-border disabled:text-text-secondary disabled:cursor-not-allowed`}
           {...props}
         >
           {children || options.map(opt => (
@@ -49,7 +49,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
             </option>
           ))}
         </select>
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-pixel-neutral-500">
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-text-secondary">
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
           </svg>
@@ -60,7 +60,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({
           {error}
         </span>
       ) : helperText ? (
-        <span className="text-xs text-pixel-neutral-500">
+        <span className="text-xs text-text-secondary">
           {helperText}
         </span>
       ) : null}

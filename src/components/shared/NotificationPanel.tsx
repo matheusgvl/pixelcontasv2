@@ -39,13 +39,13 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
   };
 
   return (
-    <div className="absolute right-0 mt-2.5 w-80 md:w-96 bg-white border border-pixel-neutral-200 rounded-premium shadow-premium-hover z-50 overflow-hidden flex flex-col max-h-[500px] animate-fade-in">
+    <div className="absolute right-0 mt-2.5 w-80 md:w-96 bg-white border border-border rounded-premium shadow-premium-hover z-50 overflow-hidden flex flex-col max-h-[500px] animate-fade-in">
       
       {/* Header */}
-      <div className="p-4 border-b border-pixel-neutral-200 flex justify-between items-center bg-neutral-bgSecondary/50">
+      <div className="p-4 border-b border-border flex justify-between items-center bg-neutral-bgSecondary/50">
         <div className="flex items-center gap-2">
-          <Bell className="h-4.5 w-4.5 text-pixel-navy-900" />
-          <span className="font-bold text-pixel-navy-900 text-sm font-title">
+          <Bell className="h-4.5 w-4.5 text-text-primary" />
+          <span className="font-bold text-text-primary text-sm font-title">
             Notificações ({notifications.length})
           </span>
         </div>
@@ -53,14 +53,14 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
           {notifications.length > 0 && (
             <button
               onClick={onClearAll}
-              className="text-[10px] font-bold text-pixel-navy-900 hover:underline"
+              className="text-[10px] font-bold text-text-primary hover:underline"
             >
               Limpar todas
             </button>
           )}
           <button
             onClick={onClose}
-            className="p-1 rounded-full text-pixel-neutral-500 hover:bg-pixel-neutral-100 transition-colors"
+            className="p-1 rounded-full text-text-secondary hover:bg-surface transition-colors"
           >
             <X className="h-4 w-4" />
           </button>
@@ -70,7 +70,7 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
       {/* Notifications List */}
       <div className="flex-1 overflow-y-auto divide-y divide-pixel-neutral-200">
         {notifications.length === 0 ? (
-          <div className="p-8 text-center text-xs text-pixel-neutral-500">
+          <div className="p-8 text-center text-xs text-text-secondary">
             Nenhuma nova notificação.
           </div>
         ) : (
@@ -81,13 +81,13 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
             >
               {typeIcons[item.type]}
               <div className="flex flex-col gap-0.5">
-                <span className="font-bold text-pixel-neutral-900 font-title">
+                <span className="font-bold text-text-primary font-title">
                   {item.title}
                 </span>
-                <p className="text-pixel-neutral-500">
+                <p className="text-text-secondary">
                   {item.description}
                 </p>
-                <span className="text-[9px] text-brand-grayBlue/60 mt-1 font-medium">
+                <span className="text-[9px] text-white/60 mt-1 font-medium">
                   {item.date}
                 </span>
               </div>

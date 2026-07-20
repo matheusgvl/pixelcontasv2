@@ -20,7 +20,7 @@ export const Tabs: React.FC<TabsProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`border-b border-pixel-neutral-200 ${className}`}>
+    <div className={`border-b border-border ${className}`}>
       <nav className="flex space-x-6 -mb-px" aria-label="Tabs">
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab;
@@ -30,12 +30,12 @@ export const Tabs: React.FC<TabsProps> = ({
               onClick={() => onChange(tab.id)}
               className={`group inline-flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm transition-all duration-200
                 ${isActive
-                  ? 'border-pixel-navy-900 text-pixel-navy-900 font-semibold'
-                  : 'border-transparent text-pixel-neutral-500 hover:text-pixel-neutral-900 hover:border-pixel-neutral-200'
+                  ? 'border-black text-text-primary font-semibold'
+                  : 'border-transparent text-text-secondary hover:text-text-primary hover:border-border'
                 }`}
             >
               {tab.icon && (
-                <span className={`text-current ${isActive ? 'text-pixel-navy-900' : 'text-pixel-neutral-500 group-hover:text-pixel-neutral-900'}`}>
+                <span className={`text-current ${isActive ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary'}`}>
                   {tab.icon}
                 </span>
               )}

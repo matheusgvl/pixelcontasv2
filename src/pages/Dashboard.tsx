@@ -101,18 +101,18 @@ export const Dashboard: React.FC = () => {
     <div className="flex flex-col gap-6">
       
       {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-pixel-neutral-200 pb-5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-5">
         <div className="flex flex-col gap-1">
-          <h1 className="text-xl md:text-2xl font-black text-pixel-navy-900 font-title tracking-tight">
+          <h1 className="text-xl md:text-2xl font-black text-text-primary font-title tracking-tight">
             Olá, Ricardo Almeida.
           </h1>
-          <p className="text-xs md:text-sm text-pixel-neutral-500 font-medium">
+          <p className="text-xs md:text-sm text-text-secondary font-medium">
             Aqui está o resumo fiscal e financeiro da sua empresa hoje.
           </p>
         </div>
 
         {/* Period Filter Buttons */}
-        <div className="flex items-center gap-1.5 bg-pixel-neutral-100 p-1 rounded-soft border border-pixel-neutral-200 text-xs">
+        <div className="flex items-center gap-1.5 bg-surface p-1 rounded-soft border border-border text-xs">
           {[
             { id: 'today', label: 'Hoje' },
             { id: '7d', label: 'Últimos 7 dias' },
@@ -124,8 +124,8 @@ export const Dashboard: React.FC = () => {
               onClick={() => setFilterPeriod(p.id as any)}
               className={`px-3 py-1.5 rounded-soft font-semibold transition-all duration-150
                 ${filterPeriod === p.id 
-                  ? 'bg-white text-pixel-navy-900 shadow-sm border border-neutral-borderLight/40' 
-                  : 'text-pixel-neutral-500 hover:text-pixel-neutral-900'}`}
+                  ? 'bg-white text-text-primary shadow-sm border border-neutral-borderLight/40' 
+                  : 'text-text-secondary hover:text-text-primary'}`}
             >
               {p.label}
             </button>
@@ -151,18 +151,18 @@ export const Dashboard: React.FC = () => {
         <MetricCard
           title="Impostos estimados"
           value={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(metrics.impostos)}
-          icon={<Landmark className="h-5 w-5 text-pixel-gold-500" />}
+          icon={<Landmark className="h-5 w-5 text-primary" />}
           change={{ value: 3.1, type: 'decrease', timeframe: 'vs faturamento real' }}
         />
         <MetricCard
           title="Aguardando Processamento"
           value={metrics.processando}
-          icon={<PlusCircle className="h-5 w-5 text-pixel-navy-900" />}
+          icon={<PlusCircle className="h-5 w-5 text-text-primary" />}
         />
         <MetricCard
           title="Notas com erro / Rejeições"
           value={metrics.rejeitadas}
-          icon={<ShieldAlert className={`h-5 w-5 ${metrics.rejeitadas > 0 ? 'text-red-600' : 'text-pixel-neutral-500'}`} />}
+          icon={<ShieldAlert className={`h-5 w-5 ${metrics.rejeitadas > 0 ? 'text-red-600' : 'text-text-secondary'}`} />}
           highlight={metrics.rejeitadas > 0}
         />
         <MetricCard
@@ -175,87 +175,87 @@ export const Dashboard: React.FC = () => {
       {/* Quick Actions & Alertas */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Quick Actions Shortcuts */}
-        <div className="lg:col-span-3 border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-          <h3 className="text-sm font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px]">
+        <div className="lg:col-span-3 border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+          <h3 className="text-sm font-bold text-text-primary font-title uppercase tracking-wider text-[10px]">
             Atalhos Rápidos
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <button 
               onClick={() => navigate('/app/emitir-nota')}
-              className="p-4 border border-pixel-neutral-200 rounded-premium bg-white text-left flex flex-col gap-2 hover:border-brand-teal/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
+              className="p-4 border border-border rounded-premium bg-white text-left flex flex-col gap-2 hover:border-primary/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
             >
-              <div className="p-2 bg-pixel-neutral-50 text-pixel-navy-900 rounded-soft w-fit">
+              <div className="p-2 bg-surface text-text-primary rounded-soft w-fit">
                 <FileText className="h-5 w-5" />
               </div>
-              <span className="text-xs font-bold text-pixel-neutral-900 font-title mt-1">Emitir NFS-e</span>
+              <span className="text-xs font-bold text-text-primary font-title mt-1">Emitir NFS-e</span>
             </button>
             <button 
               onClick={() => navigate('/app/clientes/novo')}
-              className="p-4 border border-pixel-neutral-200 rounded-premium bg-white text-left flex flex-col gap-2 hover:border-brand-teal/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
+              className="p-4 border border-border rounded-premium bg-white text-left flex flex-col gap-2 hover:border-primary/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
             >
-              <div className="p-2 bg-brand-lightBlue/30 text-pixel-navy-900 rounded-soft w-fit">
+              <div className="p-2 bg-brand-lightBlue/30 text-text-primary rounded-soft w-fit">
                 <PlusCircle className="h-5 w-5" />
               </div>
-              <span className="text-xs font-bold text-pixel-neutral-900 font-title mt-1">Cadastrar Cliente</span>
+              <span className="text-xs font-bold text-text-primary font-title mt-1">Cadastrar Cliente</span>
             </button>
             <button 
               onClick={() => navigate('/app/servicos')}
-              className="p-4 border border-pixel-neutral-200 rounded-premium bg-white text-left flex flex-col gap-2 hover:border-brand-teal/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
+              className="p-4 border border-border rounded-premium bg-white text-left flex flex-col gap-2 hover:border-primary/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
             >
-              <div className="p-2 bg-pixel-gold-300 text-pixel-gold-600 rounded-soft w-fit">
+              <div className="p-2 bg-primary text-primary rounded-soft w-fit">
                 <Plus className="h-5 w-5" />
               </div>
-              <span className="text-xs font-bold text-pixel-neutral-900 font-title mt-1">Cadastrar Serviço</span>
+              <span className="text-xs font-bold text-text-primary font-title mt-1">Cadastrar Serviço</span>
             </button>
             <button 
               onClick={() => navigate('/app/integracoes')}
-              className="p-4 border border-pixel-neutral-200 rounded-premium bg-white text-left flex flex-col gap-2 hover:border-brand-teal/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
+              className="p-4 border border-border rounded-premium bg-white text-left flex flex-col gap-2 hover:border-primary/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
             >
-              <div className="p-2 bg-pixel-neutral-50 text-pixel-navy-900 rounded-soft w-fit">
+              <div className="p-2 bg-surface text-text-primary rounded-soft w-fit">
                 <PlusCircle className="h-5 w-5" />
               </div>
-              <span className="text-xs font-bold text-pixel-neutral-900 font-title mt-1">Conectar Integração</span>
+              <span className="text-xs font-bold text-text-primary font-title mt-1">Conectar Integração</span>
             </button>
             <button 
               onClick={() => navigate('/app/documentos')}
-              className="p-4 border border-pixel-neutral-200 rounded-premium bg-white text-left flex flex-col gap-2 hover:border-brand-teal/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
+              className="p-4 border border-border rounded-premium bg-white text-left flex flex-col gap-2 hover:border-primary/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
             >
-              <div className="p-2 bg-pixel-neutral-100 text-pixel-neutral-500 rounded-soft w-fit">
+              <div className="p-2 bg-surface text-text-secondary rounded-soft w-fit">
                 <FileSpreadsheet className="h-5 w-5" />
               </div>
-              <span className="text-xs font-bold text-pixel-neutral-900 font-title mt-1">Enviar Documento</span>
+              <span className="text-xs font-bold text-text-primary font-title mt-1">Enviar Documento</span>
             </button>
             <button 
               onClick={() => navigate('/app/contabilidade')}
-              className="p-4 border border-pixel-neutral-200 rounded-premium bg-white text-left flex flex-col gap-2 hover:border-brand-teal/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
+              className="p-4 border border-border rounded-premium bg-white text-left flex flex-col gap-2 hover:border-primary/20 hover:shadow-premium transition-all duration-150 active:scale-[0.98]"
             >
-              <div className="p-2 bg-pixel-neutral-50 text-pixel-navy-900 rounded-soft w-fit">
+              <div className="p-2 bg-surface text-text-primary rounded-soft w-fit">
                 <MessageSquareCode className="h-5 w-5" />
               </div>
-              <span className="text-xs font-bold text-pixel-neutral-900 font-title mt-1">Falar com Contador</span>
+              <span className="text-xs font-bold text-text-primary font-title mt-1">Falar com Contador</span>
             </button>
           </div>
         </div>
 
         {/* Alertas & Obrigações */}
-        <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-          <h3 className="text-sm font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-            <CalendarDays className="h-4.5 w-4.5 text-pixel-navy-900" />
+        <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+          <h3 className="text-sm font-bold text-text-primary font-title uppercase tracking-wider text-[10px] flex items-center gap-1.5">
+            <CalendarDays className="h-4.5 w-4.5 text-text-primary" />
             <span>Obrigações Fiscais</span>
           </h3>
           <div className="flex flex-col gap-3 flex-1 overflow-y-auto max-h-48 pr-1">
             {pendings.slice(0, 3).map((item) => (
-              <div key={item.id} className="p-3 bg-neutral-bgSecondary/60 rounded-soft border border-pixel-neutral-200 flex flex-col gap-1 text-[11px] text-pixel-neutral-500 hover:border-brand-teal/20 hover:bg-white transition-all cursor-pointer" onClick={() => navigate('/app/pendencias')}>
+              <div key={item.id} className="p-3 bg-neutral-bgSecondary/60 rounded-soft border border-border flex flex-col gap-1 text-[11px] text-text-secondary hover:border-primary/20 hover:bg-white transition-all cursor-pointer" onClick={() => navigate('/app/pendencias')}>
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-pixel-neutral-900 font-title truncate max-w-[130px]">{item.title}</span>
+                  <span className="font-bold text-text-primary font-title truncate max-w-[130px]">{item.title}</span>
                   <span className={`font-bold px-1.5 py-0.5 rounded text-[8px] tracking-wider uppercase
-                    ${item.priority === 'high' ? 'bg-red-50 text-red-600' : 'bg-pixel-neutral-200 text-pixel-navy-900'}`}>
+                    ${item.priority === 'high' ? 'bg-red-50 text-red-600' : 'bg-border text-text-primary'}`}>
                     {item.priority === 'high' ? 'Crítico' : 'Médio'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-[10px] font-semibold mt-1">
                   <span>Prazo: {new Date(item.dueDate).toLocaleDateString('pt-BR')}</span>
-                  <span className="text-pixel-navy-900 font-bold hover:underline">Resolver →</span>
+                  <span className="text-text-primary font-bold hover:underline">Resolver →</span>
                 </div>
               </div>
             ))}
@@ -293,7 +293,7 @@ export const Dashboard: React.FC = () => {
         <div>
           <ChartCard title="Situação das Notas" description="Notas fiscais por status no período">
             {situacaoChartData.length === 0 ? (
-              <div className="text-xs text-pixel-neutral-500 text-center py-10">Nenhuma nota emitida no período.</div>
+              <div className="text-xs text-text-secondary text-center py-10">Nenhuma nota emitida no período.</div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -326,21 +326,21 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Recent Invoices Table */}
-      <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+      <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
         <div className="flex justify-between items-center gap-4">
-          <h3 className="text-base font-bold text-pixel-navy-900 font-title">
+          <h3 className="text-base font-bold text-text-primary font-title">
             Notas Fiscais Recentes
           </h3>
-          <Link to="/app/notas" className="text-xs font-bold text-pixel-navy-900 hover:underline flex items-center gap-1">
+          <Link to="/app/notas" className="text-xs font-bold text-text-primary hover:underline flex items-center gap-1">
             <span>Ver todas</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
-        <div className="w-full overflow-x-auto rounded-soft border border-pixel-neutral-200">
+        <div className="w-full overflow-x-auto rounded-soft border border-border">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900 font-bold">
+              <tr className="bg-surface border-b border-border text-text-primary font-bold">
                 <th className="p-3.5">Número</th>
                 <th className="p-3.5">Cliente</th>
                 <th className="p-3.5">Tipo</th>
@@ -356,19 +356,19 @@ export const Dashboard: React.FC = () => {
                 <tr 
                   key={inv.id} 
                   onClick={() => navigate(`/app/notas/${inv.id}`)}
-                  className="hover:bg-pixel-navy-900-soft/30 transition-colors duration-150 cursor-pointer"
+                  className="hover:bg-black-soft/30 transition-colors duration-150 cursor-pointer"
                 >
-                  <td className="p-3.5 font-mono text-pixel-navy-900 font-semibold">{inv.number}</td>
-                  <td className="p-3.5 font-medium text-pixel-neutral-900">{inv.clientName}</td>
-                  <td className="p-3.5 text-pixel-neutral-500">{inv.type}</td>
-                  <td className="p-3.5 text-pixel-neutral-500">
+                  <td className="p-3.5 font-mono text-text-primary font-semibold">{inv.number}</td>
+                  <td className="p-3.5 font-medium text-text-primary">{inv.clientName}</td>
+                  <td className="p-3.5 text-text-secondary">{inv.type}</td>
+                  <td className="p-3.5 text-text-secondary">
                     {new Date(inv.issueDate).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                   </td>
-                  <td className="p-3.5 text-right font-bold text-pixel-navy-900">
+                  <td className="p-3.5 text-right font-bold text-text-primary">
                     {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(inv.value)}
                   </td>
                   <td className="p-3.5">
-                    <span className="bg-pixel-neutral-100 text-pixel-neutral-900 font-semibold px-2 py-0.5 rounded text-[10px]">
+                    <span className="bg-surface text-text-primary font-semibold px-2 py-0.5 rounded text-[10px]">
                       {inv.origin}
                     </span>
                   </td>

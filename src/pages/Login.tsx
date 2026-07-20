@@ -41,7 +41,7 @@ export const Login: React.FC = () => {
   const logoSrc = "/logo-horizontal.jpeg";
 
   return (
-    <div className="min-h-screen w-full flex flex-col md:flex-row bg-pixel-neutral-50 font-sans">
+    <div className="min-h-screen w-full flex flex-col md:flex-row bg-surface font-sans">
       
       {/* Left side: Login Form */}
       <div className="flex-1 flex flex-col justify-center px-6 py-12 sm:px-16 lg:px-24 bg-white z-10">
@@ -57,10 +57,10 @@ export const Login: React.FC = () => {
 
           {/* Title & subtitle */}
           <div className="flex flex-col gap-1.5">
-            <h2 className="text-2xl font-black text-pixel-navy-900 font-title">
+            <h2 className="text-2xl font-black text-text-primary font-title">
               Entre na sua conta
             </h2>
-            <p className="text-xs text-pixel-neutral-500 leading-relaxed">
+            <p className="text-xs text-text-secondary leading-relaxed">
               Bem-vindo de volta! Insira suas credenciais abaixo para acessar o painel.
             </p>
           </div>
@@ -91,7 +91,7 @@ export const Login: React.FC = () => {
                   {...register('rememberMe')}
                   label="Lembrar de mim"
                 />
-                <Link to="/recuperar-senha" className="text-pixel-navy-900 hover:underline font-bold">
+                <Link to="/recuperar-senha" className="text-text-primary hover:underline font-bold">
                   Esqueci minha senha
                 </Link>
               </div>
@@ -110,9 +110,9 @@ export const Login: React.FC = () => {
           {/* Split / Social logins separator */}
           <div className="relative flex items-center justify-center py-2">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-pixel-neutral-200"></div>
+              <div className="w-full border-t border-border"></div>
             </div>
-            <span className="relative px-3 bg-white text-[10px] uppercase font-bold text-pixel-neutral-500 tracking-wider">
+            <span className="relative px-3 bg-white text-[10px] uppercase font-bold text-text-secondary tracking-wider">
               Ou acesse com
             </span>
           </div>
@@ -125,7 +125,7 @@ export const Login: React.FC = () => {
                 toast.info('Login social simulado via Google');
                 navigate('/app/dashboard');
               }}
-              className="flex items-center justify-center gap-2 py-2 px-3 border border-pixel-neutral-200 rounded-soft hover:bg-pixel-neutral-100 text-xs font-semibold text-pixel-neutral-900 transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 py-2 px-3 border border-border rounded-soft hover:bg-surface text-xs font-semibold text-text-primary transition-all active:scale-[0.98]"
             >
               <svg className="h-4.5 w-4.5" viewBox="0 0 24 24">
                 <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.2-5.136 4.2a5.55 5.55 0 0 1-5.55-5.55 5.55 5.55 0 0 1 5.55-5.55c2.316 0 4.269 1.157 5.394 3.013l3.355-3.355C20.62 4.9 16.73 3 12.24 3c-5.522 0-10 4.478-10 10s4.478 10 10 10c5.84 0 9.873-4.105 9.873-10.04a8.9 8.9 0 0 0-.173-1.675H12.24Z"/>
@@ -138,7 +138,7 @@ export const Login: React.FC = () => {
                 toast.info('Login social simulado via Apple');
                 navigate('/app/dashboard');
               }}
-              className="flex items-center justify-center gap-2 py-2 px-3 border border-pixel-neutral-200 rounded-soft hover:bg-pixel-neutral-100 text-xs font-semibold text-pixel-neutral-900 transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 py-2 px-3 border border-border rounded-soft hover:bg-surface text-xs font-semibold text-text-primary transition-all active:scale-[0.98]"
             >
               <svg className="h-4.5 w-4.5 fill-current" viewBox="0 0 24 24">
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.69-1.12 1.84-.98 2.94.1.08.2.1.28.1 1.05 0 1.92-.58 2.53-1.43z"/>
@@ -148,9 +148,9 @@ export const Login: React.FC = () => {
           </div>
 
           {/* Creation Link */}
-          <p className="text-center text-xs text-pixel-neutral-500 font-medium">
+          <p className="text-center text-xs text-text-secondary font-medium">
             Ainda não possui uma conta?{' '}
-            <Link to="/cadastro" className="text-pixel-navy-900 hover:underline font-bold">
+            <Link to="/cadastro" className="text-text-primary hover:underline font-bold">
               Criar conta
             </Link>
           </p>
@@ -162,8 +162,8 @@ export const Login: React.FC = () => {
       <div className="hidden md:flex flex-1 bg-grad-inst justify-center items-center p-12 relative overflow-hidden">
         
         {/* Subtle circles background decoration */}
-        <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-brand-teal/5 filter blur-3xl transform translate-x-12 -translate-y-12"></div>
-        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-brand-copper/5 filter blur-3xl transform -translate-x-24 translate-y-24"></div>
+        <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-primary/5 filter blur-3xl transform translate-x-12 -translate-y-12"></div>
+        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-primary/5 filter blur-3xl transform -translate-x-24 translate-y-24"></div>
 
         {/* Content Box */}
         <div className="max-w-md w-full flex flex-col gap-8 text-center text-white relative z-10">
@@ -172,15 +172,15 @@ export const Login: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-premium p-6 shadow-premium-hover flex flex-col gap-4 text-left font-sans select-none animate-pulse">
             <div className="flex justify-between items-center pb-3 border-b border-white/10 text-white">
               <div className="flex items-center gap-2">
-                <FileText className="h-4.5 w-4.5 text-pixel-navy-900" />
+                <FileText className="h-4.5 w-4.5 text-text-primary" />
                 <span className="font-bold font-title text-xs tracking-wide">NOTA FISCAL NFS-e</span>
               </div>
-              <span className="text-[10px] bg-brand-teal/20 text-pixel-navy-900 font-bold px-2 py-0.5 rounded border border-brand-teal/30">
+              <span className="text-[10px] bg-primary/20 text-text-primary font-bold px-2 py-0.5 rounded border border-primary/30">
                 AUTORIZADA
               </span>
             </div>
             
-            <div className="flex flex-col gap-1.5 text-xs text-brand-lightBlue/80">
+            <div className="flex flex-col gap-1.5 text-xs text-white/80">
               <div className="flex justify-between">
                 <span>Tomador:</span>
                 <span className="font-semibold text-white">Mariana Souza</span>
@@ -195,7 +195,7 @@ export const Login: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 p-2.5 rounded-soft text-[10px] text-pixel-navy-900 flex items-center gap-2">
+            <div className="bg-white/5 border border-white/10 p-2.5 rounded-soft text-[10px] text-text-primary flex items-center gap-2">
               <ShieldCheck className="h-4 w-4" />
               <span>Assinada digitalmente via Certificado A1</span>
             </div>
@@ -205,7 +205,7 @@ export const Login: React.FC = () => {
             <h3 className="text-xl font-bold font-title text-white">
               Automatize suas notas e economize tempo
             </h3>
-            <p className="text-xs text-brand-lightBlue/80 leading-relaxed">
+            <p className="text-xs text-white/80 leading-relaxed">
               Evite digitação manual e erros fiscais. A PixelContas conecta suas vendas e realiza a emissão instantaneamente.
             </p>
           </div>

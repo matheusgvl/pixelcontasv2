@@ -78,14 +78,14 @@ export const Topbar: React.FC<TopbarProps> = ({
   };
 
   return (
-    <header className={`fixed top-0 right-0 left-0 bg-white border-b border-pixel-neutral-200 h-16 flex items-center justify-between px-4 z-30 transition-all duration-300
+    <header className={`fixed top-0 right-0 left-0 bg-white border-b border-border h-16 flex items-center justify-between px-4 z-30 transition-all duration-300
       ${collapsed ? 'md:pl-24' : 'md:pl-68'}`}>
       
       {/* Left controls: Mobile menu trigger & search */}
       <div className="flex items-center gap-3">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-1.5 rounded-full text-pixel-navy-900 hover:bg-pixel-neutral-100 transition-colors"
+          className="md:hidden p-1.5 rounded-full text-text-primary hover:bg-surface transition-colors"
         >
           <Menu className="h-5.5 w-5.5" />
         </button>
@@ -94,15 +94,15 @@ export const Topbar: React.FC<TopbarProps> = ({
         <div className="relative" ref={companySelectRef}>
           <button
             onClick={() => setShowCompanySelect(!showCompanySelect)}
-            className="flex items-center gap-2 px-3 py-1.5 border border-pixel-neutral-200 rounded-soft hover:bg-pixel-neutral-100 transition-colors text-xs font-semibold text-pixel-navy-900 font-title"
+            className="flex items-center gap-2 px-3 py-1.5 border border-border rounded-soft hover:bg-surface transition-colors text-xs font-semibold text-text-primary font-title"
           >
             <span className="truncate max-w-[130px] sm:max-w-none">{selectedCompany}</span>
-            <ChevronDown className="h-3.5 w-3.5 text-pixel-neutral-500" />
+            <ChevronDown className="h-3.5 w-3.5 text-text-secondary" />
           </button>
           
           {showCompanySelect && (
-            <div className="absolute left-0 mt-2 w-56 bg-white border border-pixel-neutral-200 rounded-premium shadow-premium z-50 py-1.5 animate-fade-in text-xs">
-              <span className="px-3 py-1.5 text-[10px] uppercase font-bold text-pixel-neutral-500 tracking-wider block">
+            <div className="absolute left-0 mt-2 w-56 bg-white border border-border rounded-premium shadow-premium z-50 py-1.5 animate-fade-in text-xs">
+              <span className="px-3 py-1.5 text-[10px] uppercase font-bold text-text-secondary tracking-wider block">
                 Selecionar Empresa
               </span>
               {['Pixel Comércio Digital LTDA', 'Pixel Academy ME', 'Ricardo Almeida Consultor'].map((comp) => (
@@ -112,16 +112,16 @@ export const Topbar: React.FC<TopbarProps> = ({
                     setSelectedCompany(comp);
                     setShowCompanySelect(false);
                   }}
-                  className={`w-full text-left px-3 py-2 hover:bg-pixel-neutral-100 transition-colors font-medium
-                    ${selectedCompany === comp ? 'text-pixel-navy-900 font-bold bg-pixel-navy-900-soft/20' : 'text-pixel-neutral-900'}`}
+                  className={`w-full text-left px-3 py-2 hover:bg-surface transition-colors font-medium
+                    ${selectedCompany === comp ? 'text-text-primary font-bold bg-black-soft/20' : 'text-text-primary'}`}
                 >
                   {comp}
                 </button>
               ))}
-              <div className="border-t border-pixel-neutral-200 my-1"></div>
+              <div className="border-t border-border my-1"></div>
               <button
                 onClick={() => setShowCompanySelect(false)}
-                className="w-full text-left px-3 py-2 text-pixel-navy-900 hover:underline font-bold"
+                className="w-full text-left px-3 py-2 text-text-primary hover:underline font-bold"
               >
                 + Adicionar nova empresa
               </button>
@@ -137,7 +137,7 @@ export const Topbar: React.FC<TopbarProps> = ({
         <Link
           to="/app/contabilidade"
           title="Atendimento contábil"
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs text-pixel-neutral-500 hover:text-pixel-navy-900 hover:bg-pixel-navy-900-soft/30 rounded-soft transition-all"
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs text-text-secondary hover:text-text-primary hover:bg-black-soft/30 rounded-soft transition-all"
         >
           <HelpCircle className="h-4.5 w-4.5" />
           <span className="font-semibold">Suporte</span>
@@ -147,7 +147,7 @@ export const Topbar: React.FC<TopbarProps> = ({
         <div className="relative" ref={notificationsRef}>
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="p-2 rounded-full text-pixel-navy-900 hover:bg-pixel-neutral-100 transition-colors relative"
+            className="p-2 rounded-full text-text-primary hover:bg-surface transition-colors relative"
           >
             <Bell className="h-5 w-5" />
             {notifications.length > 0 && (
@@ -166,7 +166,7 @@ export const Topbar: React.FC<TopbarProps> = ({
         </div>
 
         {/* Vertical divider */}
-        <div className="h-6 w-px bg-pixel-neutral-200"></div>
+        <div className="h-6 w-px bg-border"></div>
 
         {/* User avatar dropdown */}
         <div className="relative" ref={userMenuRef}>
@@ -177,37 +177,37 @@ export const Topbar: React.FC<TopbarProps> = ({
             <img 
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" 
               alt="Ricardo Almeida" 
-              className="h-8.5 w-8.5 rounded-full object-cover border border-pixel-neutral-200"
+              className="h-8.5 w-8.5 rounded-full object-cover border border-border"
             />
-            <ChevronDown className="h-3.5 w-3.5 text-pixel-neutral-500 hidden sm:block" />
+            <ChevronDown className="h-3.5 w-3.5 text-text-secondary hidden sm:block" />
           </button>
 
           {showUserMenu && (
-            <div className="absolute right-0 mt-2 w-52 bg-white border border-pixel-neutral-200 rounded-premium shadow-premium-hover z-50 py-1.5 animate-fade-in text-xs">
-              <div className="px-3 py-2 border-b border-pixel-neutral-200">
-                <p className="font-bold text-pixel-neutral-900 font-title">Ricardo Almeida</p>
-                <p className="text-[10px] text-pixel-neutral-500 truncate">ricardo@pixelcontas.com.br</p>
+            <div className="absolute right-0 mt-2 w-52 bg-white border border-border rounded-premium shadow-premium-hover z-50 py-1.5 animate-fade-in text-xs">
+              <div className="px-3 py-2 border-b border-border">
+                <p className="font-bold text-text-primary font-title">Ricardo Almeida</p>
+                <p className="text-[10px] text-text-secondary truncate">ricardo@pixelcontas.com.br</p>
               </div>
               
               <Link
                 to="/app/configuracoes"
                 onClick={() => setShowUserMenu(false)}
-                className="w-full text-left px-3 py-2 flex items-center gap-2 text-pixel-neutral-900 hover:bg-pixel-neutral-100 transition-colors"
+                className="w-full text-left px-3 py-2 flex items-center gap-2 text-text-primary hover:bg-surface transition-colors"
               >
-                <User className="h-4 w-4 text-pixel-neutral-500" />
+                <User className="h-4 w-4 text-text-secondary" />
                 <span>Meu Perfil</span>
               </Link>
               
               <Link
                 to="/app/configuracoes"
                 onClick={() => setShowUserMenu(false)}
-                className="w-full text-left px-3 py-2 flex items-center gap-2 text-pixel-neutral-900 hover:bg-pixel-neutral-100 transition-colors"
+                className="w-full text-left px-3 py-2 flex items-center gap-2 text-text-primary hover:bg-surface transition-colors"
               >
-                <Settings className="h-4 w-4 text-pixel-neutral-500" />
+                <Settings className="h-4 w-4 text-text-secondary" />
                 <span>Configurações</span>
               </Link>
 
-              <div className="border-t border-pixel-neutral-200 my-1.5"></div>
+              <div className="border-t border-border my-1.5"></div>
               
               <Link
                 to="/login"

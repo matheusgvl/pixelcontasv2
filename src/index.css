@@ -3,7 +3,7 @@
 
 @layer base {
   body {
-    @apply bg-pixel-neutral-50 text-pixel-navy-950 font-sans antialiased selection:bg-pixel-gold-300 selection:text-pixel-navy-950;
+    @apply bg-background text-text-primary font-sans antialiased selection:bg-primary selection:text-white;
   }
 
   h1, h2, h3, h4, h5, h6 {

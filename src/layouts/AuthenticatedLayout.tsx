@@ -8,7 +8,7 @@ export const AuthenticatedLayout: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-pixel-neutral-50 flex w-full text-pixel-neutral-900 font-sans">
+    <div className="min-h-screen bg-surface flex w-full text-text-primary font-sans">
       
       {/* Navigation Sidebar */}
       <Sidebar

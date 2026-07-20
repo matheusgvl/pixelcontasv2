@@ -28,8 +28,8 @@ export const RecuperarSenha: React.FC = () => {
   const logoSrc = "/logo-horizontal.jpeg";
 
   return (
-    <div className="min-h-screen w-full flex bg-pixel-neutral-50 font-sans items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white border border-pixel-neutral-200 rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-6 animate-fade-in">
+    <div className="min-h-screen w-full flex bg-surface font-sans items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white border border-border rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-6 animate-fade-in">
         
         {/* Header */}
         <div className="flex flex-col items-center gap-4 text-center">
@@ -45,8 +45,8 @@ export const RecuperarSenha: React.FC = () => {
               <CheckCircle2 className="h-10 w-10" />
             </div>
             <div className="flex flex-col gap-1.5">
-              <h3 className="text-lg font-bold text-pixel-navy-900 font-title">E-mail de recuperação enviado</h3>
-              <p className="text-xs text-pixel-neutral-500 leading-relaxed max-w-xs mx-auto">
+              <h3 className="text-lg font-bold text-text-primary font-title">E-mail de recuperação enviado</h3>
+              <p className="text-xs text-text-secondary leading-relaxed max-w-xs mx-auto">
                 Se este e-mail estiver cadastrado na plataforma, você receberá um link com instruções para redefinir sua senha.
               </p>
             </div>
@@ -60,10 +60,10 @@ export const RecuperarSenha: React.FC = () => {
         ) : (
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1 text-center mb-1">
-              <h2 className="text-xl font-bold text-pixel-navy-900 font-title">
+              <h2 className="text-xl font-bold text-text-primary font-title">
                 Recupere sua senha
               </h2>
-              <p className="text-xs text-pixel-neutral-500 leading-relaxed max-w-xs mx-auto">
+              <p className="text-xs text-text-secondary leading-relaxed max-w-xs mx-auto">
                 Insira o seu e-mail de cadastro abaixo e enviaremos as instruções para a redefinição de acesso.
               </p>
             </div>
@@ -87,7 +87,7 @@ export const RecuperarSenha: React.FC = () => {
               </Button>
             </form>
 
-            <Link to="/login" className="flex items-center justify-center gap-2 text-xs text-pixel-neutral-500 hover:text-pixel-navy-900 transition-colors font-bold mt-2">
+            <Link to="/login" className="flex items-center justify-center gap-2 text-xs text-text-secondary hover:text-text-primary transition-colors font-bold mt-2">
               <ArrowLeft className="h-4 w-4" />
               <span>Voltar para o Login</span>
             </Link>

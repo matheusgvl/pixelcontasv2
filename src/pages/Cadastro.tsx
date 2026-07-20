@@ -36,8 +36,8 @@ export const Cadastro: React.FC = () => {
   const logoSrc = "/logo-horizontal.jpeg";
 
   return (
-    <div className="min-h-screen w-full flex bg-pixel-neutral-50 font-sans items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white border border-pixel-neutral-200 rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-6 animate-fade-in">
+    <div className="min-h-screen w-full flex bg-surface font-sans items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white border border-border rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-6 animate-fade-in">
         
         {/* Header */}
         <div className="flex flex-col items-center gap-4 text-center">
@@ -46,10 +46,10 @@ export const Cadastro: React.FC = () => {
 
           </Link>
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-bold text-pixel-navy-900 font-title">
+            <h2 className="text-xl font-bold text-text-primary font-title">
               Crie sua conta na PixelContas
             </h2>
-            <p className="text-xs text-pixel-neutral-500">
+            <p className="text-xs text-text-secondary">
               Comece a emitir e automatizar suas notas fiscais de forma inteligente.
             </p>
           </div>
@@ -86,9 +86,9 @@ export const Cadastro: React.FC = () => {
             label={
               <span>
                 Li e aceito os{' '}
-                <a href="#" className="text-pixel-navy-900 font-bold hover:underline">Termos de Uso</a>
+                <a href="#" className="text-text-primary font-bold hover:underline">Termos de Uso</a>
                 {' '}e{' '}
-                <a href="#" className="text-pixel-navy-900 font-bold hover:underline">Políticas de Privacidade</a>.
+                <a href="#" className="text-text-primary font-bold hover:underline">Políticas de Privacidade</a>.
               </span>
             }
             className="mt-1"
@@ -105,9 +105,9 @@ export const Cadastro: React.FC = () => {
         </form>
 
         {/* Back links */}
-        <p className="text-center text-xs text-pixel-neutral-500 font-medium border-t border-pixel-neutral-200 pt-4">
+        <p className="text-center text-xs text-text-secondary font-medium border-t border-border pt-4">
           Já possui conta cadastrada?{' '}
-          <Link to="/login" className="text-pixel-navy-900 hover:underline font-bold">
+          <Link to="/login" className="text-text-primary hover:underline font-bold">
             Realizar login
           </Link>
         </p>

@@ -9,7 +9,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   className = '',
   variant = 'rect'
 }) => {
-  const baseClass = 'animate-pulse bg-pixel-neutral-200';
+  const baseClass = 'animate-pulse bg-border';
   
   const variants = {
     text: 'h-4 w-full rounded',

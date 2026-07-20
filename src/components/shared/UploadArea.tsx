@@ -90,7 +90,7 @@ export const UploadArea: React.FC<UploadAreaProps> = ({
     <div className="w-full flex flex-col gap-2">
       <div
         className={`w-full p-8 border-2 border-dashed rounded-premium flex flex-col items-center justify-center gap-4 transition-all duration-200 text-center
-          ${dragActive ? 'border-pixel-navy-900 bg-pixel-navy-900-soft/10 scale-[0.99]' : 'border-pixel-neutral-200 bg-white'}
+          ${dragActive ? 'border-black bg-black-soft/10 scale-[0.99]' : 'border-border bg-white'}
           ${selectedFile ? 'border-green-600 bg-green-600-bg/10' : ''}
           ${error ? 'border-red-600 bg-red-600-bg/10' : ''}`}
         onDragEnter={handleDrag}
@@ -112,10 +112,10 @@ export const UploadArea: React.FC<UploadAreaProps> = ({
               <CheckCircle className="h-8 w-8" />
             </div>
             <div className="flex flex-col gap-0.5">
-              <p className="text-sm font-semibold text-pixel-neutral-900 max-w-xs truncate">
+              <p className="text-sm font-semibold text-text-primary max-w-xs truncate">
                 {selectedFile.name}
               </p>
-              <p className="text-xs text-pixel-neutral-500">
+              <p className="text-xs text-text-secondary">
                 {(selectedFile.size / 1024).toFixed(1)} KB | Upload concluído
               </p>
             </div>
@@ -131,14 +131,14 @@ export const UploadArea: React.FC<UploadAreaProps> = ({
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3">
-            <div className={`p-3 rounded-full ${dragActive ? 'bg-brand-teal/10 text-pixel-navy-900' : 'bg-pixel-neutral-100 text-pixel-neutral-500'}`}>
+            <div className={`p-3 rounded-full ${dragActive ? 'bg-primary/10 text-text-primary' : 'bg-surface text-text-secondary'}`}>
               <Upload className="h-6 w-6" />
             </div>
             <div className="flex flex-col gap-1">
-              <p className="text-sm font-semibold text-pixel-neutral-900">
+              <p className="text-sm font-semibold text-text-primary">
                 {label}
               </p>
-              <p className="text-xs text-pixel-neutral-500">
+              <p className="text-xs text-text-secondary">
                 Formatos aceitos: {accept} (Máx. {maxSizeMB}MB)
               </p>
             </div>

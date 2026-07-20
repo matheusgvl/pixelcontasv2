@@ -263,36 +263,36 @@ export const EmitirNota: React.FC = () => {
     <div className="flex flex-col gap-6 w-full">
       
       {/* Title */}
-      <div className="border-b border-pixel-neutral-200 pb-5 mb-2">
-        <h1 className="text-xl md:text-2xl font-black text-pixel-navy-900 font-title">
+      <div className="border-b border-border pb-5 mb-2">
+        <h1 className="text-xl md:text-2xl font-black text-text-primary font-title">
           Emitir Nova Nota Fiscal
         </h1>
-        <p className="text-xs text-pixel-neutral-500">
+        <p className="text-xs text-text-secondary">
           Crie NFS-e, NF-e ou NFC-e de forma manual no ambiente de homologação.
         </p>
       </div>
 
       {/* Success Output Screen */}
       {successInvoice ? (
-        <div className="bg-white border border-pixel-neutral-200 rounded-premium p-6 md:p-10 shadow-premium flex flex-col gap-8 items-center max-w-3xl mx-auto w-full animate-fade-in">
+        <div className="bg-white border border-border rounded-premium p-6 md:p-10 shadow-premium flex flex-col gap-8 items-center max-w-3xl mx-auto w-full animate-fade-in">
           <div className="h-14 w-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center shrink-0">
             <CheckCircle className="h-9 w-9 stroke-[2.5]" />
           </div>
           
           <div className="flex flex-col gap-2 text-center">
-            <h2 className="text-lg font-black text-pixel-navy-900 font-title">
+            <h2 className="text-lg font-black text-text-primary font-title">
               Nota fiscal emitida com sucesso!
             </h2>
-            <p className="text-xs text-pixel-neutral-500 leading-relaxed max-w-sm">
+            <p className="text-xs text-text-secondary leading-relaxed max-w-sm">
               O documento foi homologado pelo órgão regulador e os arquivos digitais já foram gerados.
             </p>
           </div>
 
-          <div className="border border-pixel-neutral-200 rounded-premium p-5 w-full bg-neutral-bgSecondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs">
+          <div className="border border-border rounded-premium p-5 w-full bg-neutral-bgSecondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs">
             <div className="flex flex-col gap-1">
-              <span className="font-semibold text-pixel-navy-900">Número da Nota: Nº {successInvoice.number}</span>
-              <span className="text-[10px] text-pixel-neutral-500 uppercase font-bold">Tipo: {successInvoice.type}</span>
-              <span className="text-pixel-neutral-500 font-mono">Chave: {successInvoice.accessKey}</span>
+              <span className="font-semibold text-text-primary">Número da Nota: Nº {successInvoice.number}</span>
+              <span className="text-[10px] text-text-secondary uppercase font-bold">Tipo: {successInvoice.type}</span>
+              <span className="text-text-secondary font-mono">Chave: {successInvoice.accessKey}</span>
             </div>
             <span className="font-bold text-green-600 bg-green-50 border border-functional-success/30 px-3 py-1 rounded-full uppercase tracking-wider text-[10px]">
               Autorizada
@@ -327,7 +327,7 @@ export const EmitirNota: React.FC = () => {
             </Button>
           </div>
 
-          <div className="border-t border-pixel-neutral-200 pt-6 w-full flex justify-between items-center text-xs">
+          <div className="border-t border-border pt-6 w-full flex justify-between items-center text-xs">
             <Link to="/app/notas">
               <Button variant="ghost" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
                 Visualizar Notas
@@ -350,16 +350,16 @@ export const EmitirNota: React.FC = () => {
         </div>
       ) : rejectionError ? (
         /* Rejection/Error screen */
-        <div className="bg-white border border-pixel-neutral-200 rounded-premium p-6 md:p-10 shadow-premium flex flex-col gap-6 items-center max-w-xl mx-auto w-full animate-fade-in">
+        <div className="bg-white border border-border rounded-premium p-6 md:p-10 shadow-premium flex flex-col gap-6 items-center max-w-xl mx-auto w-full animate-fade-in">
           <div className="h-14 w-14 bg-red-50 text-red-600 rounded-full flex items-center justify-center shrink-0">
             <AlertTriangle className="h-9 w-9" />
           </div>
 
           <div className="flex flex-col gap-2 text-center">
-            <h2 className="text-lg font-black text-pixel-navy-900 font-title">
+            <h2 className="text-lg font-black text-text-primary font-title">
               Não foi possível emitir a nota fiscal
             </h2>
-            <p className="text-xs text-pixel-neutral-500 leading-relaxed">
+            <p className="text-xs text-text-secondary leading-relaxed">
               Ocorreu uma rejeição ao transmitir o lote para o servidor municipal/estadual.
             </p>
           </div>
@@ -372,7 +372,7 @@ export const EmitirNota: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex gap-3 justify-end w-full border-t border-pixel-neutral-200 pt-5 mt-2">
+          <div className="flex gap-3 justify-end w-full border-t border-border pt-5 mt-2">
             <Button
               variant="outline"
               size="sm"
@@ -404,7 +404,7 @@ export const EmitirNota: React.FC = () => {
             {/* Step 1: Tipo de Nota */}
             {currentStep === 1 && (
               <div className="flex flex-col gap-6 animate-fade-in text-center items-center py-4">
-                <h3 className="text-base font-bold text-pixel-navy-900 font-title">Qual tipo de nota fiscal você deseja emitir?</h3>
+                <h3 className="text-base font-bold text-text-primary font-title">Qual tipo de nota fiscal você deseja emitir?</h3>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl w-full mt-4">
                   {[
@@ -419,18 +419,18 @@ export const EmitirNota: React.FC = () => {
                         onClick={() => setValue('type', item.id as any)}
                         className={`p-6 border rounded-premium text-left flex flex-col gap-3 transition-all duration-200 hover:shadow-premium
                           ${active 
-                            ? 'border-pixel-navy-900 bg-pixel-navy-900-soft/10 ring-2 ring-brand-teal/20' 
-                            : 'border-pixel-neutral-200 bg-white'}`}
+                            ? 'border-black bg-black-soft/10 ring-2 ring-primary/20' 
+                            : 'border-border bg-white'}`}
                       >
                         <span className={`h-5 w-5 rounded-full border flex items-center justify-center shrink-0
-                          ${active ? 'border-pixel-navy-900 bg-pixel-navy-900 text-white' : 'border-pixel-neutral-200 bg-white'}`}>
+                          ${active ? 'border-black bg-black text-white' : 'border-border bg-white'}`}>
                           {active && <div className="h-2 w-2 rounded-full bg-white" />}
                         </span>
                         
                         <div className="flex flex-col gap-1 mt-2">
-                          <span className="text-lg font-black text-pixel-navy-900 font-title">{item.title}</span>
-                          <span className="text-xs font-semibold text-pixel-neutral-900 font-title">{item.desc}</span>
-                          <span className="text-[10px] text-pixel-neutral-500 leading-normal mt-1">{item.details}</span>
+                          <span className="text-lg font-black text-text-primary font-title">{item.title}</span>
+                          <span className="text-xs font-semibold text-text-primary font-title">{item.desc}</span>
+                          <span className="text-[10px] text-text-secondary leading-normal mt-1">{item.details}</span>
                         </div>
                       </button>
                     );
@@ -443,7 +443,7 @@ export const EmitirNota: React.FC = () => {
             {currentStep === 2 && (
               <div className="flex flex-col gap-6 animate-fade-in">
                 <div className="flex justify-between items-center gap-4">
-                  <h3 className="text-base font-bold text-pixel-navy-900 font-title">Identificar Cliente (Tomador de Serviço)</h3>
+                  <h3 className="text-base font-bold text-text-primary font-title">Identificar Cliente (Tomador de Serviço)</h3>
                   <Button
                     variant="outline"
                     size="sm"
@@ -469,16 +469,16 @@ export const EmitirNota: React.FC = () => {
 
                 {/* Show brief summary of selected client */}
                 {selectedClient && (
-                  <div className="border border-pixel-neutral-200 rounded-premium p-5 bg-white shadow-sm flex flex-col md:flex-row justify-between gap-6 text-xs animate-fade-in">
+                  <div className="border border-border rounded-premium p-5 bg-white shadow-sm flex flex-col md:flex-row justify-between gap-6 text-xs animate-fade-in">
                     <div className="flex flex-col gap-1">
-                      <span className="font-bold text-pixel-navy-900 text-sm font-title">{selectedClient.name}</span>
-                      <span className="text-pixel-neutral-500 font-mono">Documento: {selectedClient.document}</span>
-                      <span className="text-pixel-neutral-500">E-mail: {selectedClient.email}</span>
-                      <span className="text-pixel-neutral-500">Telefone: {selectedClient.phone}</span>
+                      <span className="font-bold text-text-primary text-sm font-title">{selectedClient.name}</span>
+                      <span className="text-text-secondary font-mono">Documento: {selectedClient.document}</span>
+                      <span className="text-text-secondary">E-mail: {selectedClient.email}</span>
+                      <span className="text-text-secondary">Telefone: {selectedClient.phone}</span>
                     </div>
                     <div className="flex flex-col gap-1 md:items-end">
-                      <span className="text-[10px] font-bold text-pixel-navy-900 uppercase tracking-wider">Endereço</span>
-                      <span className="text-pixel-neutral-500 text-right">
+                      <span className="text-[10px] font-bold text-text-primary uppercase tracking-wider">Endereço</span>
+                      <span className="text-text-secondary text-right">
                         {selectedClient.address.street}, {selectedClient.address.number}<br />
                         {selectedClient.address.neighborhood} - {selectedClient.address.city} / {selectedClient.address.state}
                       </span>
@@ -492,7 +492,7 @@ export const EmitirNota: React.FC = () => {
             {currentStep === 3 && (
               <div className="flex flex-col gap-6 animate-fade-in">
                 <div className="flex justify-between items-center gap-4">
-                  <h3 className="text-base font-bold text-pixel-navy-900 font-title">
+                  <h3 className="text-base font-bold text-text-primary font-title">
                     {selectedType === 'NFS-e' ? 'Serviços Faturados' : 'Produtos Vendidos'}
                   </h3>
                   <Button
@@ -507,20 +507,20 @@ export const EmitirNota: React.FC = () => {
 
                 <div className="flex flex-col gap-4">
                   {fields.map((field, idx) => (
-                    <div key={field.id} className="border border-pixel-neutral-200 rounded-premium p-5 bg-white shadow-sm flex flex-col gap-4 relative">
+                    <div key={field.id} className="border border-border rounded-premium p-5 bg-white shadow-sm flex flex-col gap-4 relative">
                       
                       {/* Delete button for additional items */}
                       {fields.length > 1 && (
                         <button
                           type="button"
                           onClick={() => remove(idx)}
-                          className="absolute top-4 right-4 p-1 rounded-full text-pixel-neutral-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                          className="absolute top-4 right-4 p-1 rounded-full text-text-secondary hover:text-red-600 hover:bg-red-50 transition-colors"
                         >
                           <Trash className="h-4 w-4" />
                         </button>
                       )}
 
-                      <span className="text-[10px] font-bold text-pixel-navy-900 uppercase tracking-wider font-title">
+                      <span className="text-[10px] font-bold text-text-primary uppercase tracking-wider font-title">
                         Item #{idx + 1}
                       </span>
 
@@ -591,10 +591,10 @@ export const EmitirNota: React.FC = () => {
                 </div>
 
                 {/* Show subtotal values */}
-                <div className="flex justify-end p-4 border-t border-pixel-neutral-200 mt-2">
+                <div className="flex justify-end p-4 border-t border-border mt-2">
                   <div className="text-right">
-                    <span className="text-[10px] font-bold text-pixel-neutral-500 uppercase tracking-wider block">Valor Subtotal da Nota</span>
-                    <span className="text-xl font-black text-pixel-navy-900 font-title">
+                    <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider block">Valor Subtotal da Nota</span>
+                    <span className="text-xl font-black text-text-primary font-title">
                       {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(invoiceTotalValue)}
                     </span>
                   </div>
@@ -618,7 +618,7 @@ export const EmitirNota: React.FC = () => {
                   </div>
                 )}
 
-                <h3 className="text-base font-bold text-pixel-navy-900 font-title">Configurações Fiscais e Alíquotas</h3>
+                <h3 className="text-base font-bold text-text-primary font-title">Configurações Fiscais e Alíquotas</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Select
@@ -641,11 +641,11 @@ export const EmitirNota: React.FC = () => {
                   />
                 </div>
 
-                <div className="h-px bg-pixel-neutral-200 my-2"></div>
+                <div className="h-px bg-border my-2"></div>
 
                 {selectedType === 'NFS-e' ? (
                   <div className="flex flex-col gap-4">
-                    <span className="text-[10px] font-bold text-pixel-navy-900 uppercase tracking-wider font-title">
+                    <span className="text-[10px] font-bold text-text-primary uppercase tracking-wider font-title">
                       Alíquotas de Serviços (%)
                     </span>
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -660,7 +660,7 @@ export const EmitirNota: React.FC = () => {
                   </div>
                 ) : (
                   <div className="flex flex-col gap-4">
-                    <span className="text-[10px] font-bold text-pixel-navy-900 uppercase tracking-wider font-title">
+                    <span className="text-[10px] font-bold text-text-primary uppercase tracking-wider font-title">
                       Impostos sobre Mercadorias (%)
                     </span>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -671,7 +671,7 @@ export const EmitirNota: React.FC = () => {
                   </div>
                 )}
 
-                <div className="h-px bg-pixel-neutral-200 my-2"></div>
+                <div className="h-px bg-border my-2"></div>
 
                 <Textarea
                   {...register('observations')}
@@ -684,8 +684,8 @@ export const EmitirNota: React.FC = () => {
             {/* Step 5: Revisão */}
             {currentStep === 5 && (
               <div className="flex flex-col gap-6 animate-fade-in">
-                <h3 className="text-base font-bold text-pixel-navy-900 font-title">Revisão do Documento Fiscal</h3>
-                <p className="text-xs text-pixel-neutral-500 leading-relaxed">
+                <h3 className="text-base font-bold text-text-primary font-title">Revisão do Documento Fiscal</h3>
+                <p className="text-xs text-text-secondary leading-relaxed">
                   Confira as informações estruturadas da sua nota fiscal abaixo antes de enviá-la para autorização.
                 </p>
                 
@@ -697,7 +697,7 @@ export const EmitirNota: React.FC = () => {
           </div>
 
           {/* Navigation controls */}
-          <div className="flex justify-between items-center border-t border-pixel-neutral-200 pt-6 mt-6">
+          <div className="flex justify-between items-center border-t border-border pt-6 mt-6">
             {currentStep > 1 ? (
               <Button
                 variant="outline"
@@ -736,8 +736,8 @@ export const EmitirNota: React.FC = () => {
       {/* Sub-modal Form to create client on the fly */}
       {showNewClientModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-lg bg-white border border-pixel-neutral-200 rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
-            <h3 className="text-base font-bold text-pixel-navy-900 font-title">Cadastrar Novo Cliente</h3>
+          <div className="relative w-full max-w-lg bg-white border border-border rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
+            <h3 className="text-base font-bold text-text-primary font-title">Cadastrar Novo Cliente</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 value={newClientName}
@@ -772,7 +772,7 @@ export const EmitirNota: React.FC = () => {
               />
             </div>
             
-            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-pixel-neutral-200 text-xs">
+            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-border text-xs">
               <Button
                 variant="outline"
                 size="sm"

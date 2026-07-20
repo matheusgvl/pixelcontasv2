@@ -143,8 +143,8 @@ export const Configuracoes: React.FC = () => {
           <form onSubmit={handleSaveCompany} className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start animate-fade-in">
             
             {/* Form Fields Card */}
-            <div className="lg:col-span-2 border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
-              <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+            <div className="lg:col-span-2 border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
+              <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Cadastro da Empresa
               </h3>
 
@@ -210,7 +210,7 @@ export const Configuracoes: React.FC = () => {
                 />
               </div>
 
-              <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 mt-4">
+              <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border mt-4">
                 Endereço da Sede
               </h3>
 
@@ -254,7 +254,7 @@ export const Configuracoes: React.FC = () => {
                 />
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-pixel-neutral-200">
+              <div className="flex justify-end pt-4 border-t border-border">
                 <Button type="submit" variant="primary" size="sm" icon={<Save className="h-4 w-4" />}>
                   Salvar Alterações
                 </Button>
@@ -262,8 +262,8 @@ export const Configuracoes: React.FC = () => {
             </div>
 
             {/* Sidebar help Card */}
-            <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs text-pixel-neutral-500 leading-relaxed">
-              <h3 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+            <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4 text-xs text-text-secondary leading-relaxed">
+              <h3 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Dados cadastrais e Fisco
               </h3>
               <p>
@@ -277,8 +277,8 @@ export const Configuracoes: React.FC = () => {
         {/* 2. DADOS FISCAIS */}
         {activeTab === 'fiscais' && (
           <form onSubmit={handleSaveFiscal} className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start animate-fade-in">
-            <div className="lg:col-span-2 border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
-              <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+            <div className="lg:col-span-2 border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
+              <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Parâmetros Fiscais da Emissão
               </h3>
 
@@ -330,7 +330,7 @@ export const Configuracoes: React.FC = () => {
                 />
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-pixel-neutral-200">
+              <div className="flex justify-end pt-4 border-t border-border">
                 <Button type="submit" variant="primary" size="sm" icon={<Save className="h-4 w-4" />}>
                   Atualizar Dados Fiscais
                 </Button>
@@ -351,9 +351,9 @@ export const Configuracoes: React.FC = () => {
         {/* 3. CERTIFICADO DIGITAL */}
         {activeTab === 'certificado' && (
           <form onSubmit={handleSaveCert} className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start animate-fade-in">
-            <div className="lg:col-span-2 border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
-              <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-                <KeyRound className="h-4 w-4 text-pixel-navy-900" />
+            <div className="lg:col-span-2 border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
+              <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+                <KeyRound className="h-4 w-4 text-text-primary" />
                 <span>Upload de Certificado A1</span>
               </h3>
 
@@ -383,7 +383,7 @@ export const Configuracoes: React.FC = () => {
                 </div>
               )}
 
-              <div className="flex justify-end pt-4 border-t border-pixel-neutral-200">
+              <div className="flex justify-end pt-4 border-t border-border">
                 <Button type="submit" variant="primary" size="sm" icon={<Save className="h-4 w-4" />}>
                   Atualizar Certificado
                 </Button>
@@ -396,7 +396,7 @@ export const Configuracoes: React.FC = () => {
         {activeTab === 'usuarios' && (
           <div className="flex flex-col gap-6 animate-fade-in">
             <div className="flex justify-between items-center gap-4">
-              <h3 className="text-sm font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px]">
+              <h3 className="text-sm font-bold text-text-primary font-title uppercase tracking-wider text-[10px]">
                 Membros da Equipe com Acesso
               </h3>
               <Button
@@ -410,10 +410,10 @@ export const Configuracoes: React.FC = () => {
             </div>
 
             {/* Members table */}
-            <div className="w-full overflow-x-auto border border-pixel-neutral-200 rounded-premium bg-white shadow-premium">
+            <div className="w-full overflow-x-auto border border-border rounded-premium bg-white shadow-premium">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900 font-bold">
+                  <tr className="bg-surface border-b border-border text-text-primary font-bold">
                     <th className="p-4">Nome completo</th>
                     <th className="p-4">E-mail</th>
                     <th className="p-4">Função / Papel</th>
@@ -421,16 +421,16 @@ export const Configuracoes: React.FC = () => {
                     <th className="p-4 text-right">Ações</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-pixel-neutral-200 text-pixel-neutral-900">
+                <tbody className="divide-y divide-pixel-neutral-200 text-text-primary">
                   {team.map((member) => (
                     <tr key={member.id} className="hover:bg-neutral-bgSecondary/20">
-                      <td className="p-4 font-bold text-pixel-navy-900 flex items-center gap-2">
-                        <div className="h-7 w-7 rounded-full bg-brand-lightBlue/30 text-pixel-navy-900 flex items-center justify-center font-bold text-[11px] uppercase">
+                      <td className="p-4 font-bold text-text-primary flex items-center gap-2">
+                        <div className="h-7 w-7 rounded-full bg-brand-lightBlue/30 text-text-primary flex items-center justify-center font-bold text-[11px] uppercase">
                           {member.name.charAt(0)}
                         </div>
                         <span>{member.name}</span>
                       </td>
-                      <td className="p-4 text-pixel-neutral-500">{member.email}</td>
+                      <td className="p-4 text-text-secondary">{member.email}</td>
                       <td className="p-4">
                         <span className="font-semibold">{member.role}</span>
                       </td>
@@ -441,7 +441,7 @@ export const Configuracoes: React.FC = () => {
                         {member.id !== '1' && member.status === 'active' && (
                           <button
                             onClick={() => handleArchiveMember(member.id, member.name)}
-                            className="text-pixel-neutral-500 hover:text-red-600 hover:bg-red-600-bg/60 p-1.5 rounded transition-all"
+                            className="text-text-secondary hover:text-red-600 hover:bg-red-600-bg/60 p-1.5 rounded transition-all"
                             title="Desativar acesso"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -461,8 +461,8 @@ export const Configuracoes: React.FC = () => {
       {/* Invite Member modal */}
       {showInviteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <form onSubmit={handleInviteMember} className="relative w-full max-w-md bg-white border border-pixel-neutral-200 rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
-            <h3 className="text-base font-bold text-pixel-navy-900 font-title">Convidar Membro da Equipe</h3>
+          <form onSubmit={handleInviteMember} className="relative w-full max-w-md bg-white border border-border rounded-premium shadow-premium p-6 md:p-8 flex flex-col gap-5">
+            <h3 className="text-base font-bold text-text-primary font-title">Convidar Membro da Equipe</h3>
             
             <div className="grid grid-cols-1 gap-4">
               <Input
@@ -492,7 +492,7 @@ export const Configuracoes: React.FC = () => {
               />
             </div>
 
-            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-pixel-neutral-200 text-xs">
+            <div className="flex gap-3 justify-end mt-2 pt-2 border-t border-border text-xs">
               <Button
                 variant="outline"
                 size="sm"

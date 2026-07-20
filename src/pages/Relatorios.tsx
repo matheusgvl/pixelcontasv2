@@ -108,9 +108,9 @@ export const Relatorios: React.FC = () => {
       />
 
       {/* Filter Options */}
-      <div className="border border-pixel-neutral-200 rounded-premium p-5 bg-white shadow-premium flex flex-col gap-4">
-        <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] flex items-center gap-1.5 pb-2 border-b border-pixel-neutral-200">
-          <Filter className="h-4 w-4 text-pixel-navy-900" />
+      <div className="border border-border rounded-premium p-5 bg-white shadow-premium flex flex-col gap-4">
+        <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] flex items-center gap-1.5 pb-2 border-b border-border">
+          <Filter className="h-4 w-4 text-text-primary" />
           <span>Filtros do Relatório</span>
         </h3>
         
@@ -179,7 +179,7 @@ export const Relatorios: React.FC = () => {
         <MetricCard
           title="Total Impostos"
           value={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totals.impostos)}
-          icon={<Landmark className="h-5 w-5 text-pixel-gold-500" />}
+          icon={<Landmark className="h-5 w-5 text-primary" />}
         />
         <MetricCard
           title="Rejeições"
@@ -189,21 +189,21 @@ export const Relatorios: React.FC = () => {
         <MetricCard
           title="Cancelamentos"
           value={totals.canceladas}
-          icon={<Ban className="h-5 w-5 text-pixel-neutral-500" />}
+          icon={<Ban className="h-5 w-5 text-text-secondary" />}
         />
       </div>
 
       {/* Structured report spreadsheet simulation details */}
-      <div className="border border-pixel-neutral-200 rounded-premium bg-white p-6 shadow-premium flex flex-col gap-4">
-        <h3 className="text-sm font-bold text-pixel-navy-900 font-title flex items-center gap-2">
-          <BarChart4 className="h-4.5 w-4.5 text-pixel-navy-900" />
+      <div className="border border-border rounded-premium bg-white p-6 shadow-premium flex flex-col gap-4">
+        <h3 className="text-sm font-bold text-text-primary font-title flex items-center gap-2">
+          <BarChart4 className="h-4.5 w-4.5 text-text-primary" />
           <span>Demostrativo de Notas Emitidas no Período</span>
         </h3>
         
-        <div className="w-full overflow-x-auto rounded-soft border border-pixel-neutral-200">
+        <div className="w-full overflow-x-auto rounded-soft border border-border">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900 font-bold">
+              <tr className="bg-surface border-b border-border text-text-primary font-bold">
                 <th className="p-3.5">Mês de Emissão</th>
                 <th className="p-3.5">Faturamento Bruto</th>
                 <th className="p-3.5">Impostos Acumulados</th>
@@ -211,13 +211,13 @@ export const Relatorios: React.FC = () => {
                 <th className="p-3.5 text-center">Taxa de Sucesso</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-pixel-neutral-200 text-pixel-neutral-900">
+            <tbody className="divide-y divide-pixel-neutral-200 text-text-primary">
               <tr className="hover:bg-neutral-bgSecondary/20 font-medium">
                 <td className="p-3.5">Julho / 2026</td>
                 <td className="p-3.5 font-bold">
                   {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totals.faturamento)}
                 </td>
-                <td className="p-3.5 font-bold text-pixel-gold-600">
+                <td className="p-3.5 font-bold text-primary">
                   {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totals.impostos)}
                 </td>
                 <td className="p-3.5">{totals.emitidas} notas</td>
@@ -227,14 +227,14 @@ export const Relatorios: React.FC = () => {
                     : '100%'}
                 </td>
               </tr>
-              <tr className="hover:bg-neutral-bgSecondary/20 text-brand-grayBlue/70">
+              <tr className="hover:bg-neutral-bgSecondary/20 text-white/70">
                 <td className="p-3.5">Junho / 2026</td>
                 <td className="p-3.5">R$ 45.000,00</td>
                 <td className="p-3.5">R$ 2.700,00</td>
                 <td className="p-3.5">38 notas</td>
                 <td className="p-3.5 text-center font-semibold">97%</td>
               </tr>
-              <tr className="hover:bg-neutral-bgSecondary/20 text-brand-grayBlue/70">
+              <tr className="hover:bg-neutral-bgSecondary/20 text-white/70">
                 <td className="p-3.5">Maio / 2026</td>
                 <td className="p-3.5">R$ 38.000,00</td>
                 <td className="p-3.5">R$ 2.280,00</td>

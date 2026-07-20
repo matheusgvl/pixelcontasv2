@@ -21,10 +21,10 @@ export const Stepper: React.FC<StepperProps> = ({
     <div className={`w-full ${className}`}>
       {/* Mobile progress indicator */}
       <div className="md:hidden flex items-center justify-between px-2 mb-4">
-        <span className="text-xs font-semibold text-pixel-neutral-500 uppercase tracking-wider">
+        <span className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
           Passo {currentStep} de {steps.length}
         </span>
-        <span className="text-sm font-bold text-pixel-navy-900 font-title">
+        <span className="text-sm font-bold text-text-primary font-title">
           {steps[currentStep - 1].title}
         </span>
       </div>
@@ -43,10 +43,10 @@ export const Stepper: React.FC<StepperProps> = ({
               <div className="flex flex-col items-center relative z-10">
                 <div className={`h-9 w-9 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-2
                   ${isCompleted 
-                    ? 'bg-pixel-navy-900 border-pixel-navy-900 text-white' 
+                    ? 'bg-black border-black text-white' 
                     : isActive 
-                      ? 'bg-white border-pixel-navy-900 text-pixel-navy-900 ring-4 ring-brand-teal/10' 
-                      : 'bg-white border-pixel-neutral-200 text-pixel-neutral-500'
+                      ? 'bg-white border-black text-text-primary ring-4 ring-primary/10' 
+                      : 'bg-white border-border text-text-secondary'
                   }`}
                 >
                   {isCompleted ? (
@@ -56,11 +56,11 @@ export const Stepper: React.FC<StepperProps> = ({
                   )}
                 </div>
                 <div className="absolute top-11 text-center whitespace-nowrap">
-                  <p className={`text-xs font-bold font-title ${isActive ? 'text-pixel-navy-900' : isCompleted ? 'text-pixel-navy-900' : 'text-pixel-neutral-500'}`}>
+                  <p className={`text-xs font-bold font-title ${isActive ? 'text-text-primary' : isCompleted ? 'text-text-primary' : 'text-text-secondary'}`}>
                     {step.title}
                   </p>
                   {step.description && (
-                    <p className="text-[10px] text-brand-grayBlue/60 mt-0.5 max-w-[100px] overflow-hidden text-ellipsis">
+                    <p className="text-[10px] text-white/60 mt-0.5 max-w-[100px] overflow-hidden text-ellipsis">
                       {step.description}
                     </p>
                   )}
@@ -69,9 +69,9 @@ export const Stepper: React.FC<StepperProps> = ({
 
               {/* Connecting line */}
               {!isLast && (
-                <div className="flex-1 h-0.5 bg-pixel-neutral-200 mx-4 relative top-[-8px]">
+                <div className="flex-1 h-0.5 bg-border mx-4 relative top-[-8px]">
                   <div 
-                    className="h-full bg-pixel-navy-900 transition-all duration-300"
+                    className="h-full bg-black transition-all duration-300"
                     style={{ width: isCompleted ? '100%' : '0%' }}
                   />
                 </div>

@@ -67,8 +67,8 @@ export const DetalhesNota: React.FC = () => {
     return (
       <div className="flex flex-col gap-4 items-center justify-center p-12 text-center">
         <ShieldCheck className="h-12 w-12 text-brand-navy/30" />
-        <h2 className="text-lg font-bold text-pixel-navy-900 font-title">Nota Fiscal não encontrada</h2>
-        <p className="text-xs text-pixel-neutral-500 max-w-xs leading-relaxed">
+        <h2 className="text-lg font-bold text-text-primary font-title">Nota Fiscal não encontrada</h2>
+        <p className="text-xs text-text-secondary max-w-xs leading-relaxed">
           O identificador da nota é inválido ou ela não existe no banco de dados.
         </p>
         <Link to="/app/notas" className="mt-2">
@@ -132,8 +132,8 @@ export const DetalhesNota: React.FC = () => {
         <div className="flex flex-col gap-6">
           
           {/* Action Card */}
-          <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+          <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+            <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
               Ações Disponíveis
             </h3>
             <div className="flex flex-col gap-2.5">
@@ -168,55 +168,55 @@ export const DetalhesNota: React.FC = () => {
           </div>
 
           {/* Integration & Metadata Details */}
-          <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-3 text-xs">
-            <h3 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-              <Settings className="h-4 w-4 text-pixel-navy-900" />
+          <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-3 text-xs">
+            <h3 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+              <Settings className="h-4 w-4 text-text-primary" />
               <span>Metadados da Integração</span>
             </h3>
-            <div className="flex flex-col gap-2.5 text-pixel-neutral-500">
+            <div className="flex flex-col gap-2.5 text-text-secondary">
               <div className="flex justify-between">
                 <span>Canal de Origem:</span>
-                <span className="font-semibold text-pixel-neutral-900">{invoice.origin}</span>
+                <span className="font-semibold text-text-primary">{invoice.origin}</span>
               </div>
               <div className="flex justify-between">
                 <span>Regime Fiscal:</span>
-                <span className="font-semibold text-pixel-neutral-900">{invoice.taxRegime || 'Simples Nacional'}</span>
+                <span className="font-semibold text-text-primary">{invoice.taxRegime || 'Simples Nacional'}</span>
               </div>
               <div className="flex justify-between">
                 <span>Ambiente Fiscal:</span>
-                <span className="font-semibold text-pixel-neutral-900">Homologação</span>
+                <span className="font-semibold text-text-primary">Homologação</span>
               </div>
               <div className="flex justify-between">
                 <span>Protocolo de Uso:</span>
-                <span className="font-semibold text-pixel-neutral-900 font-mono">135260020412345</span>
+                <span className="font-semibold text-text-primary font-mono">135260020412345</span>
               </div>
             </div>
           </div>
 
           {/* History of events timeline */}
-          <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-              <History className="h-4 w-4 text-pixel-navy-900" />
+          <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+            <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+              <History className="h-4 w-4 text-text-primary" />
               <span>Linha do Tempo de Eventos</span>
             </h3>
             <div className="flex flex-col gap-4">
               {invoice.events.length === 0 ? (
-                <span className="text-xs text-pixel-neutral-500">Nenhum evento registrado ainda.</span>
+                <span className="text-xs text-text-secondary">Nenhum evento registrado ainda.</span>
               ) : (
                 invoice.events.map((evt, idx) => (
                   <div key={idx} className="flex gap-3 text-xs leading-normal">
                     <div className="flex flex-col items-center shrink-0">
-                      <div className="h-5 w-5 bg-pixel-neutral-50 text-pixel-navy-900 border border-brand-teal/20 rounded-full flex items-center justify-center font-bold text-[10px]">
+                      <div className="h-5 w-5 bg-surface text-text-primary border border-primary/20 rounded-full flex items-center justify-center font-bold text-[10px]">
                         ✓
                       </div>
                       {idx !== invoice.events.length - 1 && (
-                        <div className="w-0.5 bg-pixel-neutral-200 flex-1 my-1"></div>
+                        <div className="w-0.5 bg-border flex-1 my-1"></div>
                       )}
                     </div>
                     <div className="flex flex-col gap-0.5">
-                      <span className="font-bold text-pixel-navy-900 font-title">{evt.title}</span>
-                      <p className="text-pixel-neutral-500">{evt.description}</p>
-                      <span className="text-[9px] text-brand-grayBlue/60 mt-0.5">
+                      <span className="font-bold text-text-primary font-title">{evt.title}</span>
+                      <p className="text-text-secondary">{evt.description}</p>
+                      <span className="text-[9px] text-white/60 mt-0.5">
                         {new Date(evt.date).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
@@ -227,22 +227,22 @@ export const DetalhesNota: React.FC = () => {
           </div>
 
           {/* Technical logs panel */}
-          <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-              <Activity className="h-4 w-4 text-pixel-navy-900" />
+          <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+            <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+              <Activity className="h-4 w-4 text-text-primary" />
               <span>Logs de Processamento</span>
             </h3>
-            <div className="flex flex-col gap-3 font-mono text-[9px] bg-neutral-bgSecondary/60 p-3 rounded-soft border border-pixel-neutral-200 max-h-56 overflow-y-auto leading-relaxed">
+            <div className="flex flex-col gap-3 font-mono text-[9px] bg-neutral-bgSecondary/60 p-3 rounded-soft border border-border max-h-56 overflow-y-auto leading-relaxed">
               {invoice.logs.map((log, idx) => {
                 const colors = {
-                  info: 'text-pixel-neutral-500',
+                  info: 'text-text-secondary',
                   success: 'text-green-600 font-semibold',
                   warning: 'text-yellow-500 font-semibold',
                   error: 'text-red-600 font-semibold'
                 };
                 return (
                   <div key={idx} className="flex flex-col gap-0.5 border-b border-neutral-divider/30 pb-2">
-                    <span className="text-[8px] text-brand-grayBlue/60">
+                    <span className="text-[8px] text-white/60">
                       [{new Date(log.timestamp).toLocaleTimeString('pt-BR')}]
                     </span>
                     <span className={colors[log.type]}>
@@ -270,13 +270,13 @@ export const DetalhesNota: React.FC = () => {
         variant="danger"
         loading={isCancelLoading}
       >
-        <div className="mt-2 w-full flex flex-col gap-1.5 text-xs text-pixel-navy-900">
+        <div className="mt-2 w-full flex flex-col gap-1.5 text-xs text-text-primary">
           <label className="font-semibold">Justificativa do Cancelamento</label>
           <textarea
             value={cancelReason}
             onChange={e => setCancelReason(e.target.value)}
             placeholder="Ex: Cancelamento motivado por devolução de mercadoria ou erro de digitação de valores..."
-            className="w-full border border-pixel-neutral-200 rounded p-2 text-xs h-16 outline-none focus:border-pixel-navy-900 resize-none"
+            className="w-full border border-border rounded p-2 text-xs h-16 outline-none focus:border-black resize-none"
           />
         </div>
       </ConfirmDialog>

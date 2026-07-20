@@ -159,8 +159,8 @@ export const Clientes: React.FC = () => {
       header: 'Nome / Razão Social',
       accessor: (row) => (
         <div className="flex flex-col gap-0.5">
-          <span className="font-semibold text-pixel-navy-900">{row.name}</span>
-          {row.tradingName && <span className="text-[10px] text-pixel-neutral-500">{row.tradingName}</span>}
+          <span className="font-semibold text-text-primary">{row.name}</span>
+          {row.tradingName && <span className="text-[10px] text-text-secondary">{row.tradingName}</span>}
         </div>
       ),
       sortable: true,
@@ -197,7 +197,7 @@ export const Clientes: React.FC = () => {
       accessor: (row) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(row.totalSpent),
       sortable: true,
       sortKey: 'totalSpent',
-      className: 'text-right font-bold text-pixel-navy-900'
+      className: 'text-right font-bold text-text-primary'
     },
     {
       header: 'Situação',
@@ -208,12 +208,12 @@ export const Clientes: React.FC = () => {
       accessor: (row) => (
         <div className="flex items-center gap-1 justify-end" onClick={e => e.stopPropagation()}>
           <Link to={`/app/clientes/${row.id}`} title="Visualizar ficha">
-            <Button variant="ghost" size="sm" className="!p-1 text-pixel-navy-900">Detalhes</Button>
+            <Button variant="ghost" size="sm" className="!p-1 text-text-primary">Detalhes</Button>
           </Link>
           <button
             onClick={() => handleDeleteClient(row.id, row.name)}
             title="Arquivar cliente"
-            className="p-1.5 text-pixel-neutral-500 hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
+            className="p-1.5 text-text-secondary hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
           >
             <Trash2 className="h-4.5 w-4.5" />
           </button>
@@ -283,10 +283,10 @@ export const Clientes: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
             {/* Form Column */}
-            <div className="lg:col-span-2 border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
+            <div className="lg:col-span-2 border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
               
-              <div className="flex flex-col gap-1 border-b border-pixel-neutral-200 pb-3">
-                <h3 className="text-sm font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px]">
+              <div className="flex flex-col gap-1 border-b border-border pb-3">
+                <h3 className="text-sm font-bold text-text-primary font-title uppercase tracking-wider text-[10px]">
                   Dados Gerais
                 </h3>
               </div>
@@ -347,8 +347,8 @@ export const Clientes: React.FC = () => {
                 />
               </div>
 
-              <div className="flex flex-col gap-1 border-b border-pixel-neutral-200 pb-3 mt-4">
-                <h3 className="text-sm font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px]">
+              <div className="flex flex-col gap-1 border-b border-border pb-3 mt-4">
+                <h3 className="text-sm font-bold text-text-primary font-title uppercase tracking-wider text-[10px]">
                   Endereço do Tomador
                 </h3>
               </div>
@@ -361,7 +361,7 @@ export const Clientes: React.FC = () => {
                   onBlur={handleCEPBlur}
                   placeholder="Digite 8 dígitos"
                   suffix={loadingCEP && (
-                    <svg className="animate-spin h-4 w-4 text-pixel-navy-900" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin h-4 w-4 text-text-primary" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
@@ -410,8 +410,8 @@ export const Clientes: React.FC = () => {
             </div>
 
             {/* Notes Column */}
-            <div className="border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4">
-              <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+            <div className="border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-4">
+              <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Observações Adicionais
               </h3>
               <Textarea
@@ -449,40 +449,40 @@ export const Clientes: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
             {/* Client Info Briefing Card */}
-            <div className="border border-pixel-neutral-200 rounded-premium bg-white p-6 shadow-premium flex flex-col gap-5 text-xs">
-              <div className="flex items-center justify-between pb-3 border-b border-pixel-neutral-200">
-                <span className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px]">
+            <div className="border border-border rounded-premium bg-white p-6 shadow-premium flex flex-col gap-5 text-xs">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
+                <span className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px]">
                   Ficha Cadastral
                 </span>
                 <StatusBadge status={clientDetails.status} />
               </div>
 
-              <div className="flex flex-col gap-3.5 text-pixel-neutral-500">
+              <div className="flex flex-col gap-3.5 text-text-secondary">
                 <div className="flex gap-2.5">
-                  <User className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
+                  <User className="h-4.5 w-4.5 text-text-primary shrink-0" />
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-bold text-pixel-neutral-900">Documento Fiscal</span>
+                    <span className="font-bold text-text-primary">Documento Fiscal</span>
                     <span className="font-mono">{clientDetails.document}</span>
                   </div>
                 </div>
                 <div className="flex gap-2.5">
-                  <Mail className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
+                  <Mail className="h-4.5 w-4.5 text-text-primary shrink-0" />
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-bold text-pixel-neutral-900">E-mail</span>
+                    <span className="font-bold text-text-primary">E-mail</span>
                     <span>{clientDetails.email}</span>
                   </div>
                 </div>
                 <div className="flex gap-2.5">
-                  <Phone className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
+                  <Phone className="h-4.5 w-4.5 text-text-primary shrink-0" />
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-bold text-pixel-neutral-900">Telefone</span>
+                    <span className="font-bold text-text-primary">Telefone</span>
                     <span>{clientDetails.phone}</span>
                   </div>
                 </div>
                 <div className="flex gap-2.5">
-                  <MapPin className="h-4.5 w-4.5 text-pixel-navy-900 shrink-0" />
+                  <MapPin className="h-4.5 w-4.5 text-text-primary shrink-0" />
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-bold text-pixel-neutral-900">Endereço Completo</span>
+                    <span className="font-bold text-text-primary">Endereço Completo</span>
                     <span>
                       {clientDetails.address.street}, {clientDetails.address.number} {clientDetails.address.complement ? `- ${clientDetails.address.complement}` : ''}<br />
                       {clientDetails.address.neighborhood} - {clientDetails.address.city} / {clientDetails.address.state} (CEP: {clientDetails.address.zipCode})
@@ -492,9 +492,9 @@ export const Clientes: React.FC = () => {
               </div>
 
               {clientDetails.notes && (
-                <div className="bg-pixel-neutral-100 p-3.5 rounded-soft border border-pixel-neutral-200 flex flex-col gap-1.5 mt-2">
-                  <span className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[9px]">Anotações internas</span>
-                  <p className="text-[11px] text-pixel-neutral-500 leading-relaxed">{clientDetails.notes}</p>
+                <div className="bg-surface p-3.5 rounded-soft border border-border flex flex-col gap-1.5 mt-2">
+                  <span className="font-bold text-text-primary font-title uppercase tracking-wider text-[9px]">Anotações internas</span>
+                  <p className="text-[11px] text-text-secondary leading-relaxed">{clientDetails.notes}</p>
                 </div>
               )}
             </div>
@@ -504,38 +504,38 @@ export const Clientes: React.FC = () => {
               
               {/* Metric Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-5 bg-white border border-pixel-neutral-200 rounded-premium shadow-premium flex flex-col gap-2">
-                  <div className="flex justify-between items-center text-pixel-neutral-500">
+                <div className="p-5 bg-white border border-border rounded-premium shadow-premium flex flex-col gap-2">
+                  <div className="flex justify-between items-center text-text-secondary">
                     <span className="text-[10px] font-bold uppercase tracking-wider font-title">Total Faturado</span>
-                    <TrendingUp className="h-4.5 w-4.5 text-pixel-navy-900" />
+                    <TrendingUp className="h-4.5 w-4.5 text-text-primary" />
                   </div>
-                  <span className="text-xl font-black text-pixel-navy-900 font-title">
+                  <span className="text-xl font-black text-text-primary font-title">
                     {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(clientDetails.totalSpent)}
                   </span>
                 </div>
 
-                <div className="p-5 bg-white border border-pixel-neutral-200 rounded-premium shadow-premium flex flex-col gap-2">
-                  <div className="flex justify-between items-center text-pixel-neutral-500">
+                <div className="p-5 bg-white border border-border rounded-premium shadow-premium flex flex-col gap-2">
+                  <div className="flex justify-between items-center text-text-secondary">
                     <span className="text-[10px] font-bold uppercase tracking-wider font-title">Notas Fiscais Emitidas</span>
-                    <FileText className="h-4.5 w-4.5 text-pixel-navy-900" />
+                    <FileText className="h-4.5 w-4.5 text-text-primary" />
                   </div>
-                  <span className="text-xl font-black text-pixel-navy-900 font-title">
+                  <span className="text-xl font-black text-text-primary font-title">
                     {clientDetails.totalInvoices} nota(s)
                   </span>
                 </div>
               </div>
 
               {/* Invoices list */}
-              <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-                <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4 text-pixel-navy-900" />
+              <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+                <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+                  <Calendar className="h-4 w-4 text-text-primary" />
                   <span>Histórico de Notas Fiscais do Cliente</span>
                 </h3>
 
-                <div className="w-full overflow-x-auto rounded-soft border border-pixel-neutral-200">
+                <div className="w-full overflow-x-auto rounded-soft border border-border">
                   <table className="w-full text-left border-collapse text-xs">
                     <thead>
-                      <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900 font-bold">
+                      <tr className="bg-surface border-b border-border text-text-primary font-bold">
                         <th className="p-3.5">Número</th>
                         <th className="p-3.5">Tipo</th>
                         <th className="p-3.5">Emissão</th>
@@ -547,7 +547,7 @@ export const Clientes: React.FC = () => {
                     <tbody className="divide-y divide-pixel-neutral-200">
                       {clientInvoices.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="p-6 text-center text-pixel-neutral-500 text-xs">
+                          <td colSpan={6} className="p-6 text-center text-text-secondary text-xs">
                             Nenhuma nota faturada para este cliente ainda.
                           </td>
                         </tr>
@@ -556,18 +556,18 @@ export const Clientes: React.FC = () => {
                           <tr 
                             key={inv.id} 
                             onClick={() => navigate(`/app/notas/${inv.id}`)}
-                            className="hover:bg-pixel-navy-900-soft/30 transition-colors duration-150 cursor-pointer animate-fade-in"
+                            className="hover:bg-black-soft/30 transition-colors duration-150 cursor-pointer animate-fade-in"
                           >
-                            <td className="p-3.5 font-mono text-pixel-navy-900 font-semibold">{inv.number}</td>
-                            <td className="p-3.5 text-pixel-neutral-500">{inv.type}</td>
-                            <td className="p-3.5 text-pixel-neutral-500">
+                            <td className="p-3.5 font-mono text-text-primary font-semibold">{inv.number}</td>
+                            <td className="p-3.5 text-text-secondary">{inv.type}</td>
+                            <td className="p-3.5 text-text-secondary">
                               {new Date(inv.issueDate).toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                             </td>
-                            <td className="p-3.5 text-right font-bold text-pixel-navy-900">
+                            <td className="p-3.5 text-right font-bold text-text-primary">
                               {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(inv.value)}
                             </td>
                             <td className="p-3.5">
-                              <span className="bg-pixel-neutral-100 text-pixel-neutral-900 font-semibold px-2 py-0.5 rounded text-[10px]">
+                              <span className="bg-surface text-text-primary font-semibold px-2 py-0.5 rounded text-[10px]">
                                 {inv.origin}
                               </span>
                             </td>

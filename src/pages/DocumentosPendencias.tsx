@@ -104,9 +104,9 @@ export const DocumentosPendencias: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start animate-fade-in">
           
           {/* Upload card form */}
-          <div className="border border-pixel-neutral-200 rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
-            <h3 className="text-sm font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200 flex items-center gap-1.5">
-              <Upload className="h-4 w-4 text-pixel-navy-900" />
+          <div className="border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
+            <h3 className="text-sm font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border flex items-center gap-1.5">
+              <Upload className="h-4 w-4 text-text-primary" />
               <span>Enviar Novo Documento</span>
             </h3>
 
@@ -141,15 +141,15 @@ export const DocumentosPendencias: React.FC = () => {
           </div>
 
           {/* List of uploaded files */}
-          <div className="lg:col-span-2 border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+          <div className="lg:col-span-2 border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+            <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
               Arquivos no Período
             </h3>
             
-            <div className="w-full overflow-x-auto rounded-soft border border-pixel-neutral-200">
+            <div className="w-full overflow-x-auto rounded-soft border border-border">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-pixel-neutral-100 border-b border-pixel-neutral-200 text-pixel-navy-900 font-bold">
+                  <tr className="bg-surface border-b border-border text-text-primary font-bold">
                     <th className="p-3.5">Nome do Arquivo</th>
                     <th className="p-3.5">Categoria</th>
                     <th className="p-3.5 text-center">Competência</th>
@@ -159,7 +159,7 @@ export const DocumentosPendencias: React.FC = () => {
                     <th className="p-3.5 text-right">Ações</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-pixel-neutral-200 text-pixel-neutral-900">
+                <tbody className="divide-y divide-pixel-neutral-200 text-text-primary">
                   {documents.map((doc) => {
                     const categoryLabels = {
                       invoice: 'Notas Fiscais',
@@ -173,16 +173,16 @@ export const DocumentosPendencias: React.FC = () => {
 
                     return (
                       <tr key={doc.id} className="hover:bg-neutral-bgSecondary/20">
-                        <td className="p-3.5 font-medium text-pixel-navy-900 flex items-center gap-2 max-w-[180px] truncate">
-                          <FileText className="h-4 w-4 text-pixel-navy-900 shrink-0" />
+                        <td className="p-3.5 font-medium text-text-primary flex items-center gap-2 max-w-[180px] truncate">
+                          <FileText className="h-4 w-4 text-text-primary shrink-0" />
                           <span title={doc.name}>{doc.name}</span>
                         </td>
-                        <td className="p-3.5 text-pixel-neutral-500">{categoryLabels[doc.category]}</td>
+                        <td className="p-3.5 text-text-secondary">{categoryLabels[doc.category]}</td>
                         <td className="p-3.5 text-center font-mono">{doc.competence}</td>
-                        <td className="p-3.5 text-pixel-neutral-500">
+                        <td className="p-3.5 text-text-secondary">
                           {new Date(doc.uploadDate).toLocaleDateString('pt-BR')}
                         </td>
-                        <td className="p-3.5 text-pixel-neutral-500">{doc.size}</td>
+                        <td className="p-3.5 text-text-secondary">{doc.size}</td>
                         <td className="p-3.5">
                           <StatusBadge status={doc.status} />
                         </td>
@@ -190,14 +190,14 @@ export const DocumentosPendencias: React.FC = () => {
                           <div className="flex gap-2 justify-end">
                             <button
                               onClick={() => toast.success('Download do documento iniciado.')}
-                              className="p-1 text-pixel-neutral-500 hover:text-pixel-navy-900 rounded hover:bg-neutral-bgSecondary/60 transition-colors"
+                              className="p-1 text-text-secondary hover:text-text-primary rounded hover:bg-neutral-bgSecondary/60 transition-colors"
                               title="Baixar arquivo"
                             >
                               <Download className="h-4 w-4" />
                             </button>
                             <button
                               onClick={() => handleDeleteDocument(doc.id, doc.name)}
-                              className="p-1 text-pixel-neutral-500 hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
+                              className="p-1 text-text-secondary hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
                               title="Deletar arquivo"
                             >
                               <Trash className="h-4 w-4" />
@@ -219,8 +219,8 @@ export const DocumentosPendencias: React.FC = () => {
       {activeTab === 'pendencias' && (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start animate-fade-in">
           {/* Main List */}
-          <div className="lg:col-span-3 border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+          <div className="lg:col-span-3 border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-4">
+            <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
               Lista de Obrigações Pendentes
             </h3>
 
@@ -238,34 +238,34 @@ export const DocumentosPendencias: React.FC = () => {
                       key={p.id} 
                       className={`p-5 border rounded-premium bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5 transition-all
                         ${p.status === 'resolved' 
-                          ? 'border-pixel-neutral-200 opacity-55' 
+                          ? 'border-border opacity-55' 
                           : isHigh 
                             ? 'border-functional-error/20 bg-red-600-bg/20' 
-                            : 'border-pixel-neutral-200 bg-white'}`}
+                            : 'border-border bg-white'}`}
                     >
                       <div className="flex gap-4">
                         <div className={`p-3 rounded-full shrink-0 h-11 w-11 flex items-center justify-center
                           ${p.status === 'resolved' 
-                            ? 'bg-pixel-neutral-200 text-pixel-neutral-500' 
+                            ? 'bg-border text-text-secondary' 
                             : isHigh 
                               ? 'bg-red-50 text-red-600' 
-                              : 'bg-brand-lightBlue/30 text-pixel-navy-900'}`}>
+                              : 'bg-brand-lightBlue/30 text-text-primary'}`}>
                           <AlertCircle className="h-5 w-5" />
                         </div>
 
                         <div className="flex flex-col gap-1 text-xs">
                           <div className="flex items-center gap-2.5 flex-wrap">
-                            <h4 className={`font-bold font-title text-sm ${p.status === 'resolved' ? 'line-through text-brand-grayBlue/70' : 'text-pixel-navy-900'}`}>
+                            <h4 className={`font-bold font-title text-sm ${p.status === 'resolved' ? 'line-through text-white/70' : 'text-text-primary'}`}>
                               {p.title}
                             </h4>
                             <StatusBadge status={p.status} />
                             <span className={`font-bold px-1.5 py-0.5 rounded text-[8px] tracking-wider uppercase
-                              ${isHigh ? 'bg-red-50 text-red-600' : 'bg-brand-copper/10 text-pixel-gold-600'}`}>
+                              ${isHigh ? 'bg-red-50 text-red-600' : 'bg-primary/10 text-primary'}`}>
                               {p.priority === 'high' ? 'Crítica' : p.priority === 'medium' ? 'Média' : 'Baixa'}
                             </span>
                           </div>
-                          <p className="text-pixel-neutral-500 leading-relaxed max-w-xl">{p.description}</p>
-                          <div className="flex items-center gap-1.5 text-[10px] text-brand-grayBlue/70 font-semibold mt-1">
+                          <p className="text-text-secondary leading-relaxed max-w-xl">{p.description}</p>
+                          <div className="flex items-center gap-1.5 text-[10px] text-white/70 font-semibold mt-1">
                             <Calendar className="h-3.5 w-3.5 shrink-0" />
                             <span>Vencimento: {new Date(p.dueDate).toLocaleDateString('pt-BR')}</span>
                           </div>
@@ -292,14 +292,14 @@ export const DocumentosPendencias: React.FC = () => {
 
           {/* Guidelines Sidebar */}
           <div className="flex flex-col gap-6">
-            <div className="border border-pixel-neutral-200 rounded-premium bg-white p-5 shadow-premium flex flex-col gap-3.5 text-xs text-pixel-neutral-500 leading-relaxed">
-              <h3 className="font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] pb-2 border-b border-pixel-neutral-200">
+            <div className="border border-border rounded-premium bg-white p-5 shadow-premium flex flex-col gap-3.5 text-xs text-text-secondary leading-relaxed">
+              <h3 className="font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Por que isso importa?
               </h3>
               <p>
                 Manter as pendências em dia evita multas municipais/estaduais por atraso na declaração fiscal do Simples Nacional ou na entrega do DAS.
               </p>
-              <div className="bg-pixel-neutral-50 p-3 rounded-soft border border-brand-teal/20 text-[11px] font-semibold text-pixel-navy-950 mt-1 flex gap-2">
+              <div className="bg-surface p-3 rounded-soft border border-primary/20 text-[11px] font-semibold text-text-primary mt-1 flex gap-2">
                 <CheckCircle className="h-4 w-4 shrink-0 mt-0.5" />
                 <span>Anexar os comprovantes de guias pagas na aba "Documentos Enviados" para que a contabilidade possa conciliar.</span>
               </div>

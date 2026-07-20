@@ -51,13 +51,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       {/* Main Sidebar Panel */}
-      <aside className={`fixed top-0 bottom-0 left-0 bg-pixel-navy-900 text-white z-40 transition-all duration-300 flex flex-col justify-between border-r border-brand-dark/40 shadow-premium
+      <aside className={`fixed top-0 bottom-0 left-0 bg-black text-white z-40 transition-all duration-300 flex flex-col justify-between border-r border-brand-dark/40 shadow-premium
         ${collapsed ? 'w-20' : 'w-64'} 
         ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         
         {/* Top Header Logo Area */}
-        <div className="p-5 border-b border-pixel-navy-950 flex items-center justify-between">
+        <div className="p-5 border-b border-black flex items-center justify-between">
           <Link 
             to="/app/dashboard" 
             className="flex items-center gap-3 select-none active:scale-[0.98] transition-transform"
@@ -70,7 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Collapse toggle button on desktop */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:flex p-1 rounded bg-pixel-navy-950 text-pixel-neutral-500 hover:text-white transition-colors"
+            className="hidden md:flex p-1 rounded bg-black text-text-secondary hover:text-white transition-colors"
           >
             {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           </button>
@@ -87,8 +87,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3.5 py-2.5 px-3.5 rounded-soft text-sm transition-all duration-150 relative group
                   ${isActive 
-                    ? 'bg-brand-teal/15 text-pixel-navy-900 font-semibold' 
-                    : 'text-brand-lightBlue/70 hover:bg-white/8 hover:text-white'
+                    ? 'bg-primary text-white font-semibold' 
+                    : 'text-white hover:bg-white/10'
                   }`}
               >
                 {item.icon}
@@ -96,47 +96,44 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 
                 {/* Collapsed Tooltip fallback */}
                 {collapsed && (
-                  <span className="absolute left-16 bg-pixel-navy-950 border border-pixel-navy-700 text-white text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap font-title">
+                  <span className="absolute left-16 bg-black border border-black text-white text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap font-title">
                     {item.label}
                   </span>
                 )}
                 
-                {/* Active Indicator Line */}
-                {isActive && (
-                  <div className="absolute left-0 top-2 bottom-2 w-1 rounded-r bg-pixel-navy-900" />
-                )}
+
               </NavLink>
             );
           })}
         </nav>
 
         {/* Sidebar Footer Area */}
-        <div className="p-4 border-t border-pixel-navy-950 flex flex-col gap-3 bg-brand-dark/20 shrink-0">
+        <div className="p-4 border-t border-black flex flex-col gap-3 bg-brand-dark/20 shrink-0">
           
           {/* Plan Info Card */}
           {!collapsed ? (
-            <div className="bg-grad-premium p-3 border border-brand-teal/20 rounded-soft flex flex-col gap-2 relative overflow-hidden group">
+            <div className="bg-white/10 p-3 border border-white/20 rounded-soft flex flex-col gap-2 relative overflow-hidden group">
               <div className="flex justify-between items-center z-10 relative">
-                <span className="text-[9px] uppercase font-bold text-pixel-navy-900 tracking-wider">
+                <span className="text-[9px] uppercase font-bold text-white tracking-wider">
                   Plano Ativo
                 </span>
-                <span className="text-[9px] bg-brand-copper/20 text-pixel-gold-500 font-bold px-1.5 py-0.5 rounded border border-brand-copper/30">
+                <span className="text-[9px] bg-primary text-white font-bold px-1.5 py-0.5 rounded">
                   PREMIUM
                 </span>
               </div>
               <div className="z-10 relative">
                 <p className="text-xs font-bold text-white font-title">Plano Digital Pro</p>
-                <div className="flex justify-between items-center text-[10px] text-brand-lightBlue/60 mt-1">
+                <div className="flex justify-between items-center text-[10px] text-white/60 mt-1">
                   <span>Limite de notas</span>
                   <span>145 / 500</span>
                 </div>
                 <div className="w-full bg-white/10 h-1 rounded-full mt-1.5 overflow-hidden">
-                  <div className="bg-pixel-navy-900 h-full rounded-full" style={{ width: '29%' }} />
+                  <div className="bg-black h-full rounded-full" style={{ width: '29%' }} />
                 </div>
               </div>
               <Link 
                 to="/app/plano" 
-                className="text-[10px] font-bold text-pixel-navy-900 hover:underline z-10 relative mt-0.5"
+                className="text-[10px] font-bold text-primary hover:underline z-10 relative mt-0.5"
                 onClick={() => setMobileOpen(false)}
               >
                 Gerenciar Assinatura →
@@ -145,11 +142,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ) : (
             <Link
               to="/app/plano"
-              className="mx-auto p-2 bg-brand-teal/10 rounded-soft text-pixel-navy-900 hover:bg-brand-teal/20 hover:text-white transition-colors relative group"
+              className="mx-auto p-2 bg-primary/10 rounded-soft text-text-primary hover:bg-primary/20 hover:text-white transition-colors relative group"
               onClick={() => setMobileOpen(false)}
             >
               <Award className="h-5 w-5 shrink-0" />
-              <span className="absolute left-16 bg-pixel-navy-950 border border-pixel-navy-700 text-white text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
+              <span className="absolute left-16 bg-black border border-black text-white text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
                 Plano Premium
               </span>
             </Link>
@@ -163,7 +160,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 alt="Ricardo Almeida" 
                 className="h-9 w-9 rounded-full border border-brand-blue/30 object-cover"
               />
-              <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-600 border-2 border-pixel-navy-900" />
+              <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-600 border-2 border-black" />
             </div>
             
             {!collapsed && (
@@ -171,7 +168,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <span className="text-xs font-bold truncate text-white">
                   Ricardo Almeida
                 </span>
-                <span className="text-[10px] text-brand-lightBlue/50 truncate">
+                <span className="text-[10px] text-white/50 truncate">
                   Administrador
                 </span>
               </div>
@@ -181,7 +178,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Link 
                 to="/login"
                 title="Sair do painel" 
-                className="p-1 rounded text-brand-lightBlue/50 hover:text-red-600 hover:bg-white/5 transition-colors shrink-0"
+                className="p-1 rounded text-white/50 hover:text-red-600 hover:bg-white/5 transition-colors shrink-0"
               >
                 <LogOut className="h-4.5 w-4.5" />
               </Link>

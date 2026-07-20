@@ -112,14 +112,14 @@ export const GestaoNotas: React.FC = () => {
       accessor: 'number',
       sortable: true,
       sortKey: 'number',
-      className: 'font-mono font-semibold text-pixel-navy-900'
+      className: 'font-mono font-semibold text-text-primary'
     },
     {
       header: 'Cliente',
       accessor: (row) => (
         <div className="flex flex-col gap-0.5">
-          <span className="font-semibold text-pixel-neutral-900">{row.clientName}</span>
-          <span className="text-[10px] text-pixel-neutral-500">{row.clientDocument}</span>
+          <span className="font-semibold text-text-primary">{row.clientName}</span>
+          <span className="text-[10px] text-text-secondary">{row.clientDocument}</span>
         </div>
       )
     },
@@ -140,12 +140,12 @@ export const GestaoNotas: React.FC = () => {
       accessor: (row) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(row.value),
       sortable: true,
       sortKey: 'value',
-      className: 'text-right font-bold text-pixel-navy-900'
+      className: 'text-right font-bold text-text-primary'
     },
     {
       header: 'Origem',
       accessor: (row) => (
-        <span className="bg-pixel-neutral-100 text-pixel-neutral-900 font-semibold px-2 py-0.5 rounded text-[10px]">
+        <span className="bg-surface text-text-primary font-semibold px-2 py-0.5 rounded text-[10px]">
           {row.origin}
         </span>
       )
@@ -159,21 +159,21 @@ export const GestaoNotas: React.FC = () => {
       accessor: (row) => (
         <div className="flex items-center gap-1.5 justify-end" onClick={e => e.stopPropagation()}>
           <Link to={`/app/notas/${row.id}`} title="Visualizar detalhes">
-            <Button variant="ghost" size="sm" className="!p-1.5 text-pixel-navy-900">
+            <Button variant="ghost" size="sm" className="!p-1.5 text-text-primary">
               <Eye className="h-4.5 w-4.5" />
             </Button>
           </Link>
           <button 
             onClick={(e) => handleDownloadFile('PDF', row.number, e)} 
             title="Baixar PDF"
-            className="p-1.5 text-pixel-neutral-500 hover:text-pixel-navy-900 rounded hover:bg-neutral-bgSecondary/60 transition-colors"
+            className="p-1.5 text-text-secondary hover:text-text-primary rounded hover:bg-neutral-bgSecondary/60 transition-colors"
           >
             <Download className="h-4.5 w-4.5" />
           </button>
           <button 
             onClick={(e) => handleResendEmail(row.clientEmail, row.number, e)} 
             title="Reenviar por e-mail"
-            className="p-1.5 text-pixel-neutral-500 hover:text-pixel-navy-900 rounded hover:bg-neutral-bgSecondary/60 transition-colors"
+            className="p-1.5 text-text-secondary hover:text-text-primary rounded hover:bg-neutral-bgSecondary/60 transition-colors"
           >
             <Mail className="h-4.5 w-4.5" />
           </button>
@@ -181,7 +181,7 @@ export const GestaoNotas: React.FC = () => {
             <button 
               onClick={(e) => handleOpenCancelDialog(row.id, e)} 
               title="Cancelar nota"
-              className="p-1.5 text-pixel-neutral-500 hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
+              className="p-1.5 text-text-secondary hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
             >
               <Ban className="h-4.5 w-4.5" />
             </button>
@@ -207,9 +207,9 @@ export const GestaoNotas: React.FC = () => {
       />
 
       {/* Advanced Filters */}
-      <div className="border border-pixel-neutral-200 rounded-premium p-5 bg-white shadow-premium flex flex-col gap-4">
-        <h3 className="text-xs font-bold text-pixel-navy-900 font-title uppercase tracking-wider text-[10px] flex items-center gap-1.5 pb-2 border-b border-pixel-neutral-200">
-          <Filter className="h-4 w-4 text-pixel-navy-900" />
+      <div className="border border-border rounded-premium p-5 bg-white shadow-premium flex flex-col gap-4">
+        <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] flex items-center gap-1.5 pb-2 border-b border-border">
+          <Filter className="h-4 w-4 text-text-primary" />
           <span>Filtros Avançados</span>
         </h3>
         
@@ -219,7 +219,7 @@ export const GestaoNotas: React.FC = () => {
             onChange={e => setSearchTerm(e.target.value)}
             label="Buscar por cliente, documento ou número"
             placeholder="Ex: Mariana, 00002041..."
-            icon={<Search className="h-4 w-4 text-pixel-neutral-500" />}
+            icon={<Search className="h-4 w-4 text-text-secondary" />}
           />
           <Select
             value={filterType}
@@ -286,13 +286,13 @@ export const GestaoNotas: React.FC = () => {
         variant="danger"
         loading={isCancelLoading}
       >
-        <div className="mt-2 w-full flex flex-col gap-1.5 text-xs text-pixel-navy-900">
+        <div className="mt-2 w-full flex flex-col gap-1.5 text-xs text-text-primary">
           <label className="font-semibold">Justificativa do Cancelamento (Mínimo 15 caracteres)</label>
           <textarea
             value={cancelReason}
             onChange={e => setCancelReason(e.target.value)}
             placeholder="Ex: Devolução de mercadoria pelo cliente ou erro tributário..."
-            className="w-full border border-pixel-neutral-200 rounded p-2 text-xs h-16 outline-none focus:border-pixel-navy-900"
+            className="w-full border border-border rounded p-2 text-xs h-16 outline-none focus:border-black"
           />
         </div>
       </ConfirmDialog>
