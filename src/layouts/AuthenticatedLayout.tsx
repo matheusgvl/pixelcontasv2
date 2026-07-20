@@ -13,7 +13,6 @@ export const AuthenticatedLayout: React.FC = () => {
       {/* Navigation Sidebar */}
       <Sidebar
         collapsed={collapsed}
-        setCollapsed={setCollapsed}
         mobileOpen={mobileOpen}
         setMobileOpen={setMobileOpen}
       />
@@ -21,18 +20,18 @@ export const AuthenticatedLayout: React.FC = () => {
       {/* Main Workspace Wrapper */}
       <div className="flex flex-col flex-1 min-w-0">
         
-        {/* Topbar Panel */}
-        <Topbar
-          collapsed={collapsed}
-          mobileOpen={mobileOpen}
-          setMobileOpen={setMobileOpen}
-        />
-
         {/* Dynamic Page Workspace Content */}
-        <main className={`flex-1 p-4 md:p-8 pt-20 transition-all duration-300 min-h-screen flex flex-col
+        <main className={`flex-1 transition-all duration-300 min-h-screen flex flex-col
           ${collapsed ? 'md:pl-24' : 'md:pl-68'}`}>
           <div className="flex-1 w-full max-w-[1400px] mx-auto flex flex-col">
-            <Outlet />
+            {/* Topbar Panel now inside main workspace */}
+            <Topbar
+              mobileOpen={mobileOpen}
+              setMobileOpen={setMobileOpen}
+            />
+            <div className="p-4 md:p-8 pt-6 flex-1">
+              <Outlet />
+            </div>
           </div>
         </main>
         

@@ -5,13 +5,11 @@ import type { NotificationItem } from './NotificationPanel';
 import { Link } from 'react-router-dom';
 
 interface TopbarProps {
-  collapsed: boolean;
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
-  collapsed,
   mobileOpen,
   setMobileOpen
 }) => {
@@ -78,8 +76,7 @@ export const Topbar: React.FC<TopbarProps> = ({
   };
 
   return (
-    <header className={`fixed top-0 right-0 left-0 bg-white border-b border-border h-16 flex items-center justify-between px-4 z-30 transition-all duration-300
-      ${collapsed ? 'md:pl-24' : 'md:pl-68'}`}>
+    <header className="w-full bg-white border-b border-border h-16 flex items-center justify-between px-4 md:px-8 z-30">
       
       {/* Left controls: Mobile menu trigger & search */}
       <div className="flex items-center gap-3">

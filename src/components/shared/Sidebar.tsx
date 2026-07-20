@@ -4,7 +4,7 @@ import {
   LayoutDashboard, FilePlus2, FileText, Users, ShoppingBag, 
   Layers, Cpu, BarChart3, FolderClosed, ShieldAlert, 
   MessageSquare, Settings, UserSquare2, 
-  ChevronLeft, ChevronRight, LogOut, Award
+  LogOut, Award
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -16,7 +16,6 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
-  setCollapsed,
   mobileOpen,
   setMobileOpen
 }) => {
@@ -64,16 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => setMobileOpen(false)}
           >
             <img src={logoSrc} alt="Logo PixelConta" className="h-7 w-auto object-contain" />
-
           </Link>
-          
-          {/* Collapse toggle button on desktop */}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="hidden md:flex p-1 rounded bg-black text-text-secondary hover:text-white transition-colors"
-          >
-            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          </button>
         </div>
 
         {/* Scrollable Navigation Area */}
