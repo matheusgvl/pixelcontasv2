@@ -43,9 +43,7 @@ export const Cadastro: React.FC = () => {
         <div className="flex flex-col items-center gap-4 text-center">
           <Link to="/" className="flex items-center gap-3 select-none">
             <img src={logoSrc} alt="Logo PixelConta" className="h-9 w-auto object-contain" />
-            <span className="text-xl font-extrabold text-pixel-navy-900 font-title">
-              Pixel<span className="text-pixel-navy-900">Contas</span>
-            </span>
+
           </Link>
           <div className="flex flex-col gap-1">
             <h2 className="text-xl font-bold text-pixel-navy-900 font-title">

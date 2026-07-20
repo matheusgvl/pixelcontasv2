@@ -51,9 +51,7 @@ export const Login: React.FC = () => {
           <div className="flex flex-col gap-2">
             <Link to="/" className="flex items-center gap-3 select-none w-fit">
               <img src={logoSrc} alt="Logo PixelConta" className="h-9 w-auto object-contain" />
-              <span className="text-2xl font-black font-title tracking-tight text-pixel-navy-900">
-                Pixel<span className="text-pixel-navy-900">Contas</span>
-              </span>
+
             </Link>
           </div>
 

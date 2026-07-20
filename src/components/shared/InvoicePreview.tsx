@@ -58,9 +58,7 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice }) => {
               <div className="flex h-8 w-8 items-center justify-center rounded bg-pixel-navy-900 text-white font-black text-lg">
                 P
               </div>
-              <span className="text-xl font-extrabold text-pixel-navy-900 font-title">
-                Pixel<span className="text-pixel-navy-900">Contas</span>
-              </span>
+
             </div>
             <p className="text-xs text-pixel-neutral-500">Documento Auxiliar de Emissão Fiscal</p>
           </div>

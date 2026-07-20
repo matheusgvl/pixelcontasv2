@@ -117,9 +117,7 @@ export const LandingPage: React.FC = () => {
       <header className="fixed top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-md z-50 border-b border-pixel-neutral-200 flex items-center justify-between px-6 md:px-12">
         <Link to="/" className="flex items-center gap-3 select-none">
           <img src={logoSrc} alt="Logo PixelConta" className="h-8 w-auto object-contain" />
-          <span className="text-xl font-extrabold text-pixel-navy-900 font-title tracking-tight">
-            Pixel<span className="text-pixel-navy-900">Contas</span>
-          </span>
+
         </Link>
 
         {/* Menu Items */}
@@ -446,9 +444,7 @@ export const LandingPage: React.FC = () => {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <img src={logoSrc} alt="Logo PixelConta" className="h-8 w-auto object-contain" />
-              <span className="text-lg font-black font-title tracking-tight text-white">
-                Pixel<span className="text-pixel-navy-900">Contas</span>
-              </span>
+
             </div>
             <p className="leading-relaxed">
               Plataforma de contabilidade digital e automação de documentos fiscais eletrônicos para negócios modernos.

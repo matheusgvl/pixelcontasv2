@@ -64,11 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={() => setMobileOpen(false)}
           >
             <img src={logoSrc} alt="Logo PixelConta" className="h-7 w-auto object-contain" />
-            {!collapsed && (
-              <span className="text-lg font-black font-title tracking-tight text-white">
-                Pixel<span className="text-pixel-navy-900">Contas</span>
-              </span>
-            )}
+
           </Link>
           
           {/* Collapse toggle button on desktop */}

@@ -10,9 +10,7 @@ export const OnboardingLayout: React.FC = () => {
       <header className="h-16 border-b border-pixel-neutral-200 bg-white flex items-center justify-between px-6 shrink-0 shadow-sm">
         <Link to="/" className="flex items-center gap-3 select-none active:scale-[0.98] transition-transform">
           <img src={logoSrc} alt="Logo PixelConta" className="h-7 w-auto object-contain" />
-          <span className="text-lg font-black font-title tracking-tight text-pixel-navy-900">
-            Pixel<span className="text-pixel-navy-900">Contas</span>
-          </span>
+
         </Link>
         
         <div className="flex items-center gap-2 text-xs text-pixel-neutral-500">
