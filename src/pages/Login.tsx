@@ -38,7 +38,7 @@ export const Login: React.FC = () => {
     }
   };
 
-  const logoSrc = "/brand/pixelconta-logo-dark.png";
+  const logoSrc = "/logo-horizontal.jpeg";
 
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row bg-pixel-neutral-50 font-sans">

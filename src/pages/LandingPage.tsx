@@ -46,7 +46,7 @@ export const LandingPage: React.FC = () => {
     { name: 'Plano Advanced', price: 'R$ 349', desc: 'Para empresas consolidadas com alto volume de faturamento.', limit: 'Notas ilimitadas', btn: 'Falar com especialista', highlight: false }
   ];
 
-  const logoSrc = "/brand/pixelconta-logo-dark.png";
+  const logoSrc = "/logo-horizontal.jpeg";
 
   return (
     <div className="flex flex-col w-full bg-pixel-neutral-50">

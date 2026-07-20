@@ -33,7 +33,7 @@ export const Cadastro: React.FC = () => {
     navigate('/onboarding');
   };
 
-  const logoSrc = "/brand/pixelconta-logo-dark.png";
+  const logoSrc = "/logo-horizontal.jpeg";
 
   return (
     <div className="min-h-screen w-full flex bg-pixel-neutral-50 font-sans items-center justify-center p-4">

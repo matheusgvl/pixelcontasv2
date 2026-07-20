@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 export const OnboardingLayout: React.FC = () => {
-  const logoSrc = "/brand/pixelconta-logo-dark.png";
+  const logoSrc = "/logo-horizontal.jpeg";
 
   return (
     <div className="min-h-screen bg-pixel-neutral-50 flex flex-col w-full text-pixel-neutral-900 font-sans">

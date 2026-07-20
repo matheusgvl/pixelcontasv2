@@ -38,7 +38,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { label: 'Configurações', path: '/app/configuracoes', icon: <Settings className="h-4.5 w-4.5 shrink-0" /> },
   ];
 
-  const logoSrc = "/brand/pixelconta-logo-light.png";
+  const logoSrc = "/logo-horizontal.jpeg";
 
   return (
     <>
