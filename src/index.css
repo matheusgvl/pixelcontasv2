@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-pixel-neutral-50 text-pixel-navy-950 font-sans antialiased selection:bg-pixel-gold-300 selection:text-pixel-navy-950;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-title font-semibold tracking-tight;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-pixel-neutral-100;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-pixel-neutral-200 rounded-full hover:bg-pixel-neutral-500 transition-colors;
+}
+
+/* Base style for inputs to remove default browser styling */
+input, select, textarea {
+  @apply outline-none transition-all;
+}
+
+/* Stepper Animation and transitions */
+.step-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom fade-in micro-animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
