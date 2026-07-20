@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Menu, Bell, HelpCircle, ChevronDown, User, Settings, LogOut } from 'lucide-react';
 import { NotificationPanel } from './NotificationPanel';
 import type { NotificationItem } from './NotificationPanel';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface TopbarProps {
   mobileOpen: boolean;
@@ -17,6 +17,21 @@ export const Topbar: React.FC<TopbarProps> = ({
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState('Pixel Comércio Digital LTDA');
   const [showCompanySelect, setShowCompanySelect] = useState(false);
+  const location = useLocation();
+  
+  let pageTitle = '';
+  let pageSubtitle = '';
+  
+  if (location.pathname.includes('/app/dashboard')) {
+    pageTitle = 'Olá, Ricardo Almeida.';
+    pageSubtitle = 'Aqui está o resumo fiscal e financeiro da sua empresa hoje.';
+  } else if (location.pathname.includes('/app/notas')) {
+    pageTitle = 'Notas Fiscais';
+    pageSubtitle = 'Gerencie todas as suas notas.';
+  } else if (location.pathname.includes('/app/clientes')) {
+    pageTitle = 'Clientes';
+    pageSubtitle = 'Gestão de carteira de clientes.';
+  }
 
   const notificationsRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -76,10 +91,10 @@ export const Topbar: React.FC<TopbarProps> = ({
   };
 
   return (
-    <header className="w-full bg-white border-b border-border h-16 flex items-center justify-between px-4 md:px-8 z-30">
+    <header className="w-full flex items-center justify-between px-4 md:px-8 pt-6 pb-2 z-30">
       
-      {/* Left controls: Mobile menu trigger & search */}
-      <div className="flex items-center gap-3">
+      {/* Left controls: Mobile menu trigger & Page Title */}
+      <div className="flex items-center gap-4">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="md:hidden p-1.5 rounded-full text-text-primary hover:bg-surface transition-colors"
@@ -87,18 +102,34 @@ export const Topbar: React.FC<TopbarProps> = ({
           <Menu className="h-5.5 w-5.5" />
         </button>
 
+        {pageTitle && (
+          <div className="hidden md:flex flex-col gap-0.5">
+            <h1 className="text-lg md:text-xl font-black text-text-primary font-title tracking-tight">
+              {pageTitle}
+            </h1>
+            {pageSubtitle && (
+              <p className="text-[10px] md:text-xs text-text-secondary font-medium">
+                {pageSubtitle}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Right controls: Company Select, Help, notifications, user profile */}
+      <div className="flex items-center gap-3">
         {/* Company Dropdown Selector */}
         <div className="relative" ref={companySelectRef}>
           <button
             onClick={() => setShowCompanySelect(!showCompanySelect)}
-            className="flex items-center gap-2 px-3 py-1.5 border border-border rounded-soft hover:bg-surface transition-colors text-xs font-semibold text-text-primary font-title"
+            className="flex items-center gap-2 px-3 py-1.5 border border-border bg-white rounded-soft hover:bg-white/60 transition-colors text-xs font-semibold text-text-primary font-title"
           >
             <span className="truncate max-w-[130px] sm:max-w-none">{selectedCompany}</span>
             <ChevronDown className="h-3.5 w-3.5 text-text-secondary" />
           </button>
           
           {showCompanySelect && (
-            <div className="absolute left-0 mt-2 w-56 bg-white border border-border rounded-premium shadow-premium z-50 py-1.5 animate-fade-in text-xs">
+            <div className="absolute right-0 mt-2 w-56 bg-white border border-border rounded-premium shadow-premium z-50 py-1.5 animate-fade-in text-xs">
               <span className="px-3 py-1.5 text-[10px] uppercase font-bold text-text-secondary tracking-wider block">
                 Selecionar Empresa
               </span>
@@ -125,10 +156,9 @@ export const Topbar: React.FC<TopbarProps> = ({
             </div>
           )}
         </div>
-      </div>
 
-      {/* Right controls: Help, notifications, user profile */}
-      <div className="flex items-center gap-3">
+        {/* Vertical divider */}
+        <div className="hidden sm:block h-6 w-px bg-border mx-1"></div>
         
         {/* Help Link */}
         <Link

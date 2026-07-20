@@ -4,7 +4,7 @@ import { Sidebar } from '../components/shared/Sidebar';
 import { Topbar } from '../components/shared/Topbar';
 
 export const AuthenticatedLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -29,7 +29,7 @@ export const AuthenticatedLayout: React.FC = () => {
               mobileOpen={mobileOpen}
               setMobileOpen={setMobileOpen}
             />
-            <div className="p-4 md:p-8 pt-6 flex-1">
+            <div className="px-4 md:px-8 pb-8 pt-2 flex-1">
               <Outlet />
             </div>
           </div>

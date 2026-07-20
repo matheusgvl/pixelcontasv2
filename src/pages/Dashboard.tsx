@@ -100,16 +100,8 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="flex flex-col gap-6">
       
-      {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-5">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-xl md:text-2xl font-black text-text-primary font-title tracking-tight">
-            Olá, Ricardo Almeida.
-          </h1>
-          <p className="text-xs md:text-sm text-text-secondary font-medium">
-            Aqui está o resumo fiscal e financeiro da sua empresa hoje.
-          </p>
-        </div>
+      {/* Top Section - Filters */}
+      <div className="flex justify-end gap-4 border-b border-border pb-5">
 
         {/* Period Filter Buttons */}
         <div className="flex items-center gap-1.5 bg-surface p-1 rounded-soft border border-border text-xs">

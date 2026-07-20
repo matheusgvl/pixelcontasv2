@@ -9,7 +9,6 @@ import {
 
 interface SidebarProps {
   collapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
 }
@@ -50,13 +49,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       {/* Main Sidebar Panel */}
-      <aside className={`fixed top-0 bottom-0 left-0 bg-black text-white z-40 transition-all duration-300 flex flex-col justify-between border-r border-brand-dark/40 shadow-premium
+      <aside className={`fixed top-0 bottom-0 left-0 bg-white text-text-primary z-40 transition-all duration-300 flex flex-col justify-between border-r border-border shadow-premium
         ${collapsed ? 'w-20' : 'w-64'} 
         ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         
         {/* Top Header Logo Area */}
-        <div className="p-5 border-b border-black flex items-center justify-between">
+        <div className="p-5 border-b border-border flex items-center justify-between">
           <Link 
             to="/app/dashboard" 
             className="flex items-center gap-3 select-none active:scale-[0.98] transition-transform"
@@ -77,8 +76,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3.5 py-2.5 px-3.5 rounded-soft text-sm transition-all duration-150 relative group
                   ${isActive 
-                    ? 'bg-primary text-white font-semibold' 
-                    : 'text-white hover:bg-white/10'
+                    ? 'bg-primary text-white font-semibold shadow-sm' 
+                    : 'text-text-secondary hover:bg-surface hover:text-text-primary'
                   }`}
               >
                 {item.icon}
@@ -86,7 +85,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 
                 {/* Collapsed Tooltip fallback */}
                 {collapsed && (
-                  <span className="absolute left-16 bg-black border border-black text-white text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap font-title">
+                  <span className="absolute left-16 bg-white border border-border text-text-primary text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap font-title font-bold">
                     {item.label}
                   </span>
                 )}
@@ -98,13 +97,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
 
         {/* Sidebar Footer Area */}
-        <div className="p-4 border-t border-black flex flex-col gap-3 bg-brand-dark/20 shrink-0">
+        <div className="p-4 border-t border-border flex flex-col gap-3 bg-white shrink-0">
           
           {/* Plan Info Card */}
           {!collapsed ? (
-            <div className="bg-white/10 p-3 border border-white/20 rounded-soft flex flex-col gap-2 relative overflow-hidden group">
+            <div className="bg-surface p-3 border border-border rounded-soft flex flex-col gap-2 relative overflow-hidden group">
               <div className="flex justify-between items-center z-10 relative">
-                <span className="text-[9px] uppercase font-bold text-white tracking-wider">
+                <span className="text-[9px] uppercase font-bold text-text-secondary tracking-wider">
                   Plano Ativo
                 </span>
                 <span className="text-[9px] bg-primary text-white font-bold px-1.5 py-0.5 rounded">
@@ -112,13 +111,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </span>
               </div>
               <div className="z-10 relative">
-                <p className="text-xs font-bold text-white font-title">Plano Digital Pro</p>
-                <div className="flex justify-between items-center text-[10px] text-white/60 mt-1">
+                <p className="text-xs font-bold text-text-primary font-title">Plano Digital Pro</p>
+                <div className="flex justify-between items-center text-[10px] text-text-secondary mt-1">
                   <span>Limite de notas</span>
-                  <span>145 / 500</span>
+                  <span className="font-semibold text-text-primary">145 / 500</span>
                 </div>
-                <div className="w-full bg-white/10 h-1 rounded-full mt-1.5 overflow-hidden">
-                  <div className="bg-black h-full rounded-full" style={{ width: '29%' }} />
+                <div className="w-full bg-border h-1 rounded-full mt-1.5 overflow-hidden">
+                  <div className="bg-primary h-full rounded-full" style={{ width: '29%' }} />
                 </div>
               </div>
               <Link 
@@ -132,11 +131,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ) : (
             <Link
               to="/app/plano"
-              className="mx-auto p-2 bg-primary/10 rounded-soft text-text-primary hover:bg-primary/20 hover:text-white transition-colors relative group"
+              className="mx-auto p-2 bg-primary/10 rounded-soft text-text-primary hover:bg-primary/20 transition-colors relative group"
               onClick={() => setMobileOpen(false)}
             >
               <Award className="h-5 w-5 shrink-0" />
-              <span className="absolute left-16 bg-black border border-black text-white text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
+              <span className="absolute left-16 bg-white border border-border text-text-primary text-xs py-1.5 px-3 rounded shadow-premium opacity-0 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap font-bold">
                 Plano Premium
               </span>
             </Link>
@@ -148,17 +147,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <img 
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" 
                 alt="Ricardo Almeida" 
-                className="h-9 w-9 rounded-full border border-brand-blue/30 object-cover"
+                className="h-9 w-9 rounded-full border border-border object-cover"
               />
-              <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-600 border-2 border-black" />
+              <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-600 border-2 border-white" />
             </div>
             
             {!collapsed && (
               <div className="flex flex-col flex-1 min-w-0">
-                <span className="text-xs font-bold truncate text-white">
+                <span className="text-xs font-bold truncate text-text-primary">
                   Ricardo Almeida
                 </span>
-                <span className="text-[10px] text-white/50 truncate">
+                <span className="text-[10px] text-text-secondary truncate">
                   Administrador
                 </span>
               </div>
@@ -168,7 +167,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Link 
                 to="/login"
                 title="Sair do painel" 
-                className="p-1 rounded text-white/50 hover:text-red-600 hover:bg-white/5 transition-colors shrink-0"
+                className="p-1.5 rounded text-text-secondary hover:text-red-600 hover:bg-red-50 transition-colors shrink-0"
               >
                 <LogOut className="h-4.5 w-4.5" />
               </Link>
