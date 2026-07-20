@@ -43,17 +43,6 @@ export const LandingPage: React.FC = () => {
   const plans = [
     { 
       name: 'BRONZE', 
-      price: 'R$ 49,90', 
-      features: [
-        '15 NFS-e por mês',
-        '1 Usuário',
-        'Suporte técnico - Chat, remoto e telefone'
-      ], 
-      btn: 'Começar agora', 
-      highlight: false 
-    },
-    { 
-      name: 'PRATA', 
       price: 'R$ 109,90', 
       features: [
         '15 NF-e por mês',
@@ -63,11 +52,11 @@ export const LandingPage: React.FC = () => {
         '1 Usuário',
         'Suporte técnico - Chat, remoto e telefone'
       ], 
-      btn: 'Assinar Prata', 
+      btn: 'Assinar Bronze', 
       highlight: false 
     },
     { 
-      name: 'OURO', 
+      name: 'PRATA', 
       price: 'R$ 134,90', 
       features: [
         '40 NF-e por mês',
@@ -83,11 +72,11 @@ export const LandingPage: React.FC = () => {
         'Relatórios gerenciais',
         'Suporte técnico - Chat, remoto e telefone'
       ], 
-      btn: 'Assinar Ouro', 
+      btn: 'Assinar Prata', 
       highlight: true 
     },
     { 
-      name: 'DIAMANTE', 
+      name: 'OURO', 
       price: 'R$ 169,90', 
       features: [
         'NF-e / NFC-e / NFS-e / MDF-e e CT-e ilimitado',
@@ -104,7 +93,7 @@ export const LandingPage: React.FC = () => {
         '+ de 50 relatórios de gestão',
         'Suporte técnico - Chat, remoto e telefone'
       ], 
-      btn: 'Assinar Diamante', 
+      btn: 'Assinar Ouro', 
       highlight: false 
     }
   ];
@@ -325,7 +314,7 @@ export const LandingPage: React.FC = () => {
             <p className="text-sm text-pixel-neutral-500">Escolha o plano ideal e leve sua gestão para o próximo nível.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {plans.map((p, idx) => (
               <div 
                 key={idx} 
