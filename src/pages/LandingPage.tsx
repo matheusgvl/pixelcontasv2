@@ -402,13 +402,13 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Chamada final */}
-      <section className="py-20 bg-white text-text-primary relative overflow-hidden">
+      <section className="py-20 bg-black text-white relative overflow-hidden">
         {/* Background gradient decoration */}
         <div className="absolute inset-0 bg-grad-inst opacity-90 z-0"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12 text-center flex flex-col items-center gap-6">
           <h2 className="text-3xl md:text-4xl font-black font-title">Pronto para simplificar sua gestão fiscal?</h2>
-          <p className="text-sm text-text-secondary max-w-lg leading-relaxed">
+          <p className="text-sm text-white/80 max-w-lg leading-relaxed">
             Abra sua conta na PixelContas hoje mesmo. Comece a emitir notas com automação total e tenha foco absoluto no seu crescimento.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
@@ -418,7 +418,7 @@ export const LandingPage: React.FC = () => {
               </Button>
             </Link>
             <a href="#planos" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full text-text-primary border-border hover:bg-surface">
+              <Button variant="outline" size="lg" className="w-full text-white border-white/20 hover:bg-black/10">
                 Ver tabela de planos
               </Button>
             </a>
