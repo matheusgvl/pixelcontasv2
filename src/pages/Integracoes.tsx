@@ -31,7 +31,7 @@ export const Integracoes: React.FC = () => {
   // Form state for integration connection config
   const [configForm, setConfigForm] = useState({
     apiKey: 'pk_live_51234567890abcdef...',
-    webhookUrl: 'https://api.pixelcontas.com.br/v1/webhooks/shopify',
+    webhookUrl: 'https://api.pixelconta.com.br/v1/webhooks/shopify',
     invoiceType: 'NF-e' as 'NFS-e' | 'NF-e' | 'NFC-e',
     series: '1',
     natureOfOperation: 'Prestação de serviços',
@@ -86,7 +86,7 @@ export const Integracoes: React.FC = () => {
             lastSync: new Date().toISOString(),
             config: {
               apiKey: 'pk_live_test_key_generated_on_connection',
-              webhookUrl: `https://api.pixelcontas.com.br/v1/webhooks/${item.name.toLowerCase()}`,
+              webhookUrl: `https://api.pixelconta.com.br/v1/webhooks/${item.name.toLowerCase()}`,
               invoiceType: item.name === 'Shopify' || item.name === 'WooCommerce' ? 'NF-e' as const : 'NFS-e' as const,
               sendEmailAutomatically: true,
               autoEmit: true

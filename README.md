@@ -1,6 +1,6 @@
-# 🧾 PixelContas - Contabilidade Digital & Emissão Automatizada
+# 🧾 PixelConta - Contabilidade Digital & Emissão Automatizada
 
-`PixelContas` é uma plataforma moderna e completa de **contabilidade digital e emissão automatizada de notas fiscais** (NFS-e, NF-e e NFC-e) desenvolvida especialmente para o ecossistema de negócios digitais, infoprodutores, prestadores de serviços e e-commerces.
+`PixelConta` é uma plataforma moderna e completa de **contabilidade digital e emissão automatizada de notas fiscais** (NFS-e, NF-e e NFC-e) desenvolvida especialmente para o ecossistema de negócios digitais, infoprodutores, prestadores de serviços e e-commerces.
 
 A plataforma automatiza todo o fluxo fiscal, desde a captura de vendas em plataformas parceiras (como Hotmart, Kiwify, Asaas, Shopify, Stripe e outras) até a emissão da nota fiscal eletrônica junto à prefeitura ou SEFAZ, armazenamento do XML/PDF e comunicação integrada com contadores dedicados.
 
@@ -48,23 +48,23 @@ O software será integrado diretamente com as principais APIs e Web Services gov
 
 Abaixo está o mapeamento dos principais diretórios do código-fonte:
 
-*   [src](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src) - Pasta principal com código-fonte do app.
-    *   [assets](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/assets) - Recursos estáticos (imagens, logos, etc.).
-    *   [components](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/components) - Componentes React reutilizáveis.
-        *   [shared](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/components/shared) - Componentes de layout e navegação (Sidebar, Topbar, DataTable, etc.).
-        *   [ui](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/components/ui) - Componentes atômicos de interface (Button, Input, Select, Switch, etc.).
-    *   [context](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/context) - Contextos globais da aplicação (ex: `ToastContext` para notificações).
-    *   [layouts](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/layouts) - Templates de estrutura de página (`AuthenticatedLayout`, `OnboardingLayout`, `PublicLayout`).
-    *   [mocks](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/mocks) - Banco de dados simulado no cliente para testes (`db.ts` com persistência em `localStorage`).
-    *   [pages](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/pages) - Páginas e fluxos completos da aplicação (Dashboard, EmitirNota, Clientes, etc.).
-    *   [services](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/services) - Integrações e wrappers de chamadas de API (`api.ts`).
-    *   [types](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/types) - Definições de tipos e interfaces TypeScript (`index.ts`).
-    *   [App.tsx](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/App.tsx) - Rotas e gerenciador principal da aplicação.
-    *   [index.css](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/index.css) - Configuração global de estilos e Tailwind CSS v4.
-    *   [main.tsx](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/main.tsx) - Ponto de entrada do React.
-*   [tailwind.config.js](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/tailwind.config.js) - Customizações do tema Tailwind.
-*   [tsconfig.json](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/tsconfig.json) - Configurações do TypeScript.
-*   [package.json](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/package.json) - Dependências e scripts de execução.
+*   [src](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src) - Pasta principal com código-fonte do app.
+    *   [assets](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/assets) - Recursos estáticos (imagens, logos, etc.).
+    *   [components](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/components) - Componentes React reutilizáveis.
+        *   [shared](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/components/shared) - Componentes de layout e navegação (Sidebar, Topbar, DataTable, etc.).
+        *   [ui](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/components/ui) - Componentes atômicos de interface (Button, Input, Select, Switch, etc.).
+    *   [context](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/context) - Contextos globais da aplicação (ex: `ToastContext` para notificações).
+    *   [layouts](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/layouts) - Templates de estrutura de página (`AuthenticatedLayout`, `OnboardingLayout`, `PublicLayout`).
+    *   [mocks](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/mocks) - Banco de dados simulado no cliente para testes (`db.ts` com persistência em `localStorage`).
+    *   [pages](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/pages) - Páginas e fluxos completos da aplicação (Dashboard, EmitirNota, Clientes, etc.).
+    *   [services](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/services) - Integrações e wrappers de chamadas de API (`api.ts`).
+    *   [types](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/types) - Definições de tipos e interfaces TypeScript (`index.ts`).
+    *   [App.tsx](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/App.tsx) - Rotas e gerenciador principal da aplicação.
+    *   [index.css](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/index.css) - Configuração global de estilos e Tailwind CSS v4.
+    *   [main.tsx](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/main.tsx) - Ponto de entrada do React.
+*   [tailwind.config.js](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/tailwind.config.js) - Customizações do tema Tailwind.
+*   [tsconfig.json](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/tsconfig.json) - Configurações do TypeScript.
+*   [package.json](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/package.json) - Dependências e scripts de execução.
 
 ---
 
@@ -110,7 +110,7 @@ Certifique-se de ter instalado em sua máquina:
 
 ## 💾 Banco de Dados Simulado (Mock DB)
 
-Para viabilizar demonstrações interativas completas sem a necessidade imediata de configurar APIs ou servidores externos, a plataforma inclui um **banco de dados simulado no cliente** ([db.ts](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelcontas/src/mocks/db.ts)).
+Para viabilizar demonstrações interativas completas sem a necessidade imediata de configurar APIs ou servidores externos, a plataforma inclui um **banco de dados simulado no cliente** ([db.ts](file:///c:/Users/CMEND/.gemini/antigravity/scratch/pixelconta/src/mocks/db.ts)).
 
 Ele gerencia no `localStorage` do navegador a criação, edição, deleção e busca de:
 *   Notas Fiscais emitidas, com log de eventos fiscais detalhados.

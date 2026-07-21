@@ -213,7 +213,7 @@ export const Topbar: React.FC<TopbarProps> = ({
             <div className="absolute right-0 mt-2 w-52 bg-white border border-border rounded-premium shadow-premium-hover z-50 py-1.5 animate-fade-in text-xs">
               <div className="px-3 py-2 border-b border-border">
                 <p className="font-bold text-text-primary font-title">Ricardo Almeida</p>
-                <p className="text-[10px] text-text-secondary truncate">ricardo@pixelcontas.com.br</p>
+                <p className="text-[10px] text-text-secondary truncate">ricardo@pixelconta.com.br</p>
               </div>
               
               <Link

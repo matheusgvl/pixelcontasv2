@@ -164,7 +164,7 @@ export const Onboarding: React.FC = () => {
   };
 
   const handleFinish = () => {
-    toast.success('Configuração inicial concluída com sucesso! Bem-vindo à PixelContas.');
+    toast.success('Configuração inicial concluída com sucesso! Bem-vindo à PixelConta.');
     navigate('/app/dashboard');
   };
 
@@ -258,7 +258,7 @@ export const Onboarding: React.FC = () => {
                 Como você vende seus produtos ou serviços?
               </h2>
               <p className="text-xs text-text-secondary leading-relaxed">
-                Selecione as opções abaixo para que o PixelContas configure as regras corretas de faturamento.
+                Selecione as opções abaixo para que o PixelConta configure as regras corretas de faturamento.
               </p>
             </div>
 

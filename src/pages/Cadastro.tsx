@@ -47,7 +47,7 @@ export const Cadastro: React.FC = () => {
           </Link>
           <div className="flex flex-col gap-1">
             <h2 className="text-xl font-bold text-text-primary font-title">
-              Crie sua conta na PixelContas
+              Crie sua conta na PixelConta
             </h2>
             <p className="text-xs text-text-secondary">
               Comece a emitir e automatizar suas notas fiscais de forma inteligente.

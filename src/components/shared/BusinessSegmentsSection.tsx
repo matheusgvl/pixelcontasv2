@@ -52,7 +52,7 @@ export const BusinessSegmentsSection: React.FC = () => {
             Gestão inteligente para diferentes tipos de negócio
           </span>
           <h2 className="text-3xl md:text-4xl font-black text-text-primary font-title leading-tight">
-            A PixelContas acompanha o crescimento do seu negócio
+            A PixelConta acompanha o crescimento do seu negócio
           </h2>
           <p className="text-base text-text-secondary leading-relaxed max-w-2xl mx-auto">
             Centralize a emissão de notas fiscais, o controle financeiro, os clientes, produtos e vendas em uma plataforma preparada para diferentes tipos de empresa.
@@ -90,11 +90,11 @@ export const BusinessSegmentsSection: React.FC = () => {
         {/* CTA comercial */}
         <div className="flex flex-col items-center justify-center gap-5 mt-4 text-center">
           <p className="text-sm text-text-secondary max-w-md">
-            Não encontrou o seu segmento? A PixelContas também pode se adaptar às necessidades da sua empresa.
+            Não encontrou o seu segmento? A PixelConta também pode se adaptar às necessidades da sua empresa.
           </p>
           <a href="#planos">
             <Button variant="primary" size="lg">
-              Conhecer a PixelContas
+              Conhecer a PixelConta
             </Button>
           </a>
         </div>

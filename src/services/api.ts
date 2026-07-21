@@ -45,7 +45,7 @@ export const cnpjService = {
         municipalRegistration: '121314-5',
         taxRegime: 'Simples Nacional',
         cnaePrimary: '6201-5/01 - Desenvolvimento de programas de computador sob encomenda',
-        email: 'ricardo@pixelcontas.com.br',
+        email: 'ricardo@pixelconta.com.br',
         phone: '(81) 3456-7890',
         address: {
           zipCode: '52020-000',

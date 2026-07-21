@@ -23,18 +23,18 @@ export const Login: React.FC = () => {
   
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'ricardo@pixelcontas.com.br', password: 'senha123', rememberMe: true }
+    defaultValues: { email: 'ricardo@pixelconta.com.br', password: 'senha123', rememberMe: true }
   });
 
   const onSubmit = async (data: LoginFormValues) => {
     // Simulating authentication delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    if (data.email === 'ricardo@pixelcontas.com.br' && data.password === 'senha123') {
+    if (data.email === 'ricardo@pixelconta.com.br' && data.password === 'senha123') {
       toast.success('Login realizado com sucesso! Bem-vindo de volta.');
       navigate('/app/dashboard');
     } else {
-      toast.error('Credenciais incorretas. Use ricardo@pixelcontas.com.br e senha123 para testar.');
+      toast.error('Credenciais incorretas. Use ricardo@pixelconta.com.br e senha123 para testar.');
     }
   };
 
@@ -206,7 +206,7 @@ export const Login: React.FC = () => {
               Automatize suas notas e economize tempo
             </h3>
             <p className="text-xs text-white/80 leading-relaxed">
-              Evite digitação manual e erros fiscais. A PixelContas conecta suas vendas e realiza a emissão instantaneamente.
+              Evite digitação manual e erros fiscais. A PixelConta conecta suas vendas e realiza a emissão instantaneamente.
             </p>
           </div>
 

@@ -24,7 +24,7 @@ export const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice }) => {
     munReg: '121314-5',
     address: 'Avenida Rui Barbosa, 120 - Andar 3, Sala 301 - Graças, Recife - PE',
     phone: '(81) 3456-7890',
-    email: 'ricardo@pixelcontas.com.br'
+    email: 'ricardo@pixelconta.com.br'
   };
 
   const statusColors = {

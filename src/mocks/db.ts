@@ -272,7 +272,7 @@ const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 'prod-6',
-    name: 'Licença de Software PixelContas API',
+    name: 'Licença de Software PixelConta API',
     code: 'SW006',
     sku: 'DIG-SW-006',
     ncm: '8523.49.90',
@@ -320,7 +320,7 @@ const INITIAL_PRODUCTS: Product[] = [
   },
   {
     id: 'prod-10',
-    name: 'Kit de Adesivos PixelContas (5 un)',
+    name: 'Kit de Adesivos PixelConta (5 un)',
     code: 'AD010',
     sku: 'PHY-AD-010',
     ncm: '3919.90.00',
@@ -919,7 +919,7 @@ const INITIAL_PENDINGS: PendingTask[] = [
 
 // Mock Chat Messages
 const INITIAL_CHAT: ChatMessage[] = [
-  { id: 'msg-1', sender: 'accountant', text: 'Olá, Ricardo! Sou a Helena, sua contadora responsável aqui na PixelContas. Como posso te ajudar hoje?', timestamp: '2026-07-09T09:00:00-03:00' },
+  { id: 'msg-1', sender: 'accountant', text: 'Olá, Ricardo! Sou a Helena, sua contadora responsável aqui na PixelConta. Como posso te ajudar hoje?', timestamp: '2026-07-09T09:00:00-03:00' },
   { id: 'msg-2', sender: 'client', text: 'Olá, Helena! Tudo bem? Estou com uma dúvida sobre a rejeição da nota do Studio Criativo.', timestamp: '2026-07-10T09:20:00-03:00' },
   { id: 'msg-3', sender: 'accountant', text: 'Tudo ótimo por aqui! Dei uma olhada no sistema e vi que a nota fiscal nº 2045 foi rejeitada porque foi aplicada a alíquota padrão de 5%. A sua empresa tem um benefício municipal em Recife que reduz essa alíquota para 2% em serviços de desenvolvimento de software. Eu já deixei tudo pronto para você reemitir. Basta ajustar para 2% no campo de ISS do passo de tributação ou corrigir a nota rejeitada diretamente.', timestamp: '2026-07-10T09:25:00-03:00' },
   { id: 'msg-4', sender: 'client', text: 'Perfeito, Helena! Muito obrigado pela ajuda rápida. Vou fazer a correção agora mesmo.', timestamp: '2026-07-10T09:27:00-03:00' }
@@ -928,12 +928,12 @@ const INITIAL_CHAT: ChatMessage[] = [
 // Database Class for simulating persistent storage
 class PixelDatabase {
   private get<T>(key: string, defaults: T): T {
-    const data = localStorage.getItem(`pixelcontas_${key}`);
+    const data = localStorage.getItem(`pixelconta_${key}`);
     return data ? JSON.parse(data) : defaults;
   }
 
   private set<T>(key: string, value: T): void {
-    localStorage.setItem(`pixelcontas_${key}`, JSON.stringify(value));
+    localStorage.setItem(`pixelconta_${key}`, JSON.stringify(value));
   }
 
   get clients(): Client[] { return this.get('clients', INITIAL_CLIENTS); }

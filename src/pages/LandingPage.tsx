@@ -33,7 +33,7 @@ export const LandingPage: React.FC = () => {
   ];
 
   const faqs = [
-    { q: 'O que é a PixelContas?', a: 'A PixelContas é uma plataforma completa de contabilidade digital e emissão automatizada de notas fiscais (NFS-e, NF-e e NFC-e) desenvolvida especialmente para negócios digitais, prestadores de serviços, e-commerces e infoprodutores.' },
+    { q: 'O que é a PixelConta?', a: 'A PixelConta é uma plataforma completa de contabilidade digital e emissão automatizada de notas fiscais (NFS-e, NF-e e NFC-e) desenvolvida especialmente para negócios digitais, prestadores de serviços, e-commerces e infoprodutores.' },
     { q: 'Como funciona a emissão automática?', a: 'Você conecta a sua plataforma de vendas (como Hotmart, Shopify ou Asaas). Assim que o pagamento é aprovado, nossa plataforma recebe o pedido, valida os dados fiscais e emite a nota na prefeitura ou SEFAZ de forma 100% automatizada, enviando o PDF e XML por e-mail para o cliente.' },
     { q: 'Preciso de certificado digital?', a: 'Sim, para emitir notas fiscais eletrônicas com validade jurídica, você precisará de um Certificado Digital A1. Nós auxiliamos no upload do arquivo .pfx de forma rápida durante o onboarding ou configurações do painel.' },
     { q: 'Posso testar antes de assinar?', a: 'Com certeza! Você pode criar sua conta gratuitamente e testar nossa plataforma no ambiente de homologação por até 7 dias sem qualquer compromisso.' },
@@ -138,7 +138,7 @@ export const LandingPage: React.FC = () => {
         {/* Left text */}
         <div className="flex-1 flex flex-col gap-6 text-center lg:text-left">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-text-primary font-title leading-tight">
-            Venda mais. A <span className="text-text-primary">PixelContas</span> cuida das suas notas fiscais.
+            Venda mais. A <span className="text-text-primary">PixelConta</span> cuida das suas notas fiscais.
           </h1>
           <p className="text-base md:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto lg:mx-0">
             Emita e automatize notas fiscais, organize sua empresa e acompanhe sua contabilidade em um único lugar.
@@ -409,7 +409,7 @@ export const LandingPage: React.FC = () => {
         <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12 text-center flex flex-col items-center gap-6">
           <h2 className="text-3xl md:text-4xl font-black font-title">Pronto para simplificar sua gestão fiscal?</h2>
           <p className="text-sm text-white/80 max-w-lg leading-relaxed">
-            Abra sua conta na PixelContas hoje mesmo. Comece a emitir notas com automação total e tenha foco absoluto no seu crescimento.
+            Abra sua conta na PixelConta hoje mesmo. Comece a emitir notas com automação total e tenha foco absoluto no seu crescimento.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
             <Link to="/cadastro" className="w-full sm:w-auto">
@@ -465,7 +465,7 @@ export const LandingPage: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span>© 2026 PixelContas Contabilidade Digital LTDA. Todos os direitos reservados. CNPJ: 12.345.678/0001-90</span>
+          <span>© 2026 PixelConta Contabilidade Digital LTDA. Todos os direitos reservados. CNPJ: 12.345.678/0001-90</span>
           <span>Recife - PE</span>
         </div>
       </footer>

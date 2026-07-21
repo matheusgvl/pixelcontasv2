@@ -33,7 +33,7 @@ export const Configuracoes: React.FC = () => {
     inscMunicipal: '121314-5',
     regimeTributario: 'Simples Nacional',
     cnae: '6201-5/01',
-    email: 'ricardo@pixelcontas.com.br',
+    email: 'ricardo@pixelconta.com.br',
     phone: '(81) 3456-7890',
     zipCode: '52020-000',
     street: 'Avenida Rui Barbosa',
@@ -60,8 +60,8 @@ export const Configuracoes: React.FC = () => {
 
   // Team users state
   const [team, setTeam] = useState<TeamMember[]>([
-    { id: '1', name: 'Ricardo Almeida', email: 'ricardo@pixelcontas.com.br', role: 'Administrador', status: 'active' },
-    { id: '2', name: 'Helena Moreira', email: 'helena.contador@pixelcontas.com.br', role: 'Contador', status: 'active' },
+    { id: '1', name: 'Ricardo Almeida', email: 'ricardo@pixelconta.com.br', role: 'Administrador', status: 'active' },
+    { id: '2', name: 'Helena Moreira', email: 'helena.contador@pixelconta.com.br', role: 'Contador', status: 'active' },
     { id: '3', name: 'Camila Souza', email: 'camila.finanças@empresa.com.br', role: 'Financeiro', status: 'active' },
     { id: '4', name: 'Pedro Santos', email: 'pedro.operador@empresa.com.br', role: 'Operador', status: 'inactive' }
   ]);
