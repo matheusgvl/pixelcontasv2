@@ -120,3 +120,7 @@ Ele gerencia no `localStorage` do navegador a criação, edição, deleção e b
 *   Histórico de faturamento mensal.
 
 Assim, qualquer alteração, cadastro ou exclusão feita no painel **persiste** mesmo se a página for recarregada ou fechada.
+
+---
+
+feito por Matheus Gabriel
