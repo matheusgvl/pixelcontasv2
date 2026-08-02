@@ -1,5 +1,7 @@
 # 🧾 PixelConta - Contabilidade Digital & Emissão Automatizada
 
+Autor: marcos vinicius
+
 `PixelConta` é uma plataforma moderna e completa de **contabilidade digital e emissão automatizada de notas fiscais** (NFS-e, NF-e e NFC-e) desenvolvida especialmente para o ecossistema de negócios digitais, infoprodutores, prestadores de serviços e e-commerces.
 
 A plataforma automatiza todo o fluxo fiscal, desde a captura de vendas em plataformas parceiras (como Hotmart, Kiwify, Asaas, Shopify, Stripe e outras) até a emissão da nota fiscal eletrônica junto à prefeitura ou SEFAZ, armazenamento do XML/PDF e comunicação integrada com contadores dedicados.
