@@ -90,8 +90,6 @@ export const DocumentosPendencias: React.FC = () => {
         file_url: upload.path,
         file_size: `${(file.size / 1024 / 1024).toFixed(1)} MB`,
       };
-      if (upload.companyId) documentPayload.company_id = upload.companyId;
-
       const created = await databaseService.create<any>('documents', documentPayload);
 
       const newDoc: Document = {

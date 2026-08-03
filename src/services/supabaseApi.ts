@@ -113,7 +113,6 @@ export const storageService = {
     return apiRequest<{
       bucket: string;
       path: string;
-      companyId: string;
       signedUrl: string;
       token: string;
     }>('/api/storage/upload-url', {
