@@ -291,8 +291,6 @@ export async function enforceCompanyMutationScope(req, res, table, payload = {},
     return null;
   }
 
-  if (profile.role === 'admin') return payload;
-
   if (table === 'profiles') {
     const safePayload = { ...payload };
     if (safePayload.role && safePayload.role !== profile.role) delete safePayload.role;
