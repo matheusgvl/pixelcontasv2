@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   PlusCircle, Sparkles, Save, Cpu
 } from 'lucide-react';
-import { db } from '../mocks/db';
+import { databaseService } from '../services/supabaseApi';
+import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { AutomationCard } from '../components/shared/AutomationCard';
 import { Button } from '../components/ui/Button';
@@ -14,7 +15,21 @@ import type { Automation } from '../types';
 export const Automacoes: React.FC = () => {
   const toast = useToast();
 
-  const [automations, setAutomations] = useState<Automation[]>(() => db.automations);
+  const [automations, setAutomations] = useState<Automation[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    realData.automations()
+      .then((nextAutomations) => {
+        if (mounted) setAutomations(nextAutomations);
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar automacoes.');
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
   
   // Builder view mode
   const [showBuilder, setShowBuilder] = useState(false);
@@ -40,7 +55,7 @@ export const Automacoes: React.FC = () => {
     });
 
     setAutomations(nextAuts);
-    db.automations = nextAuts;
+    databaseService.update('automations', id, { status: nextStatus }).catch(() => undefined);
     toast.success(`Automação ${nextStatus === 'active' ? 'ativada' : 'pausada'} com sucesso!`);
   };
 
@@ -72,7 +87,10 @@ export const Automacoes: React.FC = () => {
         return aut;
       });
       setAutomations(nextAuts);
-      db.automations = nextAuts;
+      databaseService.update('automations', id, {
+        total_executions: (automations.find(aut => aut.id === id)?.totalExecutions || 0) + 1,
+        last_execution_at: new Date().toISOString(),
+      }).catch(() => undefined);
       toast.success('Disparo manual simulado! Nota fiscal emitida automaticamente em background.');
     }, 800);
   };
@@ -105,7 +123,19 @@ export const Automacoes: React.FC = () => {
 
     const nextAuts = [newAut, ...automations];
     setAutomations(nextAuts);
-    db.automations = nextAuts;
+    realData.activeCompanyId()
+      .then((companyId) => databaseService.create('automations', {
+        company_id: companyId,
+        name: newAut.name,
+        trigger: newAut.trigger,
+        conditions: newAut.conditions,
+        actions: newAut.actions,
+        status: newAut.status,
+        total_executions: newAut.totalExecutions,
+        success_rate: newAut.successRate,
+        error_history: newAut.errorHistory,
+      }))
+      .catch(() => undefined);
 
     toast.success('Regra de automação criada e ativada!');
     setShowBuilder(false);

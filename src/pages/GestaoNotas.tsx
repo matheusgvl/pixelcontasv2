@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   Download, Mail, Eye, Ban, Search, 
   Filter, FileSpreadsheet, PlusCircle
 } from 'lucide-react';
-import { db } from '../mocks/db';
 import { invoiceService } from '../services/api';
+import { realData } from '../services/realData';
 import { DataTable } from '../components/shared/DataTable';
 import type { Column } from '../components/shared/DataTable';
 import { PageHeader } from '../components/shared/PageHeader';
@@ -22,7 +22,7 @@ export const GestaoNotas: React.FC = () => {
   const toast = useToast();
 
   // State
-  const [invoices, setInvoices] = useState<Invoice[]>(() => db.invoices);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -32,6 +32,20 @@ export const GestaoNotas: React.FC = () => {
   const [cancelingInvoiceId, setCancelingInvoiceId] = useState<string | null>(null);
   const [cancelReason, setCancelReason] = useState('');
   const [isCancelLoading, setIsCancelLoading] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    realData.invoices()
+      .then((nextInvoices) => {
+        if (mounted) setInvoices(nextInvoices);
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar notas fiscais.');
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // Active filters list
   const filteredData = useMemo(() => {

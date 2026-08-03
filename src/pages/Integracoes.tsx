@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   Search, Save, Key, Server, ToggleLeft, Link2, Sparkles
 } from 'lucide-react';
-import { db } from '../mocks/db';
+import { databaseService } from '../services/supabaseApi';
+import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { IntegrationCard } from '../components/shared/IntegrationCard';
 import { Button } from '../components/ui/Button';
@@ -18,9 +19,23 @@ export const Integracoes: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const [integrations, setIntegrations] = useState<Integration[]>(() => db.integrations);
+  const [integrations, setIntegrations] = useState<Integration[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+
+  useEffect(() => {
+    let mounted = true;
+    realData.integrations()
+      .then((nextIntegrations) => {
+        if (mounted) setIntegrations(nextIntegrations);
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar integracoes.');
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // Load integration for details mode
   const integrationDetails = useMemo(() => {
@@ -96,7 +111,10 @@ export const Integracoes: React.FC = () => {
         return item;
       });
       setIntegrations(nextInts);
-      db.integrations = nextInts;
+      databaseService.update('integrations', intId, {
+        status: 'connected',
+        last_sync_at: new Date().toISOString(),
+      }).catch(() => undefined);
       toast.success('Integração conectada! Redirecionando para configurações.');
       navigate(`/app/integracoes/${intId}`);
     }, 600);
@@ -125,7 +143,11 @@ export const Integracoes: React.FC = () => {
     });
 
     setIntegrations(nextInts);
-    db.integrations = nextInts;
+    databaseService.update('integrations', id, {
+      status: 'connected',
+      config: configForm,
+      last_sync_at: new Date().toISOString(),
+    }).catch(() => undefined);
     toast.success('Configurações de integração salvas com sucesso!');
     navigate('/app/integracoes');
   };

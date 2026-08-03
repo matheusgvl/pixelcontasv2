@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Send, Calendar, Download, FileText
 } from 'lucide-react';
-import { db } from '../mocks/db';
+import { databaseService } from '../services/supabaseApi';
+import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -11,10 +12,24 @@ import type { ChatMessage } from '../types';
 
 export const Contabilidade: React.FC = () => {
   const toast = useToast();
-  const [messages, setMessages] = useState<ChatMessage[]>(() => db.chatMessages);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    realData.chatMessages()
+      .then((nextMessages) => {
+        if (mounted) setMessages(nextMessages);
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar mensagens.');
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // Auto-scroll chat
   useEffect(() => {
@@ -34,7 +49,14 @@ export const Contabilidade: React.FC = () => {
 
     const nextMsgs = [...messages, userMsg];
     setMessages(nextMsgs);
-    db.chatMessages = nextMsgs;
+    realData.activeCompanyId()
+      .then((companyId) => databaseService.create('chat_messages', {
+        company_id: companyId,
+        sender_type: 'client',
+        sender_name: 'Cliente',
+        text: userMsg.text,
+      }))
+      .catch(() => undefined);
     setInputMessage('');
 
     // Simulate accountant response
@@ -62,7 +84,14 @@ export const Contabilidade: React.FC = () => {
 
       const finalMsgs = [...nextMsgs, accountantMsg];
       setMessages(finalMsgs);
-      db.chatMessages = finalMsgs;
+      realData.activeCompanyId()
+        .then((companyId) => databaseService.create('chat_messages', {
+          company_id: companyId,
+          sender_type: 'accountant',
+          sender_name: 'Helena Moreira',
+          text: accountantMsg.text,
+        }))
+        .catch(() => undefined);
       toast.success('Nova mensagem da contadora Helena Moreira!');
     }, 1500);
   };

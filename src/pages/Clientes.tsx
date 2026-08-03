@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { 
   ArrowLeft, Search, PlusCircle, User, Mail, Phone, MapPin, 
   FileText, TrendingUp, Save, Trash2, Calendar
 } from 'lucide-react';
-import { db } from '../mocks/db';
 import { cepService } from '../services/api';
+import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { DataTable } from '../components/shared/DataTable';
 import type { Column } from '../components/shared/DataTable';
@@ -15,7 +15,7 @@ import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Textarea } from '../components/ui/Textarea';
 import { useToast } from '../context/ToastContext';
-import type { Client } from '../types';
+import type { Client, Invoice } from '../types';
 
 export const Clientes: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,9 +31,31 @@ export const Clientes: React.FC = () => {
   }, [id, location.pathname]);
 
   // Load clients and invoices
-  const [clients, setClients] = useState<Client[]>(() => db.clients);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingCEP, setLoadingCEP] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadData() {
+      try {
+        const [nextClients, nextInvoices] = await Promise.all([
+          realData.clients(),
+          realData.invoices(),
+        ]);
+        if (!mounted) return;
+        setClients(nextClients);
+        setInvoices(nextInvoices);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar clientes.');
+      }
+    }
+    loadData();
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // Form states
   const [formData, setFormData] = useState({
@@ -63,8 +85,8 @@ export const Clientes: React.FC = () => {
 
   const clientInvoices = useMemo(() => {
     if (!clientDetails) return [];
-    return db.invoices.filter(inv => inv.clientDocument === clientDetails.document);
-  }, [clientDetails]);
+    return invoices.filter(inv => inv.clientDocument === clientDetails.document);
+  }, [clientDetails, invoices]);
 
   // CEP autofill trigger
   const handleCEPBlur = async () => {
@@ -92,54 +114,54 @@ export const Clientes: React.FC = () => {
   };
 
   // Submit Client create
-  const handleSaveClient = (e: React.FormEvent) => {
+  const handleSaveClient = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.document || !formData.email) {
       toast.error('Preencha os campos obrigatórios: Nome, Documento e E-mail.');
       return;
     }
 
-    const newClient: Client = {
-      id: `cli-${Date.now()}`,
-      name: formData.name,
-      tradingName: formData.tradingName || undefined,
-      document: formData.document,
-      type: formData.type,
-      stateRegistration: formData.stateRegistration || undefined,
-      municipalRegistration: formData.municipalRegistration || undefined,
-      email: formData.email,
-      phone: formData.phone,
-      address: {
-        zipCode: formData.zipCode,
-        street: formData.street,
-        number: formData.number,
-        complement: formData.complement || undefined,
-        neighborhood: formData.neighborhood,
-        city: formData.city,
-        state: formData.state
-      },
-      notes: formData.notes || undefined,
-      totalInvoices: 0,
-      totalSpent: 0,
-      status: 'active'
-    };
-
-    const nextClients = [newClient, ...clients];
-    setClients(nextClients);
-    db.clients = nextClients;
-    
-    toast.success('Cliente cadastrado com sucesso!');
-    navigate('/app/clientes');
+    try {
+      const newClient = await realData.createClient({
+        name: formData.name,
+        tradingName: formData.tradingName || undefined,
+        document: formData.document,
+        type: formData.type,
+        stateRegistration: formData.stateRegistration || undefined,
+        municipalRegistration: formData.municipalRegistration || undefined,
+        email: formData.email,
+        phone: formData.phone,
+        address: {
+          zipCode: formData.zipCode,
+          street: formData.street,
+          number: formData.number,
+          complement: formData.complement || undefined,
+          neighborhood: formData.neighborhood,
+          city: formData.city,
+          state: formData.state
+        },
+        notes: formData.notes || undefined,
+        status: 'active'
+      });
+      setClients(prev => [newClient, ...prev]);
+      toast.success('Cliente cadastrado com sucesso!');
+      navigate('/app/clientes');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao salvar cliente.');
+    }
   };
 
   // Delete Client mock action
-  const handleDeleteClient = (idToDelete: string, name: string) => {
+  const handleDeleteClient = async (idToDelete: string, name: string) => {
     const conf = window.confirm(`Deseja realmente arquivar o cliente ${name}?`);
     if (conf) {
-      const nextClients = clients.map(c => c.id === idToDelete ? { ...c, status: 'inactive' as const } : c);
-      setClients(nextClients);
-      db.clients = nextClients;
-      toast.success(`Cliente ${name} arquivado com sucesso.`);
+      try {
+        await realData.update('clients', idToDelete, { status: 'inactive' });
+        setClients(prev => prev.map(c => c.id === idToDelete ? { ...c, status: 'inactive' as const } : c));
+        toast.success(`Cliente ${name} arquivado com sucesso.`);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Erro ao arquivar cliente.');
+      }
     }
   };
 

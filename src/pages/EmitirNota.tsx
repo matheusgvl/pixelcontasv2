@@ -1,12 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { 
   CheckCircle, AlertTriangle, ArrowLeft, ArrowRight, Plus, 
   Trash, Download, Mail, ExternalLink, RefreshCw
 } from 'lucide-react';
-import { db } from '../mocks/db';
 import { invoiceService } from '../services/api';
+import { realData } from '../services/realData';
 import { Stepper } from '../components/shared/Stepper';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -15,7 +15,7 @@ import { Textarea } from '../components/ui/Textarea';
 import { Checkbox } from '../components/ui/Checkbox';
 import { InvoicePreview } from '../components/shared/InvoicePreview';
 import { useToast } from '../context/ToastContext';
-import type { Client, InvoiceTaxes, Invoice } from '../types';
+import type { Client, InvoiceTaxes, Invoice, Product, Service } from '../types';
 
 export const EmitirNota: React.FC = () => {
   const toast = useToast();
@@ -30,9 +30,32 @@ export const EmitirNota: React.FC = () => {
   const [showNewClientModal, setShowNewClientModal] = useState(false);
 
   // Load clients, products, services
-  const [clients, setClients] = useState<Client[]>(() => db.clients);
-  const products = useMemo(() => db.products.filter(p => p.status === 'active'), []);
-  const services = useMemo(() => db.services.filter(s => s.status === 'active'), []);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadData() {
+      try {
+        const [nextClients, nextProducts, nextServices] = await Promise.all([
+          realData.clients(),
+          realData.products(),
+          realData.services(),
+        ]);
+        if (!mounted) return;
+        setClients(nextClients);
+        setProducts(nextProducts.filter(p => p.status === 'active'));
+        setServices(nextServices.filter(s => s.status === 'active'));
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar dados para emissao.');
+      }
+    }
+    loadData();
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // Set up React Hook Form
   const { register, setValue, watch, getValues, control, reset } = useForm({
@@ -110,7 +133,7 @@ export const EmitirNota: React.FC = () => {
   const [newClientCEP, setNewClientCEP] = useState('');
   const [newClientAddress, setNewClientAddress] = useState('');
 
-  const handleCreateClientOnTheFly = () => {
+  const handleCreateClientOnTheFly = async () => {
     if (!newClientName || !newClientDoc) {
       toast.error('Preencha pelo menos o Nome e CPF/CNPJ do cliente.');
       return;
@@ -119,35 +142,32 @@ export const EmitirNota: React.FC = () => {
     const docClean = newClientDoc.replace(/\D/g, '');
     const isPJ = docClean.length === 14;
 
-    const newClient: Client = {
-      id: `cli-fly-${Date.now()}`,
-      name: newClientName,
-      document: newClientDoc,
-      type: isPJ ? 'PJ' : 'PF',
-      email: newClientEmail,
-      phone: '(81) 99999-8888',
-      address: {
-        zipCode: newClientCEP || '52020-000',
-        street: newClientAddress || 'Rua Nova de Cadastro',
-        number: '10',
-        neighborhood: 'Centro',
-        city: 'Recife',
-        state: 'PE'
-      },
-      totalInvoices: 0,
-      totalSpent: 0,
-      status: 'active'
-    };
+    try {
+      const newClient = await realData.createClient({
+        name: newClientName,
+        document: newClientDoc,
+        type: isPJ ? 'PJ' : 'PF',
+        email: newClientEmail,
+        phone: '(81) 99999-8888',
+        address: {
+          zipCode: newClientCEP || '52020-000',
+          street: newClientAddress || 'Rua Nova de Cadastro',
+          number: '10',
+          neighborhood: 'Centro',
+          city: 'Recife',
+          state: 'PE'
+        },
+        status: 'active'
+      });
 
-    // Update state and mock DB
-    const updatedClients = [...clients, newClient];
-    setClients(updatedClients);
-    db.clients = updatedClients;
-
-    // Auto-select newly created client
-    setValue('clientId', newClient.id);
-    setShowNewClientModal(false);
-    toast.success('Cliente cadastrado e selecionado com sucesso!');
+      setClients(prev => [...prev, newClient]);
+      setValue('clientId', newClient.id);
+      setShowNewClientModal(false);
+      toast.success('Cliente cadastrado e selecionado com sucesso!');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao cadastrar cliente.');
+      return;
+    }
 
     // Reset inputs
     setNewClientName('');

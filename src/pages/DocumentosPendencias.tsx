@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
   FolderClosed, ShieldAlert, Upload, Download, Trash, CheckCircle, 
   AlertCircle, Calendar, FileText
 } from 'lucide-react';
-import { db } from '../mocks/db';
+import { databaseService } from '../services/supabaseApi';
+import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { Tabs } from '../components/ui/Tabs';
 import { Button } from '../components/ui/Button';
@@ -23,8 +24,29 @@ export const DocumentosPendencias: React.FC = () => {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   // Load state
-  const [documents, setDocuments] = useState<Document[]>(() => db.documents);
-  const [pendings, setPendings] = useState<PendingTask[]>(() => db.pendings);
+  const [documents, setDocuments] = useState<Document[]>([]);
+  const [pendings, setPendings] = useState<PendingTask[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadData() {
+      try {
+        const [nextDocuments, nextPendings] = await Promise.all([
+          realData.documents(),
+          realData.pendingTasks(),
+        ]);
+        if (!mounted) return;
+        setDocuments(nextDocuments);
+        setPendings(nextPendings);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar documentos e pendencias.');
+      }
+    }
+    loadData();
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // File Upload categories
   const [docCategory, setDocCategory] = useState<Document['category']>('invoice');
@@ -53,18 +75,26 @@ export const DocumentosPendencias: React.FC = () => {
       size: `${(file.size / 1024 / 1024).toFixed(1)} MB`
     };
 
-    const nextDocs = [newDoc, ...documents];
-    setDocuments(nextDocs);
-    db.documents = nextDocs;
+    setDocuments(prev => [newDoc, ...prev]);
+    realData.activeCompanyId()
+      .then((companyId) => databaseService.create('documents', {
+        company_id: companyId,
+        name: file.name,
+        category: docCategory,
+        competence: docCompetence,
+        status: 'sent',
+        sender_name: 'Usuario PixelConta',
+        file_size: `${(file.size / 1024 / 1024).toFixed(1)} MB`,
+      }))
+      .catch(() => undefined);
     toast.success(`Documento "${file.name}" enviado com sucesso sob a categoria ${categoryLabels[docCategory]}!`);
   };
 
   const handleDeleteDocument = (id: string, name: string) => {
     const conf = window.confirm(`Deseja deletar o documento ${name}?`);
     if (conf) {
-      const nextDocs = documents.filter(doc => doc.id !== id);
-      setDocuments(nextDocs);
-      db.documents = nextDocs;
+      setDocuments(prev => prev.filter(doc => doc.id !== id));
+      databaseService.remove('documents', id).catch(() => undefined);
       toast.success('Documento deletado.');
     }
   };
@@ -72,9 +102,8 @@ export const DocumentosPendencias: React.FC = () => {
   const handleResolvePending = (id: string, title: string) => {
     // If pending item is CNAE verification, CNAE is already confirmed.
     // If pending item is "Inter bank statement", it matches "doc-7" status to sent or adds a document.
-    const nextPends = pendings.map(p => p.id === id ? { ...p, status: 'resolved' as const } : p);
-    setPendings(nextPends);
-    db.pendings = nextPends;
+    setPendings(prev => prev.map(p => p.id === id ? { ...p, status: 'resolved' as const } : p));
+    databaseService.update('pending_tasks', id, { status: 'resolved' }).catch(() => undefined);
     toast.success(`Pendência "${title}" resolvida com sucesso!`);
   };
 

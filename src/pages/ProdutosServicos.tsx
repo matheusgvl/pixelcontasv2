@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
   PlusCircle, ShoppingBag, Briefcase, Search, Save, Archive
 } from 'lucide-react';
-import { db } from '../mocks/db';
+import { realData, toProductPayload, toServicePayload } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { Tabs } from '../components/ui/Tabs';
 import { Button } from '../components/ui/Button';
@@ -22,8 +22,29 @@ export const ProdutosServicos: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Load catalogs state
-  const [products, setProducts] = useState<Product[]>(() => db.products);
-  const [services, setServices] = useState<Service[]>(() => db.services);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadData() {
+      try {
+        const [nextProducts, nextServices] = await Promise.all([
+          realData.products(),
+          realData.services(),
+        ]);
+        if (!mounted) return;
+        setProducts(nextProducts);
+        setServices(nextServices);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar catalogo.');
+      }
+    }
+    loadData();
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // Modal forms
   const [showProductModal, setShowProductModal] = useState(false);
@@ -57,75 +78,81 @@ export const ProdutosServicos: React.FC = () => {
   }, [services, searchTerm]);
 
   // Actions
-  const handleSaveProduct = (e: React.FormEvent) => {
+  const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!productForm.name || !productForm.code || !productForm.sku) {
       toast.error('Preencha os campos obrigatórios do produto.');
       return;
     }
 
-    const newProd: Product = {
-      id: `prod-${Date.now()}`,
-      name: productForm.name,
-      code: productForm.code,
-      sku: productForm.sku,
-      ncm: productForm.ncm,
-      cfopDefault: productForm.cfopDefault,
-      unit: productForm.unit,
-      value: Number(productForm.value) || 0,
-      stock: Number(productForm.stock) || 0,
-      status: 'active'
-    };
+    try {
+      const newProd = await realData.createProduct({
+        name: productForm.name,
+        code: productForm.code,
+        sku: productForm.sku,
+        ncm: productForm.ncm,
+        cfopDefault: productForm.cfopDefault,
+        unit: productForm.unit,
+        value: Number(productForm.value) || 0,
+        stock: Number(productForm.stock) || 0,
+        status: 'active'
+      });
 
-    const nextProds = [newProd, ...products];
-    setProducts(nextProds);
-    db.products = nextProds;
-
-    toast.success('Produto cadastrado com sucesso!');
-    setShowProductModal(false);
-    setProductForm({ name: '', code: '', sku: '', ncm: '', cfopDefault: '5.102', unit: 'UN', value: 0, stock: 1 });
+      setProducts(prev => [newProd, ...prev]);
+      toast.success('Produto cadastrado com sucesso!');
+      setShowProductModal(false);
+      setProductForm({ name: '', code: '', sku: '', ncm: '', cfopDefault: '5.102', unit: 'UN', value: 0, stock: 1 });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao salvar produto.');
+    }
   };
 
-  const handleSaveService = (e: React.FormEvent) => {
+  const handleSaveService = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!serviceForm.name || !serviceForm.internalCode || !serviceForm.cnae) {
       toast.error('Preencha os campos obrigatórios do serviço.');
       return;
     }
 
-    const newServ: Service = {
-      id: `serv-${Date.now()}`,
-      name: serviceForm.name,
-      internalCode: serviceForm.internalCode,
-      municipalCode: serviceForm.municipalCode,
-      cnae: serviceForm.cnae,
-      issRate: Number(serviceForm.issRate) || 0,
-      defaultValue: Number(serviceForm.defaultValue) || 0,
-      city: serviceForm.city,
-      status: 'active'
-    };
+    try {
+      const newServ = await realData.createService({
+        name: serviceForm.name,
+        internalCode: serviceForm.internalCode,
+        municipalCode: serviceForm.municipalCode,
+        cnae: serviceForm.cnae,
+        issRate: Number(serviceForm.issRate) || 0,
+        defaultValue: Number(serviceForm.defaultValue) || 0,
+        city: serviceForm.city,
+        status: 'active'
+      });
 
-    const nextServs = [newServ, ...services];
-    setServices(nextServs);
-    db.services = nextServs;
-
-    toast.success('Serviço cadastrado com sucesso!');
-    setShowServiceModal(false);
-    setServiceForm({ name: '', internalCode: '', municipalCode: '', cnae: '', issRate: 5, defaultValue: 0, city: 'Recife - PE' });
+      setServices(prev => [newServ, ...prev]);
+      toast.success('Serviço cadastrado com sucesso!');
+      setShowServiceModal(false);
+      setServiceForm({ name: '', internalCode: '', municipalCode: '', cnae: '', issRate: 5, defaultValue: 0, city: 'Recife - PE' });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao salvar servico.');
+    }
   };
 
-  const handleArchiveProduct = (id: string, name: string) => {
-    const nextProds = products.map(p => p.id === id ? { ...p, status: 'inactive' as const } : p);
-    setProducts(nextProds);
-    db.products = nextProds;
-    toast.success(`Produto "${name}" arquivado com sucesso.`);
+  const handleArchiveProduct = async (id: string, name: string) => {
+    try {
+      await realData.update('products', id, toProductPayload({ status: 'inactive' }));
+      setProducts(prev => prev.map(p => p.id === id ? { ...p, status: 'inactive' as const } : p));
+      toast.success(`Produto "${name}" arquivado com sucesso.`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao arquivar produto.');
+    }
   };
 
-  const handleArchiveService = (id: string, name: string) => {
-    const nextServs = services.map(s => s.id === id ? { ...s, status: 'inactive' as const } : s);
-    setServices(nextServs);
-    db.services = nextServs;
-    toast.success(`Serviço "${name}" arquivado com sucesso.`);
+  const handleArchiveService = async (id: string, name: string) => {
+    try {
+      await realData.update('services', id, toServicePayload({ status: 'inactive' }));
+      setServices(prev => prev.map(s => s.id === id ? { ...s, status: 'inactive' as const } : s));
+      toast.success(`Serviço "${name}" arquivado com sucesso.`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao arquivar servico.');
+    }
   };
 
   return (

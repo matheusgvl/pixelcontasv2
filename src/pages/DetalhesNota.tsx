@@ -1,26 +1,41 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   ArrowLeft, Download, Mail, Copy, Ban, 
   History, Settings, Activity, ShieldCheck
 } from 'lucide-react';
-import { db } from '../mocks/db';
 import { invoiceService } from '../services/api';
+import { realData } from '../services/realData';
 import { InvoicePreview } from '../components/shared/InvoicePreview';
 import { PageHeader } from '../components/shared/PageHeader';
 import { Button } from '../components/ui/Button';
 import { ConfirmDialog } from '../components/shared/ConfirmDialog';
 import { useToast } from '../context/ToastContext';
+import type { Invoice } from '../types';
 
 export const DetalhesNota: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const toast = useToast();
 
-  const [invoices, setInvoices] = useState(() => db.invoices);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [isCancelLoading, setIsCancelLoading] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    realData.invoices()
+      .then((nextInvoices) => {
+        if (mounted) setInvoices(nextInvoices);
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar nota fiscal.');
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
 
   // Find invoice
   const invoice = useMemo(() => {

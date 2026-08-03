@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   TrendingUp, FileText, Landmark, ShieldAlert, Users,
   PlusCircle, FileSpreadsheet, MessageSquareCode, CalendarDays,
   Plus, ArrowRight
 } from 'lucide-react';
-import { db } from '../mocks/db';
+import { realData } from '../services/realData';
 import { MetricCard } from '../components/shared/MetricCard';
 import { ChartCard } from '../components/shared/ChartCard';
 import { Button } from '../components/ui/Button';
@@ -14,15 +14,35 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts';
+import type { Client, Invoice, PendingTask } from '../types';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [filterPeriod, setFilterPeriod] = useState<'30d' | '7d' | 'month' | 'today'>('month');
 
   // Load database items
-  const invoices = useMemo(() => db.invoices, []);
-  const clients = useMemo(() => db.clients, []);
-  const pendings = useMemo(() => db.pendings, []);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [pendings, setPendings] = useState<PendingTask[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadData() {
+      const [nextInvoices, nextClients, nextPendings] = await Promise.all([
+        realData.invoices(),
+        realData.clients(),
+        realData.pendingTasks(),
+      ]);
+      if (!mounted) return;
+      setInvoices(nextInvoices);
+      setClients(nextClients);
+      setPendings(nextPendings);
+    }
+    loadData().catch(() => undefined);
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   // Filter invoices based on period
   const filteredInvoices = useMemo(() => {

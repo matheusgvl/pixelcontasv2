@@ -1,14 +1,15 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { 
   FileSpreadsheet, Download, Filter, 
   TrendingUp, FileCheck, Landmark, ShieldAlert, Ban, BarChart4
 } from 'lucide-react';
-import { db } from '../mocks/db';
+import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { MetricCard } from '../components/shared/MetricCard';
 import { Button } from '../components/ui/Button';
 import { Select } from '../components/ui/Select';
 import { useToast } from '../context/ToastContext';
+import type { Invoice } from '../types';
 
 export const Relatorios: React.FC = () => {
   const toast = useToast();
@@ -20,7 +21,19 @@ export const Relatorios: React.FC = () => {
   const [filterOrigin, setFilterOrigin] = useState('all');
 
   // Load database invoices
-  const invoices = useMemo(() => db.invoices, []);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    realData.invoices()
+      .then((nextInvoices) => {
+        if (mounted) setInvoices(nextInvoices);
+      })
+      .catch(() => undefined);
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   // Filtered invoices logic
   const filteredInvoices = useMemo(() => {
