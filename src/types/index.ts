@@ -157,10 +157,11 @@ export interface Document {
   category: 'invoice' | 'bank_statement' | 'receipt' | 'contract' | 'payroll' | 'corporate' | 'others';
   competence: string; // e.g. '06/2026'
   status: 'sent' | 'pending' | 'reviewed';
-  uploadDate: string;
-  sender: string;
-  size: string;
-}
+    uploadDate: string;
+    sender: string;
+    size: string;
+    fileUrl?: string;
+  }
 
 export interface PendingTask {
   id: string;

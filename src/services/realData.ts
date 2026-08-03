@@ -270,6 +270,7 @@ export function mapDocument(row: DbRow): Document {
     uploadDate: row.created_at,
     sender: row.sender_name || '',
     size: row.file_size || '',
+    fileUrl: row.file_url || undefined,
   };
 }
 

@@ -4,7 +4,7 @@ import {
   FolderClosed, ShieldAlert, Upload, Download, Trash, CheckCircle, 
   AlertCircle, Calendar, FileText
 } from 'lucide-react';
-import { databaseService } from '../services/supabaseApi';
+import { databaseService, storageService } from '../services/supabaseApi';
 import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { Tabs } from '../components/ui/Tabs';
@@ -26,6 +26,7 @@ export const DocumentosPendencias: React.FC = () => {
   // Load state
   const [documents, setDocuments] = useState<Document[]>([]);
   const [pendings, setPendings] = useState<PendingTask[]>([]);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -53,7 +54,9 @@ export const DocumentosPendencias: React.FC = () => {
   const [docCompetence, setDocCompetence] = useState('07/2026');
 
   // Actions
-  const handleFileUpload = (file: File) => {
+  const handleFileUpload = async (file: File) => {
+    if (uploading) return;
+
     const categoryLabels: Record<Document['category'], string> = {
       invoice: 'Notas fiscais',
       bank_statement: 'Extrato bancário',
@@ -64,30 +67,51 @@ export const DocumentosPendencias: React.FC = () => {
       others: 'Outro'
     };
 
-    const newDoc: Document = {
-      id: `doc-${Date.now()}`,
-      name: file.name,
-      category: docCategory,
-      competence: docCompetence,
-      status: 'sent',
-      uploadDate: new Date().toISOString(),
-      sender: 'Ricardo Almeida',
-      size: `${(file.size / 1024 / 1024).toFixed(1)} MB`
-    };
+    setUploading(true);
+    try {
+      const upload = await storageService.createUploadUrl({
+        bucket: 'documents',
+        fileName: file.name,
+        recordId: docCompetence.replace('/', '-'),
+      });
+      await storageService.uploadWithSignedUrl({
+        bucket: upload.bucket,
+        path: upload.path,
+        token: upload.token,
+        file,
+      });
 
-    setDocuments(prev => [newDoc, ...prev]);
-    realData.activeCompanyId()
-      .then((companyId) => databaseService.create('documents', {
+      const companyId = await realData.activeCompanyId();
+      const created = await databaseService.create<any>('documents', {
         company_id: companyId,
         name: file.name,
         category: docCategory,
         competence: docCompetence,
         status: 'sent',
         sender_name: 'Usuario PixelConta',
+        file_url: upload.path,
         file_size: `${(file.size / 1024 / 1024).toFixed(1)} MB`,
-      }))
-      .catch(() => undefined);
-    toast.success(`Documento "${file.name}" enviado com sucesso sob a categoria ${categoryLabels[docCategory]}!`);
+      });
+
+      const newDoc: Document = {
+        id: created.id,
+        name: created.name,
+        category: created.category,
+        competence: created.competence,
+        status: created.status,
+        uploadDate: created.created_at,
+        sender: created.sender_name || 'Usuario PixelConta',
+        size: created.file_size || `${(file.size / 1024 / 1024).toFixed(1)} MB`,
+        fileUrl: created.file_url,
+      };
+
+      setDocuments(prev => [newDoc, ...prev]);
+      toast.success(`Documento "${file.name}" enviado com sucesso sob a categoria ${categoryLabels[docCategory]}!`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao enviar documento.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleDeleteDocument = (id: string, name: string) => {
@@ -163,8 +187,9 @@ export const DocumentosPendencias: React.FC = () => {
               
               <UploadArea
                 onFileSelect={handleFileUpload}
-                accept=".pdf,.xml,.zip,.jpg,.png"
-                label="Arraste arquivos PDF, XML, ZIP ou imagens aqui"
+                accept=".pdf,.xml,.jpg,.jpeg,.png"
+                maxSizeMB={20}
+                label={uploading ? 'Enviando documento...' : 'Arraste arquivos PDF, XML ou imagens aqui'}
               />
             </div>
           </div>
