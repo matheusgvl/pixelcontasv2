@@ -52,3 +52,22 @@ Body:
 ```
 
 O retorno traz `signedUrl`, `token`, `bucket` e `path`. O frontend usa estes dados com `supabase.storage.from(bucket).uploadToSignedUrl(path, token, file)`.
+
+## Endpoint de download
+
+O backend gera URLs temporarias de download em:
+
+```text
+POST /api/storage/download-url
+```
+
+Body:
+
+```json
+{
+  "bucket": "documents",
+  "path": "company_id/documents/documento-123/arquivo.pdf"
+}
+```
+
+O link expira em 5 minutos.

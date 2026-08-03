@@ -136,4 +136,16 @@ export const storageService = {
       .uploadToSignedUrl(input.path, input.token, input.file);
     if (error) throw error;
   },
+
+  createDownloadUrl(input: { bucket: string; path: string }) {
+    return apiRequest<{
+      bucket: string;
+      path: string;
+      signedUrl: string;
+      expiresIn: number;
+    }>('/api/storage/download-url', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
 };

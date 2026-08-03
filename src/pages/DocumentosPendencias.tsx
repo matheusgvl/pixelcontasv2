@@ -122,6 +122,23 @@ export const DocumentosPendencias: React.FC = () => {
     }
   };
 
+  const handleDownloadDocument = async (doc: Document) => {
+    if (!doc.fileUrl) {
+      toast.error('Arquivo sem caminho de download.');
+      return;
+    }
+
+    try {
+      const download = await storageService.createDownloadUrl({
+        bucket: 'documents',
+        path: doc.fileUrl,
+      });
+      window.open(download.signedUrl, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao gerar link de download.');
+    }
+  };
+
   const handleResolvePending = (id: string, title: string) => {
     // If pending item is CNAE verification, CNAE is already confirmed.
     // If pending item is "Inter bank statement", it matches "doc-7" status to sent or adds a document.
@@ -242,7 +259,7 @@ export const DocumentosPendencias: React.FC = () => {
                         <td className="p-3.5 text-right">
                           <div className="flex gap-2 justify-end">
                             <button
-                              onClick={() => toast.success('Download do documento iniciado.')}
+                              onClick={() => handleDownloadDocument(doc)}
                               className="p-1 text-text-secondary hover:text-text-primary rounded hover:bg-neutral-bgSecondary/60 transition-colors"
                               title="Baixar arquivo"
                             >
