@@ -14,6 +14,13 @@ import {
   verifyWebhookSecret,
 } from '../_webhooks.js';
 
+function getErrorMessage(error, fallback) {
+  if (error instanceof Error) return error.message;
+  if (error?.message) return error.message;
+  if (error?.details) return error.details;
+  return fallback;
+}
+
 export default async function handler(req, res) {
   if (!guard(req, res)) return;
 
@@ -104,13 +111,13 @@ export default async function handler(req, res) {
     } catch (processingError) {
       await markWebhookEventFailed(
         result.event.id,
-        processingError instanceof Error ? processingError.message : 'Erro ao processar venda do webhook.',
+        getErrorMessage(processingError, 'Erro ao processar venda do webhook.'),
       );
       throw processingError;
     }
   } catch (error) {
     return send(res, 500, {
-      error: error instanceof Error ? error.message : 'Erro ao receber webhook.',
+      error: getErrorMessage(error, 'Erro ao receber webhook.'),
     });
   }
 }
