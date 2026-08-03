@@ -66,8 +66,9 @@ Body:
 ```json
 {
   "bucket": "documents",
-  "path": "company_id/documents/documento-123/arquivo.pdf"
+  "path": "company_id/documents/documento-123/arquivo.pdf",
+  "fileName": "arquivo.pdf"
 }
 ```
 
-O link expira em 5 minutos.
+O link expira em 5 minutos e e gerado em modo download.

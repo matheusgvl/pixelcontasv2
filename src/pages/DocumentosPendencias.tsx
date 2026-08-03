@@ -129,12 +129,19 @@ export const DocumentosPendencias: React.FC = () => {
     }
 
     try {
-      const download = await storageService.createDownloadUrl({
-        bucket: 'documents',
-        path: doc.fileUrl,
-      });
-      window.open(download.signedUrl, '_blank', 'noopener,noreferrer');
-    } catch (error) {
+        const download = await storageService.createDownloadUrl({
+          bucket: 'documents',
+          path: doc.fileUrl,
+          fileName: doc.name,
+        });
+        const link = window.document.createElement('a');
+        link.href = download.signedUrl;
+        link.download = download.fileName || doc.name;
+        link.rel = 'noopener noreferrer';
+        window.document.body.appendChild(link);
+        link.click();
+        window.document.body.removeChild(link);
+      } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Erro ao gerar link de download.');
     }
   };

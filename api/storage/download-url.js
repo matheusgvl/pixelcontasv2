@@ -17,6 +17,7 @@ export default async function handler(req, res) {
     const body = await readBody(req);
     const bucket = String(body.bucket || '').trim();
     const path = String(body.path || '').trim();
+    const fileName = String(body.fileName || path.split('/').pop() || 'download').trim();
 
     if (!allowedBuckets.has(bucket)) return send(res, 400, { error: 'Bucket nao permitido.' });
     if (!path || path.includes('..')) return send(res, 400, { error: 'Caminho de arquivo invalido.' });
@@ -27,13 +28,16 @@ export default async function handler(req, res) {
       return send(res, 403, { error: 'Apenas proprietarios podem baixar certificados digitais.' });
     }
 
-    const { data, error } = await db.storage.from(bucket).createSignedUrl(path, 60 * 5);
+    const { data, error } = await db.storage.from(bucket).createSignedUrl(path, 60 * 5, {
+      download: fileName,
+    });
     if (error) return send(res, 400, { error: error.message });
 
     return send(res, 200, {
       data: {
         bucket,
         path,
+        fileName,
         signedUrl: data.signedUrl,
         expiresIn: 300,
       },

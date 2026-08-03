@@ -137,10 +137,11 @@ export const storageService = {
     if (error) throw error;
   },
 
-  createDownloadUrl(input: { bucket: string; path: string }) {
+  createDownloadUrl(input: { bucket: string; path: string; fileName?: string }) {
     return apiRequest<{
       bucket: string;
       path: string;
+      fileName: string;
       signedUrl: string;
       expiresIn: number;
     }>('/api/storage/download-url', {
