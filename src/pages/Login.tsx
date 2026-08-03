@@ -8,7 +8,7 @@ import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Checkbox } from '../components/ui/Checkbox';
 import { useToast } from '../context/ToastContext';
-import { authService } from '../services/supabaseApi';
+import { authService, sessionService } from '../services/supabaseApi';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'O e-mail é obrigatório').email('Insira um e-mail válido'),
@@ -30,6 +30,12 @@ export const Login: React.FC = () => {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await authService.signIn({ email: data.email, password: data.password });
+      const status = await sessionService.status();
+      if (!status.hasProfile || !status.hasActiveCompany) {
+        toast.info('Conta confirmada. Vamos finalizar a configuracao da empresa.');
+        navigate('/onboarding');
+        return;
+      }
       toast.success('Login realizado com sucesso! Bem-vindo de volta.');
       navigate('/app/dashboard');
     } catch (error) {

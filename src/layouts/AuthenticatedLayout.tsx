@@ -1,11 +1,40 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 import { Sidebar } from '../components/shared/Sidebar';
 import { Topbar } from '../components/shared/Topbar';
+import { sessionService } from '../services/supabaseApi';
 
 export const AuthenticatedLayout: React.FC = () => {
   const [collapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [status, setStatus] = useState<'checking' | 'ready' | 'onboarding'>('checking');
+
+  useEffect(() => {
+    let mounted = true;
+    sessionService.status()
+      .then((sessionStatus) => {
+        if (!mounted) return;
+        setStatus(sessionStatus.hasProfile && sessionStatus.hasActiveCompany ? 'ready' : 'onboarding');
+      })
+      .catch(() => {
+        if (mounted) setStatus('onboarding');
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (status === 'checking') {
+    return (
+      <div className="min-h-screen bg-surface flex items-center justify-center text-xs font-semibold text-text-secondary">
+        Carregando sua empresa...
+      </div>
+    );
+  }
+
+  if (status === 'onboarding') {
+    return <Navigate to="/onboarding" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-surface flex w-full text-text-primary font-sans">

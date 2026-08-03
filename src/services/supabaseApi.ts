@@ -63,6 +63,22 @@ export const onboardingService = {
   },
 };
 
+export const sessionService = {
+  status() {
+    return apiRequest<{
+      hasProfile: boolean;
+      hasActiveCompany: boolean;
+      profile: null | {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+        active_company_id: string | null;
+      };
+    }>('/api/session/status');
+  },
+};
+
 export const databaseService = {
   list<T>(table: string, query = '') {
     return apiRequest<T[]>(`/api/db/${table}${query}`);
