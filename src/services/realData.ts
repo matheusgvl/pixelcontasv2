@@ -18,6 +18,36 @@ type DbRow = Record<string, any>;
 
 const asArray = <T = DbRow>(value: unknown): T[] => Array.isArray(value) ? value as T[] : [];
 
+export interface WebhookEvent {
+  id: string;
+  provider: string;
+  eventId: string;
+  eventType: string;
+  status: 'received' | 'processing' | 'processed' | 'ignored' | 'failed';
+  createdAt: string;
+  processedAt?: string;
+  errorMessage?: string;
+  normalizedPayload: {
+    buyer?: {
+      name?: string;
+      email?: string;
+    };
+    product?: {
+      name?: string;
+    };
+    grossValue?: number;
+    netValue?: number;
+  };
+  processingResult?: {
+    sale_id?: string;
+    client_id?: string;
+    automations?: {
+      matched_count?: number;
+      ignored_count?: number;
+    };
+  };
+}
+
 export function mapClient(row: DbRow): Client {
   return {
     id: row.id,
@@ -215,6 +245,21 @@ export function mapAutomation(row: DbRow): Automation {
   };
 }
 
+export function mapWebhookEvent(row: DbRow): WebhookEvent {
+  return {
+    id: row.id,
+    provider: row.provider,
+    eventId: row.event_id,
+    eventType: row.event_type,
+    status: row.status,
+    createdAt: row.created_at,
+    processedAt: row.processed_at || undefined,
+    errorMessage: row.error_message || undefined,
+    normalizedPayload: row.normalized_payload || {},
+    processingResult: row.processing_result || {},
+  };
+}
+
 export function mapDocument(row: DbRow): Document {
   return {
     id: row.id,
@@ -277,6 +322,9 @@ export const realData = {
   },
   async automations() {
     return (await databaseService.list<DbRow>('automations', '?order=created_at:desc')).map(mapAutomation);
+  },
+  async webhookEvents(limit = 8) {
+    return (await databaseService.list<DbRow>('webhook_events', `?order=created_at:desc&limit=${limit}`)).map(mapWebhookEvent);
   },
   async documents() {
     return (await databaseService.list<DbRow>('documents', '?order=created_at:desc')).map(mapDocument);

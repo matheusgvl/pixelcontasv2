@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
-  Search, Save, Key, Server, ToggleLeft, Link2, Sparkles
+  Activity, CheckCircle2, Clock, Search, Save, Key, Server, ToggleLeft, Link2, Sparkles, XCircle
 } from 'lucide-react';
 import { databaseService } from '../services/supabaseApi';
-import { realData } from '../services/realData';
+import { realData, type WebhookEvent } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { IntegrationCard } from '../components/shared/IntegrationCard';
 import { Button } from '../components/ui/Button';
@@ -20,6 +20,7 @@ export const Integracoes: React.FC = () => {
   const toast = useToast();
 
   const [integrations, setIntegrations] = useState<Integration[]>([]);
+  const [webhookEvents, setWebhookEvents] = useState<WebhookEvent[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -36,6 +37,32 @@ export const Integracoes: React.FC = () => {
       mounted = false;
     };
   }, [toast]);
+
+  useEffect(() => {
+    let mounted = true;
+    realData.webhookEvents()
+      .then((events) => {
+        if (mounted) setWebhookEvents(events);
+      })
+      .catch(() => undefined);
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const formatMoney = (value?: number) => {
+    return Number(value || 0).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  };
+
+  const webhookStatusMeta = (status: WebhookEvent['status']) => {
+    if (status === 'processed') return { label: 'Processado', icon: CheckCircle2, className: 'text-green-700 bg-green-50 border-green-200' };
+    if (status === 'failed') return { label: 'Falhou', icon: XCircle, className: 'text-red-700 bg-red-50 border-red-200' };
+    if (status === 'ignored') return { label: 'Ignorado', icon: Clock, className: 'text-amber-700 bg-amber-50 border-amber-200' };
+    return { label: 'Recebido', icon: Clock, className: 'text-blue-700 bg-blue-50 border-blue-200' };
+  };
 
   // Load integration for details mode
   const integrationDetails = useMemo(() => {
@@ -202,6 +229,83 @@ export const Integracoes: React.FC = () => {
               />
             ))}
           </div>
+
+          <section className="flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-text-primary" />
+                <h2 className="font-title font-bold text-text-primary text-lg">Webhooks recentes</h2>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => realData.webhookEvents().then(setWebhookEvents).catch(() => toast.error('Erro ao atualizar webhooks.'))}
+              >
+                Atualizar
+              </Button>
+            </div>
+
+            <div className="border border-border rounded-premium bg-white shadow-premium overflow-hidden">
+              {webhookEvents.length === 0 ? (
+                <div className="px-5 py-8 text-sm text-text-secondary text-center">
+                  Nenhum webhook recebido ainda.
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead className="bg-surface border-b border-border text-text-secondary">
+                      <tr>
+                        <th className="text-left font-bold px-4 py-3">Plataforma</th>
+                        <th className="text-left font-bold px-4 py-3">Evento</th>
+                        <th className="text-left font-bold px-4 py-3">Cliente</th>
+                        <th className="text-left font-bold px-4 py-3">Produto</th>
+                        <th className="text-right font-bold px-4 py-3">Valor</th>
+                        <th className="text-left font-bold px-4 py-3">Automações</th>
+                        <th className="text-left font-bold px-4 py-3">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {webhookEvents.map((event) => {
+                        const status = webhookStatusMeta(event.status);
+                        const StatusIcon = status.icon;
+                        const matchedCount = event.processingResult?.automations?.matched_count || 0;
+
+                        return (
+                          <tr key={event.id} className="border-b border-border last:border-b-0">
+                            <td className="px-4 py-3 font-bold text-text-primary capitalize">{event.provider}</td>
+                            <td className="px-4 py-3">
+                              <div className="flex flex-col gap-0.5">
+                                <span className="font-semibold text-text-primary">{event.eventType}</span>
+                                <span className="text-[10px] text-text-secondary">{event.eventId}</span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3 text-text-secondary">
+                              {event.normalizedPayload.buyer?.name || 'Cliente nao informado'}
+                            </td>
+                            <td className="px-4 py-3 text-text-secondary">
+                              {event.normalizedPayload.product?.name || 'Produto nao informado'}
+                            </td>
+                            <td className="px-4 py-3 text-right font-semibold text-text-primary">
+                              {formatMoney(event.normalizedPayload.netValue || event.normalizedPayload.grossValue)}
+                            </td>
+                            <td className="px-4 py-3 text-text-secondary">
+                              {matchedCount > 0 ? `${matchedCount} acionada(s)` : 'Nenhuma'}
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-1 font-bold ${status.className}`}>
+                                <StatusIcon className="h-3.5 w-3.5" />
+                                {status.label}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </section>
         </>
       )}
 
