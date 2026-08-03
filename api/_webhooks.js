@@ -114,3 +114,130 @@ export async function registerWebhookEvent({ companyId, provider, eventId, event
   if (error) throw error;
   return { event: data, duplicated: false };
 }
+
+function inferPersonType(document = '') {
+  const digits = String(document).replace(/\D/g, '');
+  return digits.length === 11 ? 'PF' : 'PJ';
+}
+
+function buildClientDocument(normalizedPayload = {}) {
+  const buyer = normalizedPayload.buyer || {};
+  const document = String(buyer.document || '').trim();
+  if (document) return document;
+
+  const email = String(buyer.email || '').trim().toLowerCase();
+  if (email) return `EMAIL:${email}`;
+
+  return `WEBHOOK:${normalizedPayload.provider}:${normalizedPayload.externalId}`;
+}
+
+function mapSaleStatus(status = '') {
+  const value = String(status).toLowerCase();
+  if (['approved', 'paid', 'completed', 'complete', 'succeeded', 'active'].includes(value)) return 'paid';
+  if (['canceled', 'cancelled', 'chargeback'].includes(value)) return 'canceled';
+  if (['refunded', 'refund'].includes(value)) return 'refunded';
+  return 'pending';
+}
+
+export async function findOrCreateWebhookClient(companyId, normalizedPayload = {}) {
+  const buyer = normalizedPayload.buyer || {};
+  const document = buildClientDocument(normalizedPayload);
+
+  const { data: existing, error: existingError } = await db
+    .from('clients')
+    .select('*')
+    .eq('company_id', companyId)
+    .eq('document', document)
+    .maybeSingle();
+
+  if (existingError) throw existingError;
+  if (existing) return { client: existing, created: false };
+
+  const { data, error } = await db
+    .from('clients')
+    .insert({
+      company_id: companyId,
+      name: buyer.name || 'Cliente sem nome',
+      document,
+      person_type: inferPersonType(document),
+      email: buyer.email || null,
+      phone: buyer.phone || null,
+      notes: `Cliente criado automaticamente via webhook ${normalizedPayload.provider}.`,
+      status: 'active',
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return { client: data, created: true };
+}
+
+export async function findOrCreateWebhookSale(companyId, clientId, normalizedPayload = {}, webhookEventId = null) {
+  const externalId = String(normalizedPayload.externalId || webhookEventId || '');
+
+  if (externalId) {
+    const { data: existing, error: existingError } = await db
+      .from('sales')
+      .select('*')
+      .eq('company_id', companyId)
+      .eq('origin', normalizedPayload.provider)
+      .eq('external_id', externalId)
+      .maybeSingle();
+
+    if (existingError) throw existingError;
+    if (existing) return { sale: existing, created: false };
+  }
+
+  const { data, error } = await db
+    .from('sales')
+    .insert({
+      company_id: companyId,
+      client_id: clientId,
+      origin: normalizedPayload.provider,
+      external_id: externalId || null,
+      payment_method: normalizedPayload.paymentMethod || null,
+      sold_at: normalizedPayload.soldAt,
+      gross_value: normalizedPayload.grossValue || 0,
+      discount_value: normalizedPayload.discountValue || 0,
+      net_value: normalizedPayload.netValue || normalizedPayload.grossValue || 0,
+      status: mapSaleStatus(normalizedPayload.status),
+      metadata: {
+        webhook_event_id: webhookEventId,
+        event_type: normalizedPayload.eventType,
+        buyer: normalizedPayload.buyer || {},
+        product: normalizedPayload.product || {},
+      },
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return { sale: data, created: true };
+}
+
+export async function markWebhookEventProcessed(eventId, metadata = {}) {
+  const { data, error } = await db
+    .from('webhook_events')
+    .update({
+      status: 'processed',
+      processed_at: new Date().toISOString(),
+      processing_result: metadata,
+      error_message: null,
+    })
+    .eq('id', eventId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function markWebhookEventFailed(eventId, errorMessage) {
+  await db
+    .from('webhook_events')
+    .update({
+      status: 'failed',
+      error_message: errorMessage,
+    })
+    .eq('id', eventId);
+}

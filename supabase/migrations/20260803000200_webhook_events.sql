@@ -20,6 +20,13 @@ create index if not exists webhook_events_status_idx on public.webhook_events(st
 alter table public.webhook_events
 add column if not exists normalized_payload jsonb not null default '{}'::jsonb;
 
+alter table public.webhook_events
+add column if not exists processing_result jsonb not null default '{}'::jsonb;
+
+create unique index if not exists sales_company_origin_external_id_idx
+on public.sales(company_id, origin, external_id)
+where external_id is not null;
+
 drop trigger if exists webhook_events_set_updated_at on public.webhook_events;
 create trigger webhook_events_set_updated_at
 before update on public.webhook_events

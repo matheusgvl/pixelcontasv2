@@ -2,8 +2,12 @@ import { guard, readBody, send } from '../_utils.js';
 import { normalizeSaleWebhook } from '../_webhookNormalizers.js';
 import {
   findWebhookCompany,
+  findOrCreateWebhookClient,
+  findOrCreateWebhookSale,
   getEventId,
   getEventType,
+  markWebhookEventFailed,
+  markWebhookEventProcessed,
   normalizeProvider,
   registerWebhookEvent,
   verifyWebhookSecret,
@@ -46,16 +50,55 @@ export default async function handler(req, res) {
       normalizedPayload,
     });
 
-    return send(res, result.duplicated ? 200 : 202, {
-      data: {
-        id: result.event.id,
-        provider,
-        eventId,
-        eventType,
-        normalizedPayload,
-        status: result.duplicated ? 'duplicated' : 'received',
-      },
-    });
+    if (result.duplicated) {
+      return send(res, 200, {
+        data: {
+          id: result.event.id,
+          provider,
+          eventId,
+          eventType,
+          normalizedPayload,
+          status: 'duplicated',
+        },
+      });
+    }
+
+    try {
+      const clientResult = await findOrCreateWebhookClient(companyId, normalizedPayload);
+      const saleResult = await findOrCreateWebhookSale(companyId, clientResult.client.id, normalizedPayload, result.event.id);
+
+      await markWebhookEventProcessed(result.event.id, {
+        client_id: clientResult.client.id,
+        client_created: clientResult.created,
+        sale_id: saleResult.sale.id,
+        sale_created: saleResult.created,
+      });
+
+      return send(res, 202, {
+        data: {
+          id: result.event.id,
+          provider,
+          eventId,
+          eventType,
+          normalizedPayload,
+          client: {
+            id: clientResult.client.id,
+            created: clientResult.created,
+          },
+          sale: {
+            id: saleResult.sale.id,
+            created: saleResult.created,
+          },
+          status: 'processed',
+        },
+      });
+    } catch (processingError) {
+      await markWebhookEventFailed(
+        result.event.id,
+        processingError instanceof Error ? processingError.message : 'Erro ao processar venda do webhook.',
+      );
+      throw processingError;
+    }
   } catch (error) {
     return send(res, 500, {
       error: error instanceof Error ? error.message : 'Erro ao receber webhook.',
