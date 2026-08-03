@@ -1,4 +1,4 @@
-import { allowedTables, applyAuthorizedReadScope, applyQuery, authorizeDomainMutation, authorizeTableRead, db, friendlyDatabaseError, guard, readBody, requireApiUser, send } from '../_utils.js';
+import { allowedTables, applyAuthorizedReadScope, applyQuery, authorizeDomainMutation, authorizeTableRead, db, enforceCompanyMutationScope, friendlyDatabaseError, guard, readBody, requireApiUser, send } from '../_utils.js';
 import { validateTablePayload } from '../_validators.js';
 
 export default async function handler(req, res) {
@@ -24,8 +24,10 @@ export default async function handler(req, res) {
       const body = await readBody(req);
       const validation = validateTablePayload(table, body, 'POST');
       if (!validation.ok) return send(res, validation.status, { error: validation.error, fields: validation.fields });
-      const payload = validation.payload;
+      let payload = validation.payload;
       if (!await authorizeDomainMutation(req, res, table, payload)) return;
+      payload = await enforceCompanyMutationScope(req, res, table, payload);
+      if (!payload) return;
 
       const { data, error } = await db.from(table).insert(payload).select().single();
       if (error) return send(res, error.code === '23505' ? 409 : 400, { error: friendlyDatabaseError(table, error) });

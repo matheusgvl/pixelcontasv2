@@ -151,6 +151,7 @@ export async function getCompanyMembership(req, companyId) {
     .select('id, role')
     .eq('profile_id', req.apiUser.id)
     .eq('company_id', companyId)
+    .eq('status', 'active')
     .maybeSingle();
 
   if (error || !data) return null;
@@ -238,15 +239,37 @@ export async function authorizeDomainMutation(req, res, table, body = {}, existi
 
   if (table === 'profiles') {
     const targetId = existingRow?.id || body.id;
-    if (targetId === req.apiUser.id) return true;
+    if (targetId === req.apiUser.id) {
+      if (body.active_company_id) {
+        const membership = await getCompanyMembership(req, body.active_company_id);
+        if (!membership) {
+          send(res, 403, { error: 'Voce nao pode ativar uma empresa sem vinculo ativo.' });
+          return false;
+        }
+      }
+      return true;
+    }
     send(res, 403, { error: 'Voce so pode alterar o proprio perfil.' });
     return false;
   }
 
-  const companyId = body.company_id || existingRow?.company_id || profile.active_company_id;
+  const companyId = table === 'companies'
+    ? existingRow?.id || body.id || profile.active_company_id
+    : body.company_id || existingRow?.company_id || profile.active_company_id;
+
+  if (table === 'companies' && !existingRow) {
+    send(res, 403, { error: 'Crie empresas pelo fluxo de onboarding.' });
+    return false;
+  }
+
   const membership = await getCompanyMembership(req, companyId);
   if (!membership) {
     send(res, 403, { error: 'Voce nao tem acesso a esta empresa.' });
+    return false;
+  }
+
+  if (table === 'company_members' && membership.role !== 'owner') {
+    send(res, 403, { error: 'Apenas proprietarios podem gerenciar usuarios da empresa.' });
     return false;
   }
 
@@ -257,6 +280,36 @@ export async function authorizeDomainMutation(req, res, table, body = {}, existi
 
   send(res, 403, { error: 'Seu perfil nao tem permissao para alterar este recurso.' });
   return false;
+}
+
+export async function enforceCompanyMutationScope(req, res, table, payload = {}, existingRow = null) {
+  const profile = await getApiProfile(req);
+  if (!profile) {
+    send(res, 403, { error: 'Perfil do usuario nao encontrado.' });
+    return null;
+  }
+
+  if (profile.role === 'admin') return payload;
+
+  if (table === 'profiles') {
+    const safePayload = { ...payload };
+    if (safePayload.role && safePayload.role !== profile.role) delete safePayload.role;
+    return safePayload;
+  }
+
+  if (table === 'companies') return payload;
+
+  const targetCompanyId = existingRow?.company_id || payload.company_id || profile.active_company_id;
+  const membership = await getCompanyMembership(req, targetCompanyId);
+  if (!membership) {
+    send(res, 403, { error: 'Voce nao tem acesso a esta empresa.' });
+    return null;
+  }
+
+  return {
+    ...payload,
+    company_id: targetCompanyId,
+  };
 }
 
 export function friendlyDatabaseError(table, error) {

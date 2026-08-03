@@ -1,4 +1,4 @@
-import { allowedTables, applyAuthorizedReadScope, applyQuery, authorizeDomainMutation, authorizeTableRead, db, guard, readBody, requireApiUser, send } from '../../_utils.js';
+import { allowedTables, applyAuthorizedReadScope, applyQuery, authorizeDomainMutation, authorizeTableRead, db, enforceCompanyMutationScope, guard, readBody, requireApiUser, send } from '../../_utils.js';
 import { validateTablePayload } from '../../_validators.js';
 
 export default async function handler(req, res) {
@@ -26,11 +26,13 @@ export default async function handler(req, res) {
       const body = await readBody(req);
       const validation = validateTablePayload(table, body, 'PATCH');
       if (!validation.ok) return send(res, validation.status, { error: validation.error, fields: validation.fields });
-      const payload = validation.payload;
+      let payload = validation.payload;
       const { data: existingRow, error: existingError } = await db.from(table).select('*').eq('id', id).maybeSingle();
       if (existingError) return send(res, 400, { error: existingError.message });
       if (!existingRow) return send(res, 404, { error: 'Registro nao encontrado.' });
       if (!await authorizeDomainMutation(req, res, table, payload, existingRow)) return;
+      payload = await enforceCompanyMutationScope(req, res, table, payload, existingRow);
+      if (!payload) return;
 
       const { data, error } = await db.from(table).update(payload).eq('id', id).select().single();
       if (error) return send(res, 400, { error: error.message });
