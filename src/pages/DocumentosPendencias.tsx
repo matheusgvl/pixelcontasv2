@@ -4,7 +4,7 @@ import {
   FolderClosed, ShieldAlert, Upload, Download, Trash, CheckCircle, 
   AlertCircle, Calendar, FileText
 } from 'lucide-react';
-import { databaseService, storageService } from '../services/supabaseApi';
+import { databaseService, documentService, storageService } from '../services/supabaseApi';
 import { realData } from '../services/realData';
 import { PageHeader } from '../components/shared/PageHeader';
 import { Tabs } from '../components/ui/Tabs';
@@ -90,7 +90,7 @@ export const DocumentosPendencias: React.FC = () => {
         file_url: upload.path,
         file_size: `${(file.size / 1024 / 1024).toFixed(1)} MB`,
       };
-      const created = await databaseService.create<any>('documents', documentPayload);
+      const created = await documentService.create(documentPayload);
 
       const newDoc: Document = {
         id: created.id,

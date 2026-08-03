@@ -108,6 +108,15 @@ export const databaseService = {
   },
 };
 
+export const documentService = {
+  create(data: Record<string, unknown>) {
+    return apiRequest<any>('/api/documents/create', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+};
+
 export const storageService = {
   async createUploadUrl(input: { bucket: string; fileName: string; recordId?: string }) {
     return apiRequest<{
