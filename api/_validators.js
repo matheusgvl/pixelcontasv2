@@ -54,6 +54,7 @@ const tableFields = {
   tax_settings: ['company_id', 'name', 'invoice_type', 'tax_regime', 'nature_of_operation', 'default_iss_rate', 'default_icms_rate', 'service_city', 'settings', 'status'],
   integrations: ['company_id', 'name', 'category', 'description', 'status', 'last_sync_at', 'config'],
   automations: ['company_id', 'name', 'trigger', 'conditions', 'actions', 'status', 'last_execution_at', 'total_executions', 'success_rate', 'error_history'],
+  webhook_events: ['company_id', 'provider', 'event_id', 'event_type', 'payload', 'status', 'processed_at', 'error_message'],
   documents: ['company_id', 'name', 'category', 'competence', 'status', 'sender_name', 'file_url', 'file_size', 'metadata'],
   pending_tasks: ['company_id', 'title', 'description', 'due_date', 'priority', 'status', 'responsible_name', 'metadata'],
   chat_messages: ['company_id', 'sender_type', 'sender_name', 'text', 'file', 'metadata'],
@@ -74,6 +75,7 @@ const validators = {
   integrationCategory: ['infoproduct', 'ecommerce', 'payment', 'marketplace', 'crm', 'api'],
   integrationStatus: ['connected', 'disconnected', 'attention', 'syncing'],
   automationStatus: ['active', 'paused'],
+  webhookEventStatus: ['received', 'processing', 'processed', 'ignored', 'failed'],
   documentCategory: ['invoice', 'bank_statement', 'receipt', 'contract', 'payroll', 'corporate', 'others'],
   documentStatus: ['sent', 'pending', 'reviewed'],
   priority: ['high', 'medium', 'low'],
@@ -139,6 +141,7 @@ function validateCommon(table, payload, method, errors) {
     tax_settings: ['company_id'],
     integrations: ['company_id'],
     automations: ['company_id'],
+    webhook_events: ['company_id'],
     documents: ['company_id'],
     pending_tasks: ['company_id'],
     chat_messages: ['company_id'],
@@ -162,6 +165,7 @@ function validateCommon(table, payload, method, errors) {
       tax_settings: ['company_id', 'name', 'invoice_type', 'tax_regime'],
       integrations: ['company_id', 'name', 'category', 'status'],
       automations: ['company_id', 'name', 'trigger', 'actions', 'status'],
+      webhook_events: ['company_id', 'provider', 'event_id', 'event_type', 'status'],
       documents: ['company_id', 'name', 'category', 'competence', 'status'],
       pending_tasks: ['company_id', 'title', 'due_date', 'priority', 'status'],
       chat_messages: ['company_id', 'sender_type', 'text'],
@@ -218,6 +222,7 @@ export function validateTablePayload(table, body, method = 'POST') {
   if (table === 'invoice_logs') validateEnum(payload, 'type', validators.logType, errors);
   if (table === 'integrations') validateEnum(payload, 'status', validators.integrationStatus, errors);
   if (table === 'automations') validateEnum(payload, 'status', validators.automationStatus, errors);
+  if (table === 'webhook_events') validateEnum(payload, 'status', validators.webhookEventStatus, errors);
   if (table === 'documents') validateEnum(payload, 'status', validators.documentStatus, errors);
   if (table === 'pending_tasks') validateEnum(payload, 'status', validators.pendingStatus, errors);
 
