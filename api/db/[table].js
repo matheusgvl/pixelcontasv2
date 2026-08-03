@@ -22,10 +22,12 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
       const body = await readBody(req);
-      const validation = validateTablePayload(table, body, 'POST');
+      if (!await authorizeDomainMutation(req, res, table, body)) return;
+      let payload = await enforceCompanyMutationScope(req, res, table, body);
+      if (!payload) return;
+      const validation = validateTablePayload(table, payload, 'POST');
       if (!validation.ok) return send(res, validation.status, { error: validation.error, fields: validation.fields });
-      let payload = validation.payload;
-      if (!await authorizeDomainMutation(req, res, table, payload)) return;
+      payload = validation.payload;
       payload = await enforceCompanyMutationScope(req, res, table, payload);
       if (!payload) return;
 
