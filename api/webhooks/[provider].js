@@ -1,4 +1,5 @@
 import { guard, readBody, send } from '../_utils.js';
+import { runWebhookAutomations } from '../_automationEngine.js';
 import { normalizeSaleWebhook } from '../_webhookNormalizers.js';
 import {
   findWebhookCompany,
@@ -66,12 +67,19 @@ export default async function handler(req, res) {
     try {
       const clientResult = await findOrCreateWebhookClient(companyId, normalizedPayload);
       const saleResult = await findOrCreateWebhookSale(companyId, clientResult.client.id, normalizedPayload, result.event.id);
+      const automationResult = await runWebhookAutomations({
+        companyId,
+        normalizedPayload,
+        sale: saleResult.sale,
+        client: clientResult.client,
+      });
 
       await markWebhookEventProcessed(result.event.id, {
         client_id: clientResult.client.id,
         client_created: clientResult.created,
         sale_id: saleResult.sale.id,
         sale_created: saleResult.created,
+        automations: automationResult,
       });
 
       return send(res, 202, {
@@ -89,6 +97,7 @@ export default async function handler(req, res) {
             id: saleResult.sale.id,
             created: saleResult.created,
           },
+          automations: automationResult,
           status: 'processed',
         },
       });
