@@ -20,7 +20,10 @@ async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T
 
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(payload.error || 'Erro ao comunicar com a API.');
+    const fieldErrors = payload.fields
+      ? ` (${Object.entries(payload.fields).map(([field, message]) => `${field}: ${message}`).join(', ')})`
+      : '';
+    throw new Error(`${payload.error || 'Erro ao comunicar com a API.'}${fieldErrors}`);
   }
   return payload.data as T;
 }
@@ -110,6 +113,7 @@ export const storageService = {
     return apiRequest<{
       bucket: string;
       path: string;
+      companyId: string;
       signedUrl: string;
       token: string;
     }>('/api/storage/upload-url', {

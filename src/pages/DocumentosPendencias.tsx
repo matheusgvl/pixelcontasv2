@@ -81,9 +81,8 @@ export const DocumentosPendencias: React.FC = () => {
         file,
       });
 
-      const companyId = await realData.activeCompanyId();
       const created = await databaseService.create<any>('documents', {
-        company_id: companyId,
+        company_id: upload.companyId,
         name: file.name,
         category: docCategory,
         competence: docCompetence,

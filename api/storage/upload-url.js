@@ -71,6 +71,7 @@ export default async function handler(req, res) {
       data: {
         bucket,
         path,
+        companyId: profile.active_company_id,
         signedUrl: data.signedUrl,
         token: data.token,
       },
