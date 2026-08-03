@@ -11,6 +11,7 @@ import { Stepper } from '../components/shared/Stepper';
 import { UploadArea } from '../components/shared/UploadArea';
 import { useToast } from '../context/ToastContext';
 import { cepService, cnpjService } from '../services/api';
+import { onboardingService } from '../services/supabaseApi';
  
 export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ export const Onboarding: React.FC = () => {
       setValue('estado', data.address.state);
       
       toast.success('Dados da empresa preenchidos automaticamente com sucesso!');
-    } catch (e) {
+    } catch {
       toast.error('Erro ao preencher dados do CNPJ.');
     } finally {
       setLoadingCNPJ(false);
@@ -117,7 +118,7 @@ export const Onboarding: React.FC = () => {
           setValue('estado', address.state);
           toast.success('Endereço localizado e preenchido!');
         }
-      } catch (err) {
+      } catch {
         toast.error('Erro ao buscar o CEP.');
       } finally {
         setLoadingCEP(false);
@@ -163,9 +164,19 @@ export const Onboarding: React.FC = () => {
     setStep(prev => Math.max(prev - 1, 1));
   };
 
-  const handleFinish = () => {
-    toast.success('Configuração inicial concluída com sucesso! Bem-vindo à PixelConta.');
-    navigate('/app/dashboard');
+  const handleFinish = async () => {
+    try {
+      await onboardingService.setupCompany({
+        ...getValues(),
+        operationTypes,
+        connectedIntegrations,
+        certificateUploaded,
+      });
+      toast.success('Configuracao inicial concluida com sucesso! Bem-vindo a PixelConta.');
+      navigate('/app/dashboard');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Nao foi possivel salvar a configuracao inicial.');
+    }
   };
 
   return (

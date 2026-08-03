@@ -84,7 +84,7 @@ export const Clientes: React.FC = () => {
         }));
         toast.success('Endereço preenchido por CEP!');
       }
-    } catch (e) {
+    } catch {
       toast.error('Erro ao buscar o CEP.');
     } finally {
       setLoadingCEP(false);

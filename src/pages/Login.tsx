@@ -8,6 +8,7 @@ import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Checkbox } from '../components/ui/Checkbox';
 import { useToast } from '../context/ToastContext';
+import { authService } from '../services/supabaseApi';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'O e-mail é obrigatório').email('Insira um e-mail válido'),
@@ -27,14 +28,12 @@ export const Login: React.FC = () => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    // Simulating authentication delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    if (data.email === 'ricardo@pixelconta.com.br' && data.password === 'senha123') {
+    try {
+      await authService.signIn({ email: data.email, password: data.password });
       toast.success('Login realizado com sucesso! Bem-vindo de volta.');
       navigate('/app/dashboard');
-    } else {
-      toast.error('Credenciais incorretas. Use ricardo@pixelconta.com.br e senha123 para testar.');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Nao foi possivel realizar o login.');
     }
   };
 
@@ -122,8 +121,7 @@ export const Login: React.FC = () => {
             <button 
               type="button"
               onClick={() => {
-                toast.info('Login social simulado via Google');
-                navigate('/app/dashboard');
+                toast.info('Login social via Google sera conectado em uma proxima etapa.');
               }}
               className="flex items-center justify-center gap-2 py-2 px-3 border border-border rounded-soft hover:bg-surface text-xs font-semibold text-text-primary transition-all active:scale-[0.98]"
             >
@@ -135,8 +133,7 @@ export const Login: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                toast.info('Login social simulado via Apple');
-                navigate('/app/dashboard');
+                toast.info('Login social via Apple sera conectado em uma proxima etapa.');
               }}
               className="flex items-center justify-center gap-2 py-2 px-3 border border-border rounded-soft hover:bg-surface text-xs font-semibold text-text-primary transition-all active:scale-[0.98]"
             >

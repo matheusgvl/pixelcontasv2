@@ -8,6 +8,7 @@ import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Checkbox } from '../components/ui/Checkbox';
 import { useToast } from '../context/ToastContext';
+import { authService } from '../services/supabaseApi';
 
 const cadastroSchema = z.object({
   name: z.string().min(1, 'O nome completo é obrigatório'),
@@ -27,10 +28,25 @@ export const Cadastro: React.FC = () => {
     defaultValues: { agree: false }
   });
 
-  const onSubmit = async (_data: CadastroFormValues) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success('Cadastro realizado com sucesso! Vamos configurar sua empresa agora.');
-    navigate('/onboarding');
+  const onSubmit = async (data: CadastroFormValues) => {
+    try {
+      const result = await authService.signUp({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (!result.session) {
+        toast.success('Cadastro criado. Confirme seu e-mail e depois faca login para configurar a empresa.');
+        navigate('/login');
+        return;
+      }
+
+      toast.success('Cadastro realizado com sucesso! Vamos configurar sua empresa agora.');
+      navigate('/onboarding');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Nao foi possivel criar sua conta.');
+    }
   };
 
   const logoSrc = "/logo-horizontal.jpeg";
