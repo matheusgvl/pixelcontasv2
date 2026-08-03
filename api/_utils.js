@@ -257,7 +257,7 @@ export async function authorizeDomainMutation(req, res, table, body = {}, existi
 
   const companyId = table === 'companies'
     ? existingRow?.id || body.id || profile.active_company_id
-    : body.company_id || existingRow?.company_id || profile.active_company_id;
+    : existingRow?.company_id || profile.active_company_id;
 
   if (table === 'companies' && !existingRow) {
     send(res, 403, { error: 'Crie empresas pelo fluxo de onboarding.' });
@@ -301,7 +301,7 @@ export async function enforceCompanyMutationScope(req, res, table, payload = {},
 
   if (table === 'companies') return payload;
 
-  const targetCompanyId = existingRow?.company_id || payload.company_id || profile.active_company_id;
+  const targetCompanyId = existingRow?.company_id || profile.active_company_id;
   const membership = await getCompanyMembership(req, targetCompanyId);
   if (!membership) {
     send(res, 403, { error: 'Voce nao tem acesso a esta empresa.' });
