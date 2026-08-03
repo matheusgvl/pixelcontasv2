@@ -104,3 +104,24 @@ export const databaseService = {
     });
   },
 };
+
+export const storageService = {
+  async createUploadUrl(input: { bucket: string; fileName: string; recordId?: string }) {
+    return apiRequest<{
+      bucket: string;
+      path: string;
+      signedUrl: string;
+      token: string;
+    }>('/api/storage/upload-url', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+
+  async uploadWithSignedUrl(input: { bucket: string; path: string; token: string; file: File }) {
+    const { error } = await supabase.storage
+      .from(input.bucket)
+      .uploadToSignedUrl(input.path, input.token, input.file);
+    if (error) throw error;
+  },
+};

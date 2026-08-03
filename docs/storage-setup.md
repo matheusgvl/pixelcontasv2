@@ -32,3 +32,23 @@ company_id/documents/document_id.pdf
 - Apenas proprietarios ativos podem ler certificados.
 - Uploads sensiveis devem ser feitos pelo backend usando `SUPABASE_SERVICE_ROLE_KEY`.
 - Certificados digitais nao devem ser enviados diretamente pelo frontend em producao.
+
+## Endpoint de upload
+
+O backend gera URLs temporarias de upload em:
+
+```text
+POST /api/storage/upload-url
+```
+
+Body:
+
+```json
+{
+  "bucket": "documents",
+  "fileName": "contrato.pdf",
+  "recordId": "documento-123"
+}
+```
+
+O retorno traz `signedUrl`, `token`, `bucket` e `path`. O frontend usa estes dados com `supabase.storage.from(bucket).uploadToSignedUrl(path, token, file)`.
