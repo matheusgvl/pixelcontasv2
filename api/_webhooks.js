@@ -86,7 +86,7 @@ export function getEventType(body = {}) {
   return body.event || body.event_type || body.type || body.status || 'unknown';
 }
 
-export async function registerWebhookEvent({ companyId, provider, eventId, eventType, payload }) {
+export async function registerWebhookEvent({ companyId, provider, eventId, eventType, payload, normalizedPayload }) {
   const { data: existing, error: existingError } = await db
     .from('webhook_events')
     .select('id, status')
@@ -105,6 +105,7 @@ export async function registerWebhookEvent({ companyId, provider, eventId, event
       event_id: eventId,
       event_type: eventType,
       payload,
+      normalized_payload: normalizedPayload || {},
       status: 'received',
     })
     .select()

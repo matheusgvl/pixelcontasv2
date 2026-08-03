@@ -54,7 +54,7 @@ const tableFields = {
   tax_settings: ['company_id', 'name', 'invoice_type', 'tax_regime', 'nature_of_operation', 'default_iss_rate', 'default_icms_rate', 'service_city', 'settings', 'status'],
   integrations: ['company_id', 'name', 'category', 'description', 'status', 'last_sync_at', 'config'],
   automations: ['company_id', 'name', 'trigger', 'conditions', 'actions', 'status', 'last_execution_at', 'total_executions', 'success_rate', 'error_history'],
-  webhook_events: ['company_id', 'provider', 'event_id', 'event_type', 'payload', 'status', 'processed_at', 'error_message'],
+  webhook_events: ['company_id', 'provider', 'event_id', 'event_type', 'payload', 'normalized_payload', 'status', 'processed_at', 'error_message'],
   documents: ['company_id', 'name', 'category', 'competence', 'status', 'sender_name', 'file_url', 'file_size', 'metadata'],
   pending_tasks: ['company_id', 'title', 'description', 'due_date', 'priority', 'status', 'responsible_name', 'metadata'],
   chat_messages: ['company_id', 'sender_type', 'sender_name', 'text', 'file', 'metadata'],

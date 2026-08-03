@@ -1,4 +1,5 @@
 import { guard, readBody, send } from '../_utils.js';
+import { normalizeSaleWebhook } from '../_webhookNormalizers.js';
 import {
   findWebhookCompany,
   getEventId,
@@ -35,12 +36,14 @@ export default async function handler(req, res) {
 
     const eventId = String(getEventId(provider, body));
     const eventType = String(getEventType(body));
+    const normalizedPayload = normalizeSaleWebhook(provider, body);
     const result = await registerWebhookEvent({
       companyId,
       provider,
       eventId,
       eventType,
       payload: body,
+      normalizedPayload,
     });
 
     return send(res, result.duplicated ? 200 : 202, {
@@ -49,6 +52,7 @@ export default async function handler(req, res) {
         provider,
         eventId,
         eventType,
+        normalizedPayload,
         status: result.duplicated ? 'duplicated' : 'received',
       },
     });
