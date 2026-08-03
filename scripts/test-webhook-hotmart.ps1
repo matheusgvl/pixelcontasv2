@@ -44,7 +44,8 @@ $headers = @{
 }
 
 try {
-  Invoke-RestMethod -Method Post -Uri $Url -Headers $headers -Body $payload
+  $response = Invoke-RestMethod -Method Post -Uri $Url -Headers $headers -Body $payload
+  $response | ConvertTo-Json -Depth 8
 } catch {
   $response = $_.Exception.Response
   if ($response -and $response.GetResponseStream()) {
