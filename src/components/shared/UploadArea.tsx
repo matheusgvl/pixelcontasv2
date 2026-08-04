@@ -82,6 +82,11 @@ export const UploadArea: React.FC<UploadAreaProps> = ({
   };
 
   const clearFile = () => {
+    if (selectedFile) {
+      const confirmRemove = window.confirm(`Deseja remover o arquivo ${selectedFile.name}?`);
+      if (!confirmRemove) return;
+    }
+
     setSelectedFile(null);
     setError(null);
   };

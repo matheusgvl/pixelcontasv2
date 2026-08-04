@@ -128,6 +128,9 @@ export const DocumentosPendencias: React.FC = () => {
       return;
     }
 
+    const confirmDownload = window.confirm(`Deseja baixar o documento ${doc.name}?`);
+    if (!confirmDownload) return;
+
     try {
         const download = await storageService.createDownloadUrl({
           bucket: 'documents',
