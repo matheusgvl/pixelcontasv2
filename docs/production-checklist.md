@@ -35,6 +35,7 @@ Opcionais:
 - `20260803000100_initial_pixelcontas_schema.sql`
 - `20260803000200_webhook_events.sql`
 - `20260803000300_storage_buckets.sql`
+- `20260803000400_notifications.sql`
 
 ## Testes manuais
 
