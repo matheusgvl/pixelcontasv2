@@ -1,4 +1,5 @@
 import { allowedTables, applyAuthorizedReadScope, applyQuery, authorizeDomainMutation, authorizeTableRead, db, enforceCompanyMutationScope, guard, readBody, requireApiUser, send } from '../../_utils.js';
+import { createNotification } from '../../_notifications.js';
 import { validateTablePayload } from '../../_validators.js';
 
 export default async function handler(req, res) {
@@ -36,6 +37,20 @@ export default async function handler(req, res) {
 
       const { data, error } = await db.from(table).update(payload).eq('id', id).select().single();
       if (error) return send(res, 400, { error: error.message });
+
+      if (table === 'clients' && payload.status === 'inactive' && existingRow.status !== 'inactive') {
+        await createNotification({
+          companyId: data.company_id,
+          title: 'Cliente arquivado',
+          description: `Cliente ${data.name} foi arquivado.`,
+          type: 'warning',
+          metadata: {
+            source: 'clients',
+            client_id: data.id,
+          },
+        });
+      }
+
       return send(res, 200, { data });
     }
 
