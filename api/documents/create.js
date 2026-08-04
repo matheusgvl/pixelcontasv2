@@ -1,7 +1,17 @@
 import { db, getApiProfile, getCompanyMembership, guard, readBody, requireApiUser, send } from '../_utils.js';
+import { createNotification } from '../_notifications.js';
 
 const allowedCategories = new Set(['invoice', 'bank_statement', 'receipt', 'contract', 'payroll', 'corporate', 'others']);
 const allowedStatus = new Set(['sent', 'pending', 'reviewed']);
+const categoryLabels = {
+  invoice: 'Notas Fiscais',
+  bank_statement: 'Extrato Bancario',
+  receipt: 'Comprovante / Recibo',
+  contract: 'Contrato',
+  payroll: 'Folha de Pagamento',
+  corporate: 'Documento Societario',
+  others: 'Outros',
+};
 
 function hasValue(value) {
   return value !== undefined && value !== null && String(value).trim() !== '';
@@ -52,6 +62,20 @@ export default async function handler(req, res) {
       .single();
 
     if (error) return send(res, 400, { error: error.message });
+
+    await createNotification({
+      companyId: profile.active_company_id,
+      title: 'Documento enviado',
+      description: `${data.name} foi enviado em ${categoryLabels[data.category] || 'Documentos'} para a competencia ${data.competence}.`,
+      type: 'info',
+      metadata: {
+        source: 'documents',
+        document_id: data.id,
+        category: data.category,
+        competence: data.competence,
+      },
+    });
+
     return send(res, 201, { data });
   } catch (error) {
     return send(res, 500, { error: error instanceof Error ? error.message : 'Erro ao salvar documento.' });
