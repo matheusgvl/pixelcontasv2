@@ -135,15 +135,15 @@ export const databaseService = {
 
 export const documentService = {
   create(data: Record<string, unknown>) {
-    return apiRequest<any>('/api/documents/create', {
+    return apiRequest<any>('/api/documents', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   },
 
   remove(id: string) {
-    return apiRequest<null>('/api/documents/delete', {
-      method: 'POST',
+    return apiRequest<null>('/api/documents', {
+      method: 'DELETE',
       body: JSON.stringify({ id }),
     });
   },
