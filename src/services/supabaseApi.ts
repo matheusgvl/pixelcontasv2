@@ -76,6 +76,7 @@ export const sessionService = {
         name: string;
         email: string;
         role: string;
+        avatar_url: string | null;
         active_company_id: string | null;
       };
     }>('/api/session/status');

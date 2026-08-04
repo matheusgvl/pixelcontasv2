@@ -11,14 +11,36 @@ interface SidebarProps {
   collapsed: boolean;
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
+  profile?: {
+    name: string;
+    email: string;
+    role: string;
+    avatar_url: string | null;
+  } | null;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed,
   mobileOpen,
-  setMobileOpen
+  setMobileOpen,
+  profile
 }) => {
   const location = useLocation();
+  const userName = profile?.name || 'Usuario PixelConta';
+  const roleLabels: Record<string, string> = {
+    admin: 'Administrador',
+    owner: 'Administrador',
+    accountant: 'Contador',
+    operator: 'Operador',
+  };
+  const roleLabel = roleLabels[profile?.role || ''] || 'Usuario';
+  const initials = userName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
 
   const menuItems = [
     { label: 'Visão geral', path: '/app/dashboard', icon: <LayoutDashboard className="h-4.5 w-4.5 shrink-0" /> },
@@ -144,21 +166,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* User profile brief */}
           <div className="flex items-center gap-3 pt-2">
             <div className="relative shrink-0">
-              <img 
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" 
-                alt="Ricardo Almeida" 
-                className="h-9 w-9 rounded-full border border-border object-cover"
-              />
+              {profile?.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt={userName}
+                  className="h-9 w-9 rounded-full border border-border object-cover"
+                />
+              ) : (
+                <div className="h-9 w-9 rounded-full border border-border bg-surface text-text-primary flex items-center justify-center text-xs font-bold">
+                  {initials || 'PC'}
+                </div>
+              )}
               <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-600 border-2 border-white" />
             </div>
             
             {!collapsed && (
               <div className="flex flex-col flex-1 min-w-0">
                 <span className="text-xs font-bold truncate text-text-primary">
-                  Ricardo Almeida
+                  {userName}
                 </span>
                 <span className="text-[10px] text-text-secondary truncate">
-                  Administrador
+                  {roleLabel}
                 </span>
               </div>
             )}

@@ -7,23 +7,39 @@ import { Link, useLocation } from 'react-router-dom';
 interface TopbarProps {
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
+  profile?: {
+    name: string;
+    email: string;
+    role: string;
+    avatar_url: string | null;
+  } | null;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
   mobileOpen,
-  setMobileOpen
+  setMobileOpen,
+  profile
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState('Pixel Comércio Digital LTDA');
   const [showCompanySelect, setShowCompanySelect] = useState(false);
   const location = useLocation();
+  const userName = profile?.name || 'Usuario PixelConta';
+  const userEmail = profile?.email || '';
+  const initials = userName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
   
   let pageTitle = '';
   let pageSubtitle = '';
   
   if (location.pathname.includes('/app/dashboard')) {
-    pageTitle = 'Olá, Ricardo Almeida.';
+    pageTitle = `Ola, ${userName}.`;
     pageSubtitle = 'Aqui está o resumo fiscal e financeiro da sua empresa hoje.';
   } else if (location.pathname.includes('/app/notas')) {
     pageTitle = 'Notas Fiscais';
@@ -201,19 +217,25 @@ export const Topbar: React.FC<TopbarProps> = ({
             onClick={() => setShowUserMenu(!showUserMenu)}
             className="flex items-center gap-2 select-none active:scale-[0.98] transition-transform"
           >
-            <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" 
-              alt="Ricardo Almeida" 
-              className="h-8.5 w-8.5 rounded-full object-cover border border-border"
-            />
+            {profile?.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt={userName}
+                className="h-8.5 w-8.5 rounded-full object-cover border border-border"
+              />
+            ) : (
+              <div className="h-8.5 w-8.5 rounded-full border border-border bg-surface text-text-primary flex items-center justify-center text-xs font-bold">
+                {initials || 'PC'}
+              </div>
+            )}
             <ChevronDown className="h-3.5 w-3.5 text-text-secondary hidden sm:block" />
           </button>
 
           {showUserMenu && (
             <div className="absolute right-0 mt-2 w-52 bg-white border border-border rounded-premium shadow-premium-hover z-50 py-1.5 animate-fade-in text-xs">
               <div className="px-3 py-2 border-b border-border">
-                <p className="font-bold text-text-primary font-title">Ricardo Almeida</p>
-                <p className="text-[10px] text-text-secondary truncate">ricardo@pixelconta.com.br</p>
+                <p className="font-bold text-text-primary font-title">{userName}</p>
+                <p className="text-[10px] text-text-secondary truncate">{userEmail}</p>
               </div>
               
               <Link

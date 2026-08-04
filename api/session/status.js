@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   const { data: profile, error } = await db
     .from('profiles')
-    .select('id, name, email, role, active_company_id')
+    .select('id, name, email, role, avatar_url, active_company_id')
     .eq('id', req.apiUser.id)
     .maybeSingle();
 

@@ -4,16 +4,27 @@ import { Sidebar } from '../components/shared/Sidebar';
 import { Topbar } from '../components/shared/Topbar';
 import { sessionService } from '../services/supabaseApi';
 
+type SessionProfile = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  avatar_url: string | null;
+  active_company_id: string | null;
+};
+
 export const AuthenticatedLayout: React.FC = () => {
   const [collapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [status, setStatus] = useState<'checking' | 'ready' | 'onboarding'>('checking');
+  const [profile, setProfile] = useState<SessionProfile | null>(null);
 
   useEffect(() => {
     let mounted = true;
     sessionService.status()
       .then((sessionStatus) => {
         if (!mounted) return;
+        setProfile(sessionStatus.profile);
         setStatus(sessionStatus.hasProfile && sessionStatus.hasActiveCompany ? 'ready' : 'onboarding');
       })
       .catch(() => {
@@ -44,6 +55,7 @@ export const AuthenticatedLayout: React.FC = () => {
         collapsed={collapsed}
         mobileOpen={mobileOpen}
         setMobileOpen={setMobileOpen}
+        profile={profile}
       />
 
       {/* Main Workspace Wrapper */}
@@ -57,6 +69,7 @@ export const AuthenticatedLayout: React.FC = () => {
             <Topbar
               mobileOpen={mobileOpen}
               setMobileOpen={setMobileOpen}
+              profile={profile}
             />
             <div className="px-4 md:px-8 pb-8 pt-2 flex-1">
               <Outlet />
