@@ -13,6 +13,7 @@ import { Select } from '../components/ui/Select';
 import { Input } from '../components/ui/Input';
 import { UploadArea } from '../components/shared/UploadArea';
 import { StatusBadge } from '../components/ui/StatusBadge';
+import { ConfirmDialog } from '../components/shared/ConfirmDialog';
 import { useToast } from '../context/ToastContext';
 import type { Document, PendingTask } from '../types';
 
@@ -27,6 +28,10 @@ export const DocumentosPendencias: React.FC = () => {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [pendings, setPendings] = useState<PendingTask[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState<Document | null>(null);
+  const [deletingDocument, setDeletingDocument] = useState(false);
+  const [documentToDownload, setDocumentToDownload] = useState<Document | null>(null);
+  const [downloadingDocument, setDownloadingDocument] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -113,39 +118,57 @@ export const DocumentosPendencias: React.FC = () => {
     }
   };
 
-  const handleDeleteDocument = (id: string, name: string) => {
-    const conf = window.confirm(`Deseja deletar o documento ${name}?`);
-    if (conf) {
-      setDocuments(prev => prev.filter(doc => doc.id !== id));
-      databaseService.remove('documents', id).catch(() => undefined);
+  const handleRequestDeleteDocument = (doc: Document) => {
+    setDocumentToDelete(doc);
+  };
+
+  const handleConfirmDeleteDocument = async () => {
+    if (!documentToDelete || deletingDocument) return;
+
+    setDeletingDocument(true);
+    try {
+      await databaseService.remove('documents', documentToDelete.id);
+      setDocuments(prev => prev.filter(doc => doc.id !== documentToDelete.id));
       toast.success('Documento deletado.');
+      setDocumentToDelete(null);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao deletar documento.');
+    } finally {
+      setDeletingDocument(false);
     }
   };
 
-  const handleDownloadDocument = async (doc: Document) => {
+  const handleRequestDownloadDocument = (doc: Document) => {
     if (!doc.fileUrl) {
       toast.error('Arquivo sem caminho de download.');
       return;
     }
 
-    const confirmDownload = window.confirm(`Deseja baixar o documento ${doc.name}?`);
-    if (!confirmDownload) return;
+    setDocumentToDownload(doc);
+  };
 
+  const handleConfirmDownloadDocument = async () => {
+    if (!documentToDownload || downloadingDocument) return;
+
+    setDownloadingDocument(true);
     try {
         const download = await storageService.createDownloadUrl({
           bucket: 'documents',
-          path: doc.fileUrl,
-          fileName: doc.name,
+          path: documentToDownload.fileUrl || '',
+          fileName: documentToDownload.name,
         });
         const link = window.document.createElement('a');
         link.href = download.signedUrl;
-        link.download = download.fileName || doc.name;
+        link.download = download.fileName || documentToDownload.name;
         link.rel = 'noopener noreferrer';
         window.document.body.appendChild(link);
         link.click();
         window.document.body.removeChild(link);
+        setDocumentToDownload(null);
       } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Erro ao gerar link de download.');
+    } finally {
+      setDownloadingDocument(false);
     }
   };
 
@@ -269,14 +292,14 @@ export const DocumentosPendencias: React.FC = () => {
                         <td className="p-3.5 text-right">
                           <div className="flex gap-2 justify-end">
                             <button
-                              onClick={() => handleDownloadDocument(doc)}
+                              onClick={() => handleRequestDownloadDocument(doc)}
                               className="p-1 text-text-secondary hover:text-text-primary rounded hover:bg-neutral-bgSecondary/60 transition-colors"
                               title="Baixar arquivo"
                             >
                               <Download className="h-4 w-4" />
                             </button>
                             <button
-                              onClick={() => handleDeleteDocument(doc.id, doc.name)}
+                              onClick={() => handleRequestDeleteDocument(doc)}
                               className="p-1 text-text-secondary hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
                               title="Deletar arquivo"
                             >
@@ -388,6 +411,34 @@ export const DocumentosPendencias: React.FC = () => {
 
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={Boolean(documentToDownload)}
+        onClose={() => {
+          if (!downloadingDocument) setDocumentToDownload(null);
+        }}
+        onConfirm={handleConfirmDownloadDocument}
+        title="Baixar documento"
+        description={`Deseja baixar o documento "${documentToDownload?.name || ''}"?`}
+        confirmText="Baixar"
+        cancelText="Cancelar"
+        variant="primary"
+        loading={downloadingDocument}
+      />
+
+      <ConfirmDialog
+        isOpen={Boolean(documentToDelete)}
+        onClose={() => {
+          if (!deletingDocument) setDocumentToDelete(null);
+        }}
+        onConfirm={handleConfirmDeleteDocument}
+        title="Remover documento"
+        description={`Deseja remover o documento "${documentToDelete?.name || ''}"? Esta acao nao pode ser desfeita.`}
+        confirmText="Remover"
+        cancelText="Cancelar"
+        variant="danger"
+        loading={deletingDocument}
+      />
 
     </div>
   );
