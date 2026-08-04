@@ -142,6 +142,24 @@ export const documentService = {
   },
 };
 
+export const notificationService = {
+  list() {
+    return apiRequest<Array<{
+      id: string;
+      title: string;
+      description: string;
+      type: 'error' | 'warning' | 'success' | 'info';
+      date: string;
+    }>>('/api/notifications');
+  },
+
+  clearAll() {
+    return apiRequest<null>('/api/notifications', {
+      method: 'PATCH',
+    });
+  },
+};
+
 export const storageService = {
   async createUploadUrl(input: { bucket: string; fileName: string; recordId?: string }) {
     return apiRequest<{

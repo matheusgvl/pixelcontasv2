@@ -3,6 +3,19 @@ import { Menu, Bell, HelpCircle, ChevronDown, User, Settings, LogOut } from 'luc
 import { NotificationPanel } from './NotificationPanel';
 import type { NotificationItem } from './NotificationPanel';
 import { Link, useLocation } from 'react-router-dom';
+import { notificationService } from '../../services/supabaseApi';
+
+function formatNotificationDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+}
 
 interface TopbarProps {
   mobileOpen: boolean;
@@ -67,37 +80,7 @@ export const Topbar: React.FC<TopbarProps> = ({
   const userMenuRef = useRef<HTMLDivElement>(null);
   const companySelectRef = useRef<HTMLDivElement>(null);
 
-  // Mock notifications
-  const [notifications, setNotifications] = useState<NotificationItem[]>([
-    {
-      id: 'not-1',
-      title: 'Nota fiscal nº 2045 rejeitada',
-      description: 'Erro 403: Alíquota de ISS de 5% diverge do cadastro municipal para este CNAE.',
-      type: 'error',
-      date: 'Hoje, 09:15'
-    },
-    {
-      id: 'not-2',
-      title: 'Certificado digital expira em breve',
-      description: 'O seu certificado A1 expira em 15 dias. Lembre-se de renovar e fazer o upload.',
-      type: 'warning',
-      date: 'Hoje, 08:00'
-    },
-    {
-      id: 'not-3',
-      title: 'Automação executada com sucesso',
-      description: 'NFS-e emitida automaticamente para Gabriel Ferreira via integração Kiwify.',
-      type: 'success',
-      date: 'Ontem, 18:22'
-    },
-    {
-      id: 'not-4',
-      title: 'Guia Simples Nacional (DAS) disponível',
-      description: 'A guia de pagamento do DAS com vencimento em 20/07/2026 já está disponível para download.',
-      type: 'info',
-      date: '05/07/2026'
-    }
-  ]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -116,7 +99,27 @@ export const Topbar: React.FC<TopbarProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleClearAllNotifications = () => {
+  useEffect(() => {
+    let mounted = true;
+    notificationService.list()
+      .then((items) => {
+        if (!mounted) return;
+        setNotifications(items.map((item) => ({
+          ...item,
+          date: formatNotificationDate(item.date),
+        })));
+      })
+      .catch(() => {
+        if (mounted) setNotifications([]);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [profile?.active_company_id]);
+
+  const handleClearAllNotifications = async () => {
+    await notificationService.clearAll();
     setNotifications([]);
   };
 
