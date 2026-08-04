@@ -174,9 +174,9 @@ export const storageService = {
       path: string;
       signedUrl: string;
       token: string;
-    }>('/api/storage/upload-url', {
+    }>('/api/storage', {
       method: 'POST',
-      body: JSON.stringify(input),
+      body: JSON.stringify({ ...input, action: 'upload-url' }),
     });
   },
 
@@ -194,9 +194,9 @@ export const storageService = {
       fileName: string;
       signedUrl: string;
       expiresIn: number;
-    }>('/api/storage/download-url', {
+    }>('/api/storage', {
       method: 'POST',
-      body: JSON.stringify(input),
+      body: JSON.stringify({ ...input, action: 'download-url' }),
     });
   },
 };

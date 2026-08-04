@@ -38,13 +38,14 @@ company_id/documents/document_id.pdf
 O backend gera URLs temporarias de upload em:
 
 ```text
-POST /api/storage/upload-url
+POST /api/storage
 ```
 
 Body:
 
 ```json
 {
+  "action": "upload-url",
   "bucket": "documents",
   "fileName": "contrato.pdf",
   "recordId": "documento-123"
@@ -58,13 +59,14 @@ O retorno traz `signedUrl`, `token`, `bucket` e `path`. O frontend usa estes dad
 O backend gera URLs temporarias de download em:
 
 ```text
-POST /api/storage/download-url
+POST /api/storage
 ```
 
 Body:
 
 ```json
 {
+  "action": "download-url",
   "bucket": "documents",
   "path": "company_id/documents/documento-123/arquivo.pdf",
   "fileName": "arquivo.pdf"
