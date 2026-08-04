@@ -14,6 +14,7 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { Textarea } from '../components/ui/Textarea';
+import { ConfirmDialog } from '../components/shared/ConfirmDialog';
 import { useToast } from '../context/ToastContext';
 import type { Client, Invoice } from '../types';
 
@@ -35,6 +36,8 @@ export const Clientes: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingCEP, setLoadingCEP] = useState(false);
+  const [clientToArchive, setClientToArchive] = useState<Client | null>(null);
+  const [archivingClient, setArchivingClient] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -151,17 +154,23 @@ export const Clientes: React.FC = () => {
     }
   };
 
-  // Delete Client mock action
-  const handleDeleteClient = async (idToDelete: string, name: string) => {
-    const conf = window.confirm(`Deseja realmente arquivar o cliente ${name}?`);
-    if (conf) {
-      try {
-        await realData.update('clients', idToDelete, { status: 'inactive' });
-        setClients(prev => prev.map(c => c.id === idToDelete ? { ...c, status: 'inactive' as const } : c));
-        toast.success(`Cliente ${name} arquivado com sucesso.`);
-      } catch (error) {
-        toast.error(error instanceof Error ? error.message : 'Erro ao arquivar cliente.');
-      }
+  const handleRequestArchiveClient = (client: Client) => {
+    setClientToArchive(client);
+  };
+
+  const handleConfirmArchiveClient = async () => {
+    if (!clientToArchive || archivingClient) return;
+
+    setArchivingClient(true);
+    try {
+      await realData.update('clients', clientToArchive.id, { status: 'inactive' });
+      setClients(prev => prev.map(c => c.id === clientToArchive.id ? { ...c, status: 'inactive' as const } : c));
+      toast.success(`Cliente ${clientToArchive.name} arquivado com sucesso.`);
+      setClientToArchive(null);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao arquivar cliente.');
+    } finally {
+      setArchivingClient(false);
     }
   };
 
@@ -233,7 +242,7 @@ export const Clientes: React.FC = () => {
             <Button variant="ghost" size="sm" className="!p-1 text-text-primary">Detalhes</Button>
           </Link>
           <button
-            onClick={() => handleDeleteClient(row.id, row.name)}
+            onClick={() => handleRequestArchiveClient(row)}
             title="Arquivar cliente"
             className="p-1.5 text-text-secondary hover:text-red-600 rounded hover:bg-red-600-bg/60 transition-colors"
           >
@@ -609,6 +618,20 @@ export const Clientes: React.FC = () => {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={Boolean(clientToArchive)}
+        onClose={() => {
+          if (!archivingClient) setClientToArchive(null);
+        }}
+        onConfirm={handleConfirmArchiveClient}
+        title="Arquivar cliente"
+        description={`Deseja realmente arquivar o cliente "${clientToArchive?.name || ''}"? Ele deixara de aparecer como ativo.`}
+        confirmText="Arquivar"
+        cancelText="Cancelar"
+        variant="warning"
+        loading={archivingClient}
+      />
 
     </div>
   );

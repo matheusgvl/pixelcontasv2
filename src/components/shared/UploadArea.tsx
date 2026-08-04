@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, X, CheckCircle } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { ConfirmDialog } from './ConfirmDialog';
 
 interface UploadAreaProps {
   onFileSelect: (file: File) => void;
@@ -17,6 +18,7 @@ export const UploadArea: React.FC<UploadAreaProps> = ({
 }) => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [confirmRemoveOpen, setConfirmRemoveOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -83,12 +85,18 @@ export const UploadArea: React.FC<UploadAreaProps> = ({
 
   const clearFile = () => {
     if (selectedFile) {
-      const confirmRemove = window.confirm(`Deseja remover o arquivo ${selectedFile.name}?`);
-      if (!confirmRemove) return;
+      setConfirmRemoveOpen(true);
+      return;
     }
 
     setSelectedFile(null);
     setError(null);
+  };
+
+  const confirmClearFile = () => {
+    setSelectedFile(null);
+    setError(null);
+    setConfirmRemoveOpen(false);
   };
 
   return (
@@ -163,6 +171,16 @@ export const UploadArea: React.FC<UploadAreaProps> = ({
           {error}
         </span>
       )}
+      <ConfirmDialog
+        isOpen={confirmRemoveOpen}
+        onClose={() => setConfirmRemoveOpen(false)}
+        onConfirm={confirmClearFile}
+        title="Remover arquivo"
+        description={`Deseja remover o arquivo "${selectedFile?.name || ''}" da area de upload?`}
+        confirmText="Remover"
+        cancelText="Cancelar"
+        variant="danger"
+      />
     </div>
   );
 };
