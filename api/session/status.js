@@ -13,11 +13,29 @@ export default async function handler(req, res) {
 
   if (error) return send(res, 400, { error: error.message });
 
+  let companies = [];
+  if (profile) {
+    const { data: memberships, error: membershipsError } = await db
+      .from('company_members')
+      .select('role, company:companies(id, legal_name, trade_name, cnpj, status)')
+      .eq('profile_id', req.apiUser.id)
+      .eq('status', 'active');
+
+    if (membershipsError) return send(res, 400, { error: membershipsError.message });
+    companies = (memberships || [])
+      .map((membership) => ({
+        role: membership.role,
+        ...membership.company,
+      }))
+      .filter((company) => company.id);
+  }
+
   return send(res, 200, {
     data: {
       hasProfile: Boolean(profile),
       hasActiveCompany: Boolean(profile?.active_company_id),
       profile,
+      companies,
     },
   });
 }

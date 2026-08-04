@@ -12,21 +12,35 @@ interface TopbarProps {
     email: string;
     role: string;
     avatar_url: string | null;
+    active_company_id?: string | null;
   } | null;
+  companies?: Array<{
+    id: string;
+    legal_name: string;
+    trade_name: string | null;
+    cnpj: string;
+    status: string;
+    role: string;
+  }>;
+  onActiveCompanyChange?: (companyId: string) => Promise<void>;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
   mobileOpen,
   setMobileOpen,
-  profile
+  profile,
+  companies = [],
+  onActiveCompanyChange
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState('Pixel Comércio Digital LTDA');
   const [showCompanySelect, setShowCompanySelect] = useState(false);
+  const [changingCompanyId, setChangingCompanyId] = useState<string | null>(null);
   const location = useLocation();
   const userName = profile?.name || 'Usuario PixelConta';
   const userEmail = profile?.email || '';
+  const activeCompany = companies.find((company) => company.id === profile?.active_company_id) || companies[0];
+  const activeCompanyName = activeCompany?.trade_name || activeCompany?.legal_name || 'Empresa ativa';
   const initials = userName
     .split(' ')
     .filter(Boolean)
@@ -106,6 +120,21 @@ export const Topbar: React.FC<TopbarProps> = ({
     setNotifications([]);
   };
 
+  const handleCompanyChange = async (companyId: string) => {
+    if (!onActiveCompanyChange || companyId === profile?.active_company_id) {
+      setShowCompanySelect(false);
+      return;
+    }
+
+    setChangingCompanyId(companyId);
+    try {
+      await onActiveCompanyChange(companyId);
+      setShowCompanySelect(false);
+    } finally {
+      setChangingCompanyId(null);
+    }
+  };
+
   return (
     <header className="w-full flex items-center justify-between px-4 md:px-8 pt-6 pb-2 z-30">
       
@@ -140,7 +169,7 @@ export const Topbar: React.FC<TopbarProps> = ({
             onClick={() => setShowCompanySelect(!showCompanySelect)}
             className="flex items-center gap-2 px-3 py-1.5 border border-border bg-white rounded-soft hover:bg-white/60 transition-colors text-xs font-semibold text-text-primary font-title"
           >
-            <span className="truncate max-w-[130px] sm:max-w-none">{selectedCompany}</span>
+            <span className="truncate max-w-[130px] sm:max-w-none">{activeCompanyName}</span>
             <ChevronDown className="h-3.5 w-3.5 text-text-secondary" />
           </button>
           
@@ -149,19 +178,32 @@ export const Topbar: React.FC<TopbarProps> = ({
               <span className="px-3 py-1.5 text-[10px] uppercase font-bold text-text-secondary tracking-wider block">
                 Selecionar Empresa
               </span>
-              {['Pixel Comércio Digital LTDA', 'Pixel Academy ME', 'Ricardo Almeida Consultor'].map((comp) => (
-                <button
-                  key={comp}
-                  onClick={() => {
-                    setSelectedCompany(comp);
-                    setShowCompanySelect(false);
-                  }}
-                  className={`w-full text-left px-3 py-2 hover:bg-surface transition-colors font-medium
-                    ${selectedCompany === comp ? 'text-text-primary font-bold bg-black-soft/20' : 'text-text-primary'}`}
-                >
-                  {comp}
-                </button>
-              ))}
+              {companies.length > 0 ? (
+                companies.map((company) => {
+                  const companyName = company.trade_name || company.legal_name;
+                  const isActive = company.id === profile?.active_company_id;
+                  const isChanging = changingCompanyId === company.id;
+
+                  return (
+                    <button
+                      key={company.id}
+                      onClick={() => handleCompanyChange(company.id)}
+                      disabled={Boolean(changingCompanyId)}
+                      className={`w-full text-left px-3 py-2 hover:bg-surface transition-colors font-medium disabled:opacity-60
+                        ${isActive ? 'text-text-primary font-bold bg-black-soft/20' : 'text-text-primary'}`}
+                    >
+                      <span className="block truncate">{companyName}</span>
+                      <span className="block text-[10px] text-text-secondary truncate">
+                        {isChanging ? 'Trocando...' : company.cnpj}
+                      </span>
+                    </button>
+                  );
+                })
+              ) : (
+                <div className="px-3 py-2 text-text-secondary">
+                  Nenhuma empresa encontrada
+                </div>
+              )}
               <div className="border-t border-border my-1"></div>
               <button
                 onClick={() => setShowCompanySelect(false)}
@@ -275,3 +317,4 @@ export const Topbar: React.FC<TopbarProps> = ({
     </header>
   );
 };
+

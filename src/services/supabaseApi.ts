@@ -79,7 +79,31 @@ export const sessionService = {
         avatar_url: string | null;
         active_company_id: string | null;
       };
+      companies: Array<{
+        id: string;
+        legal_name: string;
+        trade_name: string | null;
+        cnpj: string;
+        status: string;
+        role: string;
+      }>;
     }>('/api/session/status');
+  },
+
+  setActiveCompany(companyId: string) {
+    return apiRequest<{
+      profile: {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+        avatar_url: string | null;
+        active_company_id: string | null;
+      };
+    }>('/api/session/active-company', {
+      method: 'PATCH',
+      body: JSON.stringify({ company_id: companyId }),
+    });
   },
 };
 

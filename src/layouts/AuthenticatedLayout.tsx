@@ -13,11 +13,21 @@ type SessionProfile = {
   active_company_id: string | null;
 };
 
+type SessionCompany = {
+  id: string;
+  legal_name: string;
+  trade_name: string | null;
+  cnpj: string;
+  status: string;
+  role: string;
+};
+
 export const AuthenticatedLayout: React.FC = () => {
   const [collapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [status, setStatus] = useState<'checking' | 'ready' | 'onboarding'>('checking');
   const [profile, setProfile] = useState<SessionProfile | null>(null);
+  const [companies, setCompanies] = useState<SessionCompany[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -25,6 +35,7 @@ export const AuthenticatedLayout: React.FC = () => {
       .then((sessionStatus) => {
         if (!mounted) return;
         setProfile(sessionStatus.profile);
+        setCompanies(sessionStatus.companies);
         setStatus(sessionStatus.hasProfile && sessionStatus.hasActiveCompany ? 'ready' : 'onboarding');
       })
       .catch(() => {
@@ -34,6 +45,12 @@ export const AuthenticatedLayout: React.FC = () => {
       mounted = false;
     };
   }, []);
+
+  const handleActiveCompanyChange = async (companyId: string) => {
+    const { profile: updatedProfile } = await sessionService.setActiveCompany(companyId);
+    setProfile(updatedProfile);
+    window.location.reload();
+  };
 
   if (status === 'checking') {
     return (
@@ -70,6 +87,8 @@ export const AuthenticatedLayout: React.FC = () => {
               mobileOpen={mobileOpen}
               setMobileOpen={setMobileOpen}
               profile={profile}
+              companies={companies}
+              onActiveCompanyChange={handleActiveCompanyChange}
             />
             <div className="px-4 md:px-8 pb-8 pt-2 flex-1">
               <Outlet />
