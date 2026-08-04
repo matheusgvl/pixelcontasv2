@@ -112,6 +112,10 @@ export const databaseService = {
     return apiRequest<T[]>(`/api/db/${table}${query}`);
   },
 
+  get<T>(table: string, id: string, query = '') {
+    return apiRequest<T>(`/api/db/${table}/${id}${query}`);
+  },
+
   create<T>(table: string, data: Record<string, unknown>) {
     return apiRequest<T>(`/api/db/${table}`, {
       method: 'POST',

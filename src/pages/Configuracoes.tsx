@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Building2, FileCheck, KeyRound, Users, 
   ShieldCheck, Save, Plus, Trash2, AlertCircle
@@ -11,6 +11,8 @@ import { Select } from '../components/ui/Select';
 import { UploadArea } from '../components/shared/UploadArea';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { useToast } from '../context/ToastContext';
+import { mapCompany, realData, toCompanyPayload } from '../services/realData';
+import type { CompanySettings } from '../services/realData';
 
 interface TeamMember {
   id: string;
@@ -24,24 +26,27 @@ export const Configuracoes: React.FC = () => {
   const toast = useToast();
   const [activeTab, setActiveTab] = useState('empresa');
 
-  // Company details mock state
+  const [activeCompany, setActiveCompany] = useState<CompanySettings | null>(null);
+  const [loadingCompany, setLoadingCompany] = useState(true);
+  const [savingCompany, setSavingCompany] = useState(false);
+
   const [companyForm, setCompanyForm] = useState({
-    razaoSocial: 'Pixel Comércio Digital LTDA',
-    tradingName: 'Pixel Digital',
-    cnpj: '12.345.678/0001-90',
-    inscEstadual: '888.777.666.555',
-    inscMunicipal: '121314-5',
+    razaoSocial: '',
+    tradingName: '',
+    cnpj: '',
+    inscEstadual: '',
+    inscMunicipal: '',
     regimeTributario: 'Simples Nacional',
-    cnae: '6201-5/01',
-    email: 'ricardo@pixelconta.com.br',
-    phone: '(81) 3456-7890',
-    zipCode: '52020-000',
-    street: 'Avenida Rui Barbosa',
-    number: '120',
-    complement: 'Andar 3, Sala 301',
-    neighborhood: 'Graças',
-    city: 'Recife',
-    state: 'PE'
+    cnae: '',
+    email: '',
+    phone: '',
+    zipCode: '',
+    street: '',
+    number: '',
+    complement: '',
+    neighborhood: '',
+    city: '',
+    state: ''
   });
 
   // Fiscal setting state
@@ -50,8 +55,8 @@ export const Configuracoes: React.FC = () => {
     municipioEmissao: 'Recife',
     serieNota: '1',
     numeroInicial: '2042',
-    naturezaOperacao: 'Prestação de serviços',
-    ambiente: 'Homologação'
+    naturezaOperacao: 'Prestacao de servicos',
+    ambiente: 'Homologacao'
   });
 
   // Digital cert file states
@@ -62,7 +67,7 @@ export const Configuracoes: React.FC = () => {
   const [team, setTeam] = useState<TeamMember[]>([
     { id: '1', name: 'Ricardo Almeida', email: 'ricardo@pixelconta.com.br', role: 'Administrador', status: 'active' },
     { id: '2', name: 'Helena Moreira', email: 'helena.contador@pixelconta.com.br', role: 'Contador', status: 'active' },
-    { id: '3', name: 'Camila Souza', email: 'camila.finanças@empresa.com.br', role: 'Financeiro', status: 'active' },
+    { id: '3', name: 'Camila Souza', email: 'camila.financas@empresa.com.br', role: 'Financeiro', status: 'active' },
     { id: '4', name: 'Pedro Santos', email: 'pedro.operador@empresa.com.br', role: 'Operador', status: 'inactive' }
   ]);
 
@@ -72,11 +77,78 @@ export const Configuracoes: React.FC = () => {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState<'Administrador' | 'Contador' | 'Financeiro' | 'Operador' | 'Visualizador'>('Financeiro');
 
-  const handleSaveCompany = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success('Dados da empresa salvos com sucesso!');
-  };
+  useEffect(() => {
+    let mounted = true;
+    realData.activeCompany()
+      .then((company) => {
+        if (!mounted) return;
+        setActiveCompany(company);
+        setCompanyForm({
+          razaoSocial: company.legalName,
+          tradingName: company.tradingName,
+          cnpj: company.cnpj,
+          inscEstadual: company.stateRegistration,
+          inscMunicipal: company.municipalRegistration,
+          regimeTributario: company.taxRegime,
+          cnae: company.cnaePrimary,
+          email: company.email,
+          phone: company.phone,
+          zipCode: company.address.zipCode,
+          street: company.address.street,
+          number: company.address.number,
+          complement: company.address.complement || '',
+          neighborhood: company.address.neighborhood,
+          city: company.address.city,
+          state: company.address.state,
+        });
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar dados da empresa.');
+      })
+      .finally(() => {
+        if (mounted) setLoadingCompany(false);
+      });
 
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
+
+  const handleSaveCompany = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!activeCompany || savingCompany) return;
+
+    setSavingCompany(true);
+    try {
+      const payload = toCompanyPayload({
+        legalName: companyForm.razaoSocial,
+        tradingName: companyForm.tradingName,
+        cnpj: companyForm.cnpj,
+        stateRegistration: companyForm.inscEstadual,
+        municipalRegistration: companyForm.inscMunicipal,
+        taxRegime: companyForm.regimeTributario,
+        cnaePrimary: companyForm.cnae,
+        email: companyForm.email,
+        phone: companyForm.phone,
+        address: {
+          zipCode: companyForm.zipCode,
+          street: companyForm.street,
+          number: companyForm.number,
+          complement: companyForm.complement,
+          neighborhood: companyForm.neighborhood,
+          city: companyForm.city,
+          state: companyForm.state,
+        },
+      });
+      const updated = await realData.update('companies', activeCompany.id, payload);
+      setActiveCompany(mapCompany(updated));
+      toast.success('Dados da empresa salvos com sucesso!');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao salvar dados da empresa.');
+    } finally {
+      setSavingCompany(false);
+    }
+  };
   const handleSaveFiscal = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success('Configurações fiscais atualizadas!');
@@ -147,6 +219,12 @@ export const Configuracoes: React.FC = () => {
               <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Cadastro da Empresa
               </h3>
+
+              {loadingCompany && (
+                <div className="text-xs font-semibold text-text-secondary bg-surface border border-border rounded-soft p-3">
+                  Carregando dados da empresa...
+                </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Input
@@ -255,8 +333,15 @@ export const Configuracoes: React.FC = () => {
               </div>
 
               <div className="flex justify-end pt-4 border-t border-border">
-                <Button type="submit" variant="primary" size="sm" icon={<Save className="h-4 w-4" />}>
-                  Salvar Alterações
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="sm"
+                  icon={<Save className="h-4 w-4" />}
+                  loading={savingCompany}
+                  disabled={loadingCompany || !activeCompany}
+                >
+                  Salvar Alteracoes
                 </Button>
               </div>
             </div>
@@ -331,8 +416,15 @@ export const Configuracoes: React.FC = () => {
               </div>
 
               <div className="flex justify-end pt-4 border-t border-border">
-                <Button type="submit" variant="primary" size="sm" icon={<Save className="h-4 w-4" />}>
-                  Atualizar Dados Fiscais
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="sm"
+                  icon={<Save className="h-4 w-4" />}
+                  loading={savingCompany}
+                  disabled={loadingCompany || !activeCompany}
+                >
+                  Salvar Alteracoes
                 </Button>
               </div>
             </div>
@@ -384,8 +476,15 @@ export const Configuracoes: React.FC = () => {
               )}
 
               <div className="flex justify-end pt-4 border-t border-border">
-                <Button type="submit" variant="primary" size="sm" icon={<Save className="h-4 w-4" />}>
-                  Atualizar Certificado
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="sm"
+                  icon={<Save className="h-4 w-4" />}
+                  loading={savingCompany}
+                  disabled={loadingCompany || !activeCompany}
+                >
+                  Salvar Alteracoes
                 </Button>
               </div>
             </div>
@@ -518,3 +617,7 @@ export const Configuracoes: React.FC = () => {
   );
 };
 export default Configuracoes;
+
+
+
+

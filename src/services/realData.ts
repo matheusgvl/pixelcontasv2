@@ -48,6 +48,72 @@ export interface WebhookEvent {
   };
 }
 
+export interface CompanySettings {
+  id: string;
+  legalName: string;
+  tradingName: string;
+  cnpj: string;
+  stateRegistration: string;
+  municipalRegistration: string;
+  taxRegime: string;
+  cnaePrimary: string;
+  email: string;
+  phone: string;
+  address: {
+    zipCode: string;
+    street: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+  };
+  certificateStatus: string;
+  status: string;
+}
+
+export function mapCompany(row: DbRow): CompanySettings {
+  const address = row.address || {};
+  return {
+    id: row.id,
+    legalName: row.legal_name || '',
+    tradingName: row.trade_name || '',
+    cnpj: row.cnpj || '',
+    stateRegistration: row.state_registration || '',
+    municipalRegistration: row.municipal_registration || '',
+    taxRegime: row.tax_regime || 'Simples Nacional',
+    cnaePrimary: row.cnae_primary || '',
+    email: row.email || '',
+    phone: row.phone || '',
+    address: {
+      zipCode: address.zipCode || '',
+      street: address.street || '',
+      number: address.number || '',
+      complement: address.complement || '',
+      neighborhood: address.neighborhood || '',
+      city: address.city || '',
+      state: address.state || '',
+    },
+    certificateStatus: row.certificate_status || 'missing',
+    status: row.status || 'active',
+  };
+}
+
+export function toCompanyPayload(company: Partial<CompanySettings>) {
+  return {
+    legal_name: company.legalName,
+    trade_name: company.tradingName,
+    cnpj: company.cnpj,
+    state_registration: company.stateRegistration,
+    municipal_registration: company.municipalRegistration,
+    tax_regime: company.taxRegime,
+    cnae_primary: company.cnaePrimary,
+    email: company.email,
+    phone: company.phone,
+    address: company.address,
+  };
+}
+
 export function mapClient(row: DbRow): Client {
   return {
     id: row.id,
@@ -305,6 +371,11 @@ async function getActiveCompanyId() {
 export const realData = {
   async activeCompanyId() {
     return getActiveCompanyId();
+  },
+  async activeCompany() {
+    const companyId = await getActiveCompanyId();
+    if (!companyId) throw new Error('Empresa ativa nao encontrada.');
+    return mapCompany(await databaseService.get<DbRow>('companies', companyId));
   },
   async clients() {
     return (await databaseService.list<DbRow>('clients', '?order=created_at:desc')).map(mapClient);
