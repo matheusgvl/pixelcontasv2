@@ -140,6 +140,13 @@ export const documentService = {
       body: JSON.stringify(data),
     });
   },
+
+  remove(id: string) {
+    return apiRequest<null>('/api/documents/delete', {
+      method: 'POST',
+      body: JSON.stringify({ id }),
+    });
+  },
 };
 
 export const notificationService = {

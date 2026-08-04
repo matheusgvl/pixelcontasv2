@@ -127,7 +127,7 @@ export const DocumentosPendencias: React.FC = () => {
 
     setDeletingDocument(true);
     try {
-      await databaseService.remove('documents', documentToDelete.id);
+      await documentService.remove(documentToDelete.id);
       setDocuments(prev => prev.filter(doc => doc.id !== documentToDelete.id));
       toast.success('Documento deletado.');
       setDocumentToDelete(null);
