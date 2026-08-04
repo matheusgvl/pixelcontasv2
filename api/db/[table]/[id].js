@@ -51,6 +51,19 @@ export default async function handler(req, res) {
         });
       }
 
+      if (table === 'pending_tasks' && payload.status === 'resolved' && existingRow.status !== 'resolved') {
+        await createNotification({
+          companyId: data.company_id,
+          title: 'Pendencia resolvida',
+          description: `Pendencia ${data.title} foi marcada como resolvida.`,
+          type: 'success',
+          metadata: {
+            source: 'pending_tasks',
+            pending_task_id: data.id,
+          },
+        });
+      }
+
       return send(res, 200, { data });
     }
 
