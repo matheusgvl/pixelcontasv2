@@ -114,6 +114,53 @@ export function toCompanyPayload(company: Partial<CompanySettings>) {
   };
 }
 
+export interface TaxSettings {
+  id: string;
+  companyId: string;
+  name: string;
+  invoiceType: 'NFS-e' | 'NF-e' | 'NFC-e';
+  taxRegime: string;
+  natureOfOperation: string;
+  serviceCity: string;
+  series: string;
+  initialNumber: string;
+  environment: string;
+  status: 'active' | 'inactive';
+}
+
+export function mapTaxSettings(row: DbRow): TaxSettings {
+  const settings = row.settings || {};
+  return {
+    id: row.id,
+    companyId: row.company_id,
+    name: row.name || 'Configuracao fiscal padrao',
+    invoiceType: row.invoice_type || 'NFS-e',
+    taxRegime: row.tax_regime || 'Simples Nacional',
+    natureOfOperation: row.nature_of_operation || 'Prestacao de servicos',
+    serviceCity: row.service_city || '',
+    series: settings.series || '1',
+    initialNumber: settings.initialNumber || settings.initial_number || '1',
+    environment: settings.environment || 'Homologacao',
+    status: row.status || 'active',
+  };
+}
+
+export function toTaxSettingsPayload(settings: Partial<TaxSettings>) {
+  return {
+    name: settings.name || 'Configuracao fiscal padrao',
+    invoice_type: settings.invoiceType,
+    tax_regime: settings.taxRegime,
+    nature_of_operation: settings.natureOfOperation,
+    service_city: settings.serviceCity,
+    settings: {
+      series: settings.series,
+      initialNumber: settings.initialNumber,
+      environment: settings.environment,
+    },
+    status: settings.status || 'active',
+  };
+}
+
 export function mapClient(row: DbRow): Client {
   return {
     id: row.id,
@@ -376,6 +423,30 @@ export const realData = {
     const companyId = await getActiveCompanyId();
     if (!companyId) throw new Error('Empresa ativa nao encontrada.');
     return mapCompany(await databaseService.get<DbRow>('companies', companyId));
+  },
+  async activeTaxSettings() {
+    const companyId = await getActiveCompanyId();
+    if (!companyId) throw new Error('Empresa ativa nao encontrada.');
+
+    const existing = await databaseService.list<DbRow>('tax_settings', '?single=maybe');
+    const row = Array.isArray(existing) ? existing[0] : existing;
+    if (row?.id) return mapTaxSettings(row);
+
+    const company = await databaseService.get<DbRow>('companies', companyId);
+    return mapTaxSettings(await databaseService.create<DbRow>('tax_settings', {
+      company_id: companyId,
+      name: 'Configuracao fiscal padrao',
+      invoice_type: 'NFS-e',
+      tax_regime: company.tax_regime || 'Simples Nacional',
+      nature_of_operation: 'Prestacao de servicos',
+      service_city: company.address?.city || null,
+      settings: {
+        series: '1',
+        initialNumber: '1',
+        environment: 'Homologacao',
+      },
+      status: 'active',
+    }));
   },
   async clients() {
     return (await databaseService.list<DbRow>('clients', '?order=created_at:desc')).map(mapClient);

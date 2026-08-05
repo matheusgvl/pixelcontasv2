@@ -11,8 +11,8 @@ import { Select } from '../components/ui/Select';
 import { UploadArea } from '../components/shared/UploadArea';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { useToast } from '../context/ToastContext';
-import { mapCompany, realData, toCompanyPayload } from '../services/realData';
-import type { CompanySettings } from '../services/realData';
+import { mapCompany, mapTaxSettings, realData, toCompanyPayload, toTaxSettingsPayload } from '../services/realData';
+import type { CompanySettings, TaxSettings } from '../services/realData';
 
 interface TeamMember {
   id: string;
@@ -29,6 +29,9 @@ export const Configuracoes: React.FC = () => {
   const [activeCompany, setActiveCompany] = useState<CompanySettings | null>(null);
   const [loadingCompany, setLoadingCompany] = useState(true);
   const [savingCompany, setSavingCompany] = useState(false);
+  const [activeTaxSettings, setActiveTaxSettings] = useState<TaxSettings | null>(null);
+  const [loadingFiscal, setLoadingFiscal] = useState(true);
+  const [savingFiscal, setSavingFiscal] = useState(false);
 
   const [companyForm, setCompanyForm] = useState({
     razaoSocial: '',
@@ -52,9 +55,9 @@ export const Configuracoes: React.FC = () => {
   // Fiscal setting state
   const [fiscalForm, setFiscalForm] = useState({
     tipoNota: 'NFS-e',
-    municipioEmissao: 'Recife',
+    municipioEmissao: '',
     serieNota: '1',
-    numeroInicial: '2042',
+    numeroInicial: '1',
     naturezaOperacao: 'Prestacao de servicos',
     ambiente: 'Homologacao'
   });
@@ -149,11 +152,59 @@ export const Configuracoes: React.FC = () => {
       setSavingCompany(false);
     }
   };
-  const handleSaveFiscal = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success('Configurações fiscais atualizadas!');
-  };
+  useEffect(() => {
+    let mounted = true;
+    realData.activeTaxSettings()
+      .then((settings) => {
+        if (!mounted) return;
+        setActiveTaxSettings(settings);
+        setFiscalForm({
+          tipoNota: settings.invoiceType,
+          municipioEmissao: settings.serviceCity,
+          serieNota: settings.series,
+          numeroInicial: settings.initialNumber,
+          naturezaOperacao: settings.natureOfOperation,
+          ambiente: settings.environment,
+        });
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar dados fiscais.');
+      })
+      .finally(() => {
+        if (mounted) setLoadingFiscal(false);
+      });
 
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
+
+  const handleSaveFiscal = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!activeTaxSettings || savingFiscal) return;
+
+    setSavingFiscal(true);
+    try {
+      const payload = toTaxSettingsPayload({
+        name: activeTaxSettings.name,
+        invoiceType: fiscalForm.tipoNota as TaxSettings['invoiceType'],
+        taxRegime: activeCompany?.taxRegime || activeTaxSettings.taxRegime,
+        natureOfOperation: fiscalForm.naturezaOperacao,
+        serviceCity: fiscalForm.municipioEmissao,
+        series: fiscalForm.serieNota,
+        initialNumber: fiscalForm.numeroInicial,
+        environment: fiscalForm.ambiente,
+        status: activeTaxSettings.status,
+      });
+      const updated = await realData.update('tax_settings', activeTaxSettings.id, payload);
+      setActiveTaxSettings(mapTaxSettings(updated));
+      toast.success('Configuracoes fiscais atualizadas!');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao salvar dados fiscais.');
+    } finally {
+      setSavingFiscal(false);
+    }
+  };
   const handleSaveCert = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success('Certificado digital A1 atualizado com sucesso!');
@@ -365,7 +416,13 @@ export const Configuracoes: React.FC = () => {
             <div className="lg:col-span-2 border border-border rounded-premium p-6 bg-white shadow-premium flex flex-col gap-5">
               <h3 className="text-xs font-bold text-text-primary font-title uppercase tracking-wider text-[10px] pb-2 border-b border-border">
                 Parâmetros Fiscais da Emissão
-              </h3>
+                            </h3>
+
+              {loadingFiscal && (
+                <div className="text-xs font-semibold text-text-secondary bg-surface border border-border rounded-soft p-3">
+                  Carregando dados fiscais...
+                </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Select
@@ -421,10 +478,10 @@ export const Configuracoes: React.FC = () => {
                   variant="primary"
                   size="sm"
                   icon={<Save className="h-4 w-4" />}
-                  loading={savingCompany}
-                  disabled={loadingCompany || !activeCompany}
+                  loading={savingFiscal}
+                  disabled={loadingFiscal || !activeTaxSettings}
                 >
-                  Salvar Alteracoes
+                  Atualizar Dados Fiscais
                 </Button>
               </div>
             </div>
@@ -481,10 +538,8 @@ export const Configuracoes: React.FC = () => {
                   variant="primary"
                   size="sm"
                   icon={<Save className="h-4 w-4" />}
-                  loading={savingCompany}
-                  disabled={loadingCompany || !activeCompany}
-                >
-                  Salvar Alteracoes
+                  >
+                  Atualizar Certificado
                 </Button>
               </div>
             </div>
@@ -617,6 +672,11 @@ export const Configuracoes: React.FC = () => {
   );
 };
 export default Configuracoes;
+
+
+
+
+
 
 
 
