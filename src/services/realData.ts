@@ -483,6 +483,13 @@ export const realData = {
       )
     ).map(mapTeamMember);
   },
+  async deactivateTeamMember(id: string) {
+    return mapTeamMember(
+      await databaseService.update<DbRow>('company_members', id, {
+        status: 'inactive',
+      }),
+    );
+  },
   async clients() {
     return (await databaseService.list<DbRow>('clients', '?order=created_at:desc')).map(mapClient);
   },

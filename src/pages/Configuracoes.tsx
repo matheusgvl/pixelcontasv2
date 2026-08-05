@@ -9,10 +9,11 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Select } from '../components/ui/Select';
 import { UploadArea } from '../components/shared/UploadArea';
+import { ConfirmDialog } from '../components/shared/ConfirmDialog';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { useToast } from '../context/ToastContext';
-import { storageService } from '../services/supabaseApi';
-import { mapCompany, mapTaxSettings, realData, toCompanyPayload, toTaxSettingsPayload } from '../services/realData';
+import { storageService, teamService } from '../services/supabaseApi';
+import { mapCompany, mapTaxSettings, mapTeamMember, realData, toCompanyPayload, toTaxSettingsPayload } from '../services/realData';
 import type { CompanySettings, TaxSettings, TeamMemberSettings } from '../services/realData';
 
 export const Configuracoes: React.FC = () => {
@@ -66,12 +67,15 @@ export const Configuracoes: React.FC = () => {
   // Team users state
   const [team, setTeam] = useState<TeamMemberSettings[]>([]);
   const [loadingTeam, setLoadingTeam] = useState(true);
+  const [memberToDeactivate, setMemberToDeactivate] = useState<TeamMemberSettings | null>(null);
+  const [deactivatingMember, setDeactivatingMember] = useState(false);
 
   // Modal invite states
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteName, setInviteName] = useState('');
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState<TeamMemberSettings['role']>('Operador');
+  const [invitingMember, setInvitingMember] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -280,24 +284,60 @@ export const Configuracoes: React.FC = () => {
   }, [toast]);
 
   // Invite user member action
-  const handleInviteMember = (e: React.FormEvent) => {
+  const handleInviteMember = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (invitingMember) return;
     if (!inviteName || !inviteEmail) {
-      toast.error('Preencha os campos obrigatórios.');
+      toast.error('Preencha os campos obrigatorios.');
       return;
     }
 
-    setShowInviteModal(false);
-    setInviteName('');
-    setInviteEmail('');
-    setInviteRole('Operador');
-    toast.info('Convite real de usuarios sera conectado no proximo passo.');
+    setInvitingMember(true);
+    try {
+      const invited = await teamService.invite({
+        name: inviteName,
+        email: inviteEmail,
+        role: inviteRole,
+      });
+      const member = mapTeamMember(invited);
+      setTeam((members) => {
+        const exists = members.some((current) => current.id === member.id);
+        return exists
+          ? members.map((current) => current.id === member.id ? member : current)
+          : [...members, member];
+      });
+      setShowInviteModal(false);
+      setInviteName('');
+      setInviteEmail('');
+      setInviteRole('Operador');
+      toast.success(`Convite enviado para ${member.email}.`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao enviar convite.');
+    } finally {
+      setInvitingMember(false);
+    }
   };
 
-  const handleArchiveMember = (id: string, name: string) => {
-    void id;
-    void name;
-    toast.info('Desativacao real de usuarios sera conectada no proximo passo.');
+  const handleArchiveMember = (member: TeamMemberSettings) => {
+    setMemberToDeactivate(member);
+  };
+
+  const confirmDeactivateMember = async () => {
+    if (!memberToDeactivate || deactivatingMember) return;
+
+    setDeactivatingMember(true);
+    try {
+      const updated = await realData.deactivateTeamMember(memberToDeactivate.id);
+      setTeam((members) => members.map((member) => (
+        member.id === updated.id ? { ...member, status: updated.status } : member
+      )));
+      setMemberToDeactivate(null);
+      toast.success(`Acesso de ${memberToDeactivate.name} desativado.`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao desativar usuario.');
+    } finally {
+      setDeactivatingMember(false);
+    }
   };
 
   return (
@@ -677,7 +717,7 @@ export const Configuracoes: React.FC = () => {
                       <td className="p-4 text-right">
                         {member.id !== '1' && member.status === 'active' && (
                           <button
-                            onClick={() => handleArchiveMember(member.id, member.name)}
+                            onClick={() => handleArchiveMember(member)}
                             className="text-text-secondary hover:text-red-600 hover:bg-red-600-bg/60 p-1.5 rounded transition-all"
                             title="Desativar acesso"
                           >
@@ -733,6 +773,7 @@ export const Configuracoes: React.FC = () => {
                 size="sm"
                 onClick={() => setShowInviteModal(false)}
                 type="button"
+                disabled={invitingMember}
               >
                 Cancelar
               </Button>
@@ -741,6 +782,7 @@ export const Configuracoes: React.FC = () => {
                 size="sm"
                 type="submit"
                 icon={<Plus className="h-4 w-4" />}
+                loading={invitingMember}
               >
                 Enviar Convite
               </Button>
@@ -748,6 +790,18 @@ export const Configuracoes: React.FC = () => {
           </form>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!memberToDeactivate}
+        onClose={() => setMemberToDeactivate(null)}
+        onConfirm={confirmDeactivateMember}
+        title="Desativar acesso"
+        description={`Deseja desativar o acesso de ${memberToDeactivate?.name || 'este usuario'}?`}
+        confirmText="Desativar"
+        cancelText="Cancelar"
+        variant="danger"
+        loading={deactivatingMember}
+      />
 
     </div>
   );

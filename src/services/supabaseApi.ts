@@ -171,6 +171,15 @@ export const notificationService = {
   },
 };
 
+export const teamService = {
+  invite(input: { name: string; email: string; role: string }) {
+    return apiRequest<any>('/api/team-invites', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+};
+
 export const storageService = {
   async createUploadUrl(input: { bucket: string; fileName: string; recordId?: string }) {
     return apiRequest<{
