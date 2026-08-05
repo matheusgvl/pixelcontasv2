@@ -225,7 +225,9 @@ export async function applyAuthorizedReadScope(builder, req, table) {
     return { builder: builder.in('id', companyIds) };
   }
 
-  if (table === 'company_members') return { builder: builder.eq('profile_id', req.apiUser.id) };
+  if (table === 'company_members' && profile.active_company_id) {
+    return { builder: builder.eq('company_id', profile.active_company_id) };
+  }
   if (profile.active_company_id) return { builder: builder.eq('company_id', profile.active_company_id) };
   return { builder };
 }

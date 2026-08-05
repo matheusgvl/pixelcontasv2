@@ -13,15 +13,7 @@ import { StatusBadge } from '../components/ui/StatusBadge';
 import { useToast } from '../context/ToastContext';
 import { storageService } from '../services/supabaseApi';
 import { mapCompany, mapTaxSettings, realData, toCompanyPayload, toTaxSettingsPayload } from '../services/realData';
-import type { CompanySettings, TaxSettings } from '../services/realData';
-
-interface TeamMember {
-  id: string;
-  name: string;
-  email: string;
-  role: 'Administrador' | 'Contador' | 'Financeiro' | 'Operador' | 'Visualizador';
-  status: 'active' | 'inactive';
-}
+import type { CompanySettings, TaxSettings, TeamMemberSettings } from '../services/realData';
 
 export const Configuracoes: React.FC = () => {
   const toast = useToast();
@@ -72,18 +64,14 @@ export const Configuracoes: React.FC = () => {
   const [savingCert, setSavingCert] = useState(false);
 
   // Team users state
-  const [team, setTeam] = useState<TeamMember[]>([
-    { id: '1', name: 'Ricardo Almeida', email: 'ricardo@pixelconta.com.br', role: 'Administrador', status: 'active' },
-    { id: '2', name: 'Helena Moreira', email: 'helena.contador@pixelconta.com.br', role: 'Contador', status: 'active' },
-    { id: '3', name: 'Camila Souza', email: 'camila.financas@empresa.com.br', role: 'Financeiro', status: 'active' },
-    { id: '4', name: 'Pedro Santos', email: 'pedro.operador@empresa.com.br', role: 'Operador', status: 'inactive' }
-  ]);
+  const [team, setTeam] = useState<TeamMemberSettings[]>([]);
+  const [loadingTeam, setLoadingTeam] = useState(true);
 
   // Modal invite states
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteName, setInviteName] = useState('');
   const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteRole, setInviteRole] = useState<'Administrador' | 'Contador' | 'Financeiro' | 'Operador' | 'Visualizador'>('Financeiro');
+  const [inviteRole, setInviteRole] = useState<TeamMemberSettings['role']>('Operador');
 
   useEffect(() => {
     let mounted = true;
@@ -273,6 +261,24 @@ export const Configuracoes: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    let mounted = true;
+    realData.teamMembers()
+      .then((members) => {
+        if (mounted) setTeam(members);
+      })
+      .catch((error) => {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar usuarios da empresa.');
+      })
+      .finally(() => {
+        if (mounted) setLoadingTeam(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [toast]);
+
   // Invite user member action
   const handleInviteMember = (e: React.FormEvent) => {
     e.preventDefault();
@@ -281,26 +287,17 @@ export const Configuracoes: React.FC = () => {
       return;
     }
 
-    const newMember: TeamMember = {
-      id: String(team.length + 1),
-      name: inviteName,
-      email: inviteEmail,
-      role: inviteRole,
-      status: 'active'
-    };
-
-    setTeam([...team, newMember]);
     setShowInviteModal(false);
     setInviteName('');
     setInviteEmail('');
-    setInviteRole('Financeiro');
-    toast.success(`Convite de acesso enviado com sucesso para ${inviteEmail}!`);
+    setInviteRole('Operador');
+    toast.info('Convite real de usuarios sera conectado no proximo passo.');
   };
 
   const handleArchiveMember = (id: string, name: string) => {
-    const nextTeam = team.map(m => m.id === id ? { ...m, status: 'inactive' as const } : m);
-    setTeam(nextTeam);
-    toast.success(`Acesso do membro ${name} revogado.`);
+    void id;
+    void name;
+    toast.info('Desativacao real de usuarios sera conectada no proximo passo.');
   };
 
   return (
@@ -648,6 +645,20 @@ export const Configuracoes: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-pixel-neutral-200 text-text-primary">
+                  {loadingTeam && (
+                    <tr>
+                      <td colSpan={5} className="p-6 text-center text-text-secondary font-semibold">
+                        Carregando usuarios da empresa...
+                      </td>
+                    </tr>
+                  )}
+                  {!loadingTeam && team.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="p-6 text-center text-text-secondary font-semibold">
+                        Nenhum usuario encontrado para a empresa ativa.
+                      </td>
+                    </tr>
+                  )}
                   {team.map((member) => (
                     <tr key={member.id} className="hover:bg-neutral-bgSecondary/20">
                       <td className="p-4 font-bold text-text-primary flex items-center gap-2">
@@ -705,15 +716,13 @@ export const Configuracoes: React.FC = () => {
                 placeholder="nome@empresa.com"
               />
               <Select
-                label="Função no sistema (Papel)"
+                label="Funcao no sistema (Papel)"
                 value={inviteRole}
-                onChange={e => setInviteRole(e.target.value as any)}
+                onChange={e => setInviteRole(e.target.value as TeamMemberSettings['role'])}
                 options={[
                   { value: 'Administrador', label: 'Administrador (Acesso Total)' },
-                  { value: 'Financeiro', label: 'Financeiro (Notas e Relatórios)' },
-                  { value: 'Contador', label: 'Contador (Acesso Contábil e Guias)' },
-                  { value: 'Operador', label: 'Operador (Emissão manual)' },
-                  { value: 'Visualizador', label: 'Visualizador (Somente leitura)' }
+                  { value: 'Contador', label: 'Contador (Acesso Contabil e Guias)' },
+                  { value: 'Operador', label: 'Operador (Emissao manual)' }
                 ]}
               />
             </div>

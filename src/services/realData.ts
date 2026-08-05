@@ -130,6 +130,31 @@ export interface TaxSettings {
   status: 'active' | 'inactive';
 }
 
+export interface TeamMemberSettings {
+  id: string;
+  name: string;
+  email: string;
+  role: 'Administrador' | 'Contador' | 'Operador';
+  status: 'active' | 'inactive' | 'pending';
+}
+
+const memberRoleLabels: Record<string, TeamMemberSettings['role']> = {
+  owner: 'Administrador',
+  accountant: 'Contador',
+  operator: 'Operador',
+};
+
+export function mapTeamMember(row: DbRow): TeamMemberSettings {
+  const profile = row.profile || row.profiles || {};
+  return {
+    id: row.id,
+    name: profile.name || 'Usuario sem nome',
+    email: profile.email || '',
+    role: memberRoleLabels[row.role] || 'Operador',
+    status: row.status === 'invited' ? 'pending' : row.status === 'inactive' ? 'inactive' : 'active',
+  };
+}
+
 export function mapTaxSettings(row: DbRow): TaxSettings {
   const settings = row.settings || {};
   return {
@@ -449,6 +474,14 @@ export const realData = {
       },
       status: 'active',
     }));
+  },
+  async teamMembers() {
+    return (
+      await databaseService.list<DbRow>(
+        'company_members',
+        '?select=id,role,status,profile:profiles(id,name,email,is_active)&order=created_at:asc',
+      )
+    ).map(mapTeamMember);
   },
   async clients() {
     return (await databaseService.list<DbRow>('clients', '?order=created_at:desc')).map(mapClient);
