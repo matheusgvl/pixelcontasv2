@@ -69,6 +69,7 @@ export interface CompanySettings {
     state: string;
   };
   certificateStatus: string;
+  settings: Record<string, any>;
   status: string;
 }
 
@@ -95,6 +96,7 @@ export function mapCompany(row: DbRow): CompanySettings {
       state: address.state || '',
     },
     certificateStatus: row.certificate_status || 'missing',
+    settings: row.settings || {},
     status: row.status || 'active',
   };
 }

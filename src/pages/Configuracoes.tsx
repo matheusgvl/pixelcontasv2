@@ -11,6 +11,7 @@ import { Select } from '../components/ui/Select';
 import { UploadArea } from '../components/shared/UploadArea';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { useToast } from '../context/ToastContext';
+import { storageService } from '../services/supabaseApi';
 import { mapCompany, mapTaxSettings, realData, toCompanyPayload, toTaxSettingsPayload } from '../services/realData';
 import type { CompanySettings, TaxSettings } from '../services/realData';
 
@@ -63,8 +64,12 @@ export const Configuracoes: React.FC = () => {
   });
 
   // Digital cert file states
-  const [certUploaded, setCertUploaded] = useState(true);
-  const [certPassword, setCertPassword] = useState('********');
+  const [certUploaded, setCertUploaded] = useState(false);
+  const [certPassword, setCertPassword] = useState('');
+  const [certFilePath, setCertFilePath] = useState('');
+  const [certFileName, setCertFileName] = useState('');
+  const [uploadingCert, setUploadingCert] = useState(false);
+  const [savingCert, setSavingCert] = useState(false);
 
   // Team users state
   const [team, setTeam] = useState<TeamMember[]>([
@@ -104,6 +109,9 @@ export const Configuracoes: React.FC = () => {
           city: company.address.city,
           state: company.address.state,
         });
+        setCertUploaded(company.certificateStatus === 'valid');
+        setCertFilePath(String(company.settings?.certificateFilePath || ''));
+        setCertFileName(String(company.settings?.certificateFileName || ''));
       })
       .catch((error) => {
         toast.error(error instanceof Error ? error.message : 'Erro ao carregar dados da empresa.');
@@ -205,9 +213,64 @@ export const Configuracoes: React.FC = () => {
       setSavingFiscal(false);
     }
   };
-  const handleSaveCert = (e: React.FormEvent) => {
+
+  const handleUploadCert = async (file: File) => {
+    if (!activeCompany || uploadingCert) return;
+
+    setUploadingCert(true);
+    try {
+      const upload = await storageService.createUploadUrl({
+        bucket: 'company-certificates',
+        fileName: file.name,
+        recordId: activeCompany.id,
+      });
+      await storageService.uploadWithSignedUrl({
+        bucket: upload.bucket,
+        path: upload.path,
+        token: upload.token,
+        file,
+      });
+      setCertFilePath(upload.path);
+      setCertFileName(file.name);
+      setCertUploaded(true);
+      toast.success('Certificado enviado com sucesso. Salve para ativar na empresa.');
+    } catch (error) {
+      setCertUploaded(false);
+      setCertFilePath('');
+      setCertFileName('');
+      toast.error(error instanceof Error ? error.message : 'Erro ao enviar certificado digital.');
+    } finally {
+      setUploadingCert(false);
+    }
+  };
+
+  const handleSaveCert = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Certificado digital A1 atualizado com sucesso!');
+    if (!activeCompany || savingCert) return;
+    if (!certUploaded || !certFilePath) {
+      toast.error('Envie um certificado digital antes de salvar.');
+      return;
+    }
+
+    setSavingCert(true);
+    try {
+      const updated = await realData.update('companies', activeCompany.id, {
+        certificate_status: 'valid',
+        settings: {
+          ...activeCompany.settings,
+          certificateFilePath: certFilePath,
+          certificateFileName: certFileName,
+          certificateUploadedAt: new Date().toISOString(),
+        },
+      });
+      setActiveCompany(mapCompany(updated));
+      setCertPassword('');
+      toast.success('Certificado digital A1 atualizado com sucesso!');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao salvar certificado digital.');
+    } finally {
+      setSavingCert(false);
+    }
   };
 
   // Invite user member action
@@ -456,9 +519,9 @@ export const Configuracoes: React.FC = () => {
                   value={fiscalForm.naturezaOperacao}
                   onChange={e => setFiscalForm(prev => ({ ...prev, naturezaOperacao: e.target.value }))}
                   options={[
-                    { value: 'Prestação de serviços', label: 'Prestação de serviços' },
-                    { value: 'Tributação no município', label: 'Tributação no município' },
-                    { value: 'Exportação', label: 'Exportação' }
+                    { value: 'Prestacao de servicos', label: 'Prestacao de servicos' },
+                    { value: 'Tributacao no municipio', label: 'Tributacao no municipio' },
+                    { value: 'Exportacao', label: 'Exportacao' }
                   ]}
                 />
                 <Select
@@ -466,8 +529,8 @@ export const Configuracoes: React.FC = () => {
                   value={fiscalForm.ambiente}
                   onChange={e => setFiscalForm(prev => ({ ...prev, ambiente: e.target.value }))}
                   options={[
-                    { value: 'Homologação', label: 'Homologação (Sem valor fiscal)' },
-                    { value: 'Produção', label: 'Produção (Válido juridicamente)' }
+                    { value: 'Homologacao', label: 'Homologacao (Sem valor fiscal)' },
+                    { value: 'Producao', label: 'Producao (Valido juridicamente)' }
                   ]}
                 />
               </div>
@@ -507,10 +570,17 @@ export const Configuracoes: React.FC = () => {
               </h3>
 
               <UploadArea
-                onFileSelect={() => setCertUploaded(true)}
-                accept=".pfx"
-                label="Arraste seu novo arquivo de certificado digital A1 (.pfx) aqui"
+                onFileSelect={handleUploadCert}
+                accept=".pfx,.p12"
+                maxSizeMB={20}
+                label="Arraste seu novo arquivo de certificado digital A1 (.pfx ou .p12) aqui"
               />
+
+              {uploadingCert && (
+                <div className="text-xs font-semibold text-text-secondary bg-surface border border-border rounded-soft p-3">
+                  Enviando certificado para o armazenamento seguro...
+                </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
@@ -518,7 +588,7 @@ export const Configuracoes: React.FC = () => {
                   type="password"
                   value={certPassword}
                   onChange={e => setCertPassword(e.target.value)}
-                  disabled={!certUploaded}
+                  disabled={!certUploaded || uploadingCert}
                 />
               </div>
 
@@ -527,7 +597,7 @@ export const Configuracoes: React.FC = () => {
                   <ShieldCheck className="h-5 w-5 shrink-0" />
                   <div>
                     <span className="font-bold block">Certificado Digital Ativo:</span>
-                    Certificado e-CNPJ da empresa Pixel Comércio Digital LTDA. Vencimento: **25/07/2026** (Em validade).
+                    {certFileName || 'Certificado enviado'} armazenado para {activeCompany?.tradingName || activeCompany?.legalName || 'empresa ativa'}.
                   </div>
                 </div>
               )}
@@ -538,6 +608,8 @@ export const Configuracoes: React.FC = () => {
                   variant="primary"
                   size="sm"
                   icon={<Save className="h-4 w-4" />}
+                  loading={savingCert}
+                  disabled={!activeCompany || !certUploaded || uploadingCert}
                   >
                   Atualizar Certificado
                 </Button>
@@ -672,6 +744,7 @@ export const Configuracoes: React.FC = () => {
   );
 };
 export default Configuracoes;
+
 
 
 
